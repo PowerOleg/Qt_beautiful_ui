@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 
 #include <QApplication>
 #include <QFile>
@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QFile file(":/style.css");
+    QFile file(":/style.css");//подключаем стили
     file.open(QFile::ReadOnly);
     a.setStyleSheet(file.readAll());
     MainWindow w;
