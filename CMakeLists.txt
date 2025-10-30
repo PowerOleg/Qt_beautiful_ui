@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+﻿cmake_minimum_required(VERSION 3.5)
 
 project(qt_beautiful_ui VERSION 0.1 LANGUAGES CXX)
 
@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        profile.h
+        profile.cpp
         qrc.qrc
 )
 
