@@ -1,0 +1,15 @@
+QLabel {
+    border: 2px solid green;
+    border-radius: 15px;
+    padding: 6px;
+    background-color: gray;
+    color: black;
+    font-size: 14px;
+    /*font-weight: bold;
+    font-style: italic;
+    text-decoration:underline;
+    text-decoration:overline;
+    text-decoration:line-through;
+    text-transform:lowercase;
+    text-transform:uppercase;*/
+}
