@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //    main_layout->addStretch();
 
 
+
+    connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
+    connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
 }
 
 MainWindow::~MainWindow()

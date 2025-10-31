@@ -1,10 +1,12 @@
-﻿QMainWindow {
+﻿QMainWindow
+{
     background-color: /*#343434*/#1B1212;
 }
 
-#headerWidget {
+#headerWidget
+{
     background-color: gray;/*#2c3e50;   нужный цвет, например, тёмно‑синий */
-    /*border-bottom: 1px solid #1a2533;*/
+    border-bottom: 1px solid #1a2533;
 }
 
 QLabel#titleLabel
@@ -39,11 +41,21 @@ QPushButton
 {
     border: 2px solid green;
     border-radius: 15px;
-    padding: 6px;
-    background-color: #228B22;
+    padding: 2px;
+    background-color: #228B22;/*background-color: transparent;*/
     color: white;
     font-size: 14px;
     font-weight: bold;
 }
 
+
+QPushButton:hover
+{
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+QPushButton#closeWindowButton:hover
+{
+    background-color: rgba(255, 0, 0, 0.5);
+}
 
