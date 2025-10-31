@@ -20,12 +20,12 @@ public:
     ~MainWindow();
 
 private:
-//    void MousePressEvent(QMouseEvent *event);
-//    void MouseMoveEvent(QMouseEvent *event);
     Ui::MainWindow *ui;
-    //SLOTS: showMinimized(), showMaximized()/showNormal(), close()
-    /*перетаскивать: переопределите mousePressEvent и mouseMoveEvent для вашей «шапки»;
+    bool is_dragging;//Флаг:идёт ли перетаскивание
+    QPoint drag_start_position;//Начальная точка нажатия перетаскивания окна
 
-сворачивать/разворачивать/закрывать: добавьте кнопки и подключите слоты к showMinimized(), showMaximized()/showNormal(), close().*/
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 #endif // MAINWINDOW_H

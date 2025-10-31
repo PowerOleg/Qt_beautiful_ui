@@ -1,6 +1,8 @@
 ﻿//#include <QDebug>
+#include <QMouseEvent>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -28,18 +30,32 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//void MainWindow::MousePressEvent(QMouseEvent *event) {
-//    if (event->button() == Qt::LeftButton &&
-//        ui->headerWidget->geometry().contains(event->pos())) {
-//        dragPosition = event->globalPos() - frameGeometry().topLeft();
-//        event->accept();
-//    }
-//}
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton && ui->headerWidget->geometry().contains(event->pos()))
+    {
+        is_dragging = true;
+        drag_start_position = event->globalPos() - frameGeometry().topLeft();
+        event->accept();
+    }
+    else
+    {
+        is_dragging = false;
+        QMainWindow::mousePressEvent(event);//Передаём событие дальше
+    }
+}
 
-//void MainWindow::MouseMoveEvent(QMouseEvent *event) {
-//    if (event->buttons() & Qt::LeftButton) {
-//        move(event->globalPos() - dragPosition);
-//        event->accept();
-//    }
-//}
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (is_dragging && (event->buttons() & Qt::LeftButton))
+    {
+        QPoint new_pos = event->globalPos() - drag_start_position;//Вычисляем новое положение окна//- frameGeometry().topLeft();
+        move(new_pos);
+        event->accept();
+    }
+    else
+    {
+        QMainWindow::mouseMoveEvent(event);//Передаём событие дальше
+    }
+}
 
