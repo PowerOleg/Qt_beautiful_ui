@@ -4,11 +4,16 @@
 //#include <QWidget>
 #include <QFrame>
 
+class QRadioButton;
+class QPushButton;
+class QGridLayout;
+
 class Profile : public QFrame//QWidget
 {
     Q_OBJECT
 public:
     explicit Profile(/*QWidget*/QFrame *parent = nullptr);
+    QRadioButton* radio_button;
 
 signals:
 

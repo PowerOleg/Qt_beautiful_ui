@@ -20,6 +20,12 @@ public:
     ~MainWindow();
 
 private:
+//    void MousePressEvent(QMouseEvent *event);
+//    void MouseMoveEvent(QMouseEvent *event);
     Ui::MainWindow *ui;
+    //SLOTS: showMinimized(), showMaximized()/showNormal(), close()
+    /*перетаскивать: переопределите mousePressEvent и mouseMoveEvent для вашей «шапки»;
+
+сворачивать/разворачивать/закрывать: добавьте кнопки и подключите слоты к showMinimized(), showMaximized()/showNormal(), close().*/
 };
 #endif // MAINWINDOW_H

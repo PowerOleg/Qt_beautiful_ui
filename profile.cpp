@@ -1,9 +1,12 @@
-﻿#include "profile.h"
+﻿#include <QRadioButton>
+#include <QPushButton>
+#include <QGridLayout>
+#include "profile.h"
 
-Profile::Profile(/*QWidget*/QFrame *parent)
-    : /*QWidget*/QFrame{parent}
+Profile::Profile(/*QWidget*/QFrame *parent) : /*QWidget*/QFrame{parent}
 {
-
+//    createWidgets();
+       radio_button = new QRadioButton(this);
 }
 /*//    m_ui->setupUi(this);
 
