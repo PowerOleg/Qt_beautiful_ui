@@ -35,8 +35,8 @@ void MainWindow::Init()
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
     // Создаём модель и заполняем данными
     ESimModel* model = new ESimModel(this);
-//    model->addPerson({"Иван", 25, "ivan@example.com"});
-//    model->addPerson({"Мария", 30, "maria@example.com"});
+    model->addPerson({"Иван", 25, "ivan@example.com"});
+    model->addPerson({"Мария", 30, "maria@example.com"});
     ui->currentProfilesTableView->setModel(model);
 
     // Связываем с представлением

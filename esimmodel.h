@@ -1,7 +1,14 @@
-#ifndef ESIMMODEL_H
+﻿#ifndef ESIMMODEL_H
 #define ESIMMODEL_H
 
 #include <QAbstractTableModel>
+#include <QVector>
+
+struct Person {
+    QString name;
+    int age;
+    QString email;
+};
 
 class ESimModel : public QAbstractTableModel
 {
@@ -40,8 +47,11 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+    void addPerson(const Person &person);//FIXME
+    void removePerson(int row);
 
 private:
+    QVector<Person> persons;//хранилище данных
 };
 
 #endif // ESIMMODEL_H

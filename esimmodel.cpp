@@ -4,9 +4,19 @@ ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {
 }
 
-QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const//FIXME
 {
-    // FIXME: Implement me!
+    if (role != Qt::DisplayRole)
+           return QVariant();
+
+    if (orientation == Qt::Horizontal) {
+            switch (section) {
+            case 0: return tr("Имя");
+            case 1: return tr("Возраст");
+            case 2: return tr("Email");
+            }
+        }
+        return QVariant();
 }
 
 bool ESimModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
@@ -20,20 +30,20 @@ bool ESimModel::setHeaderData(int section, Qt::Orientation orientation, const QV
 }
 
 
-int ESimModel::rowCount(const QModelIndex &parent) const
+int ESimModel::rowCount(const QModelIndex &parent) const//FIXME
 {
     if (parent.isValid())
-        return 0;
+        return 0;//для иерархических моделей
+    return persons.size();
 
-    // FIXME: Implement me!
 }
 
-int ESimModel::columnCount(const QModelIndex &parent) const
+int ESimModel::columnCount(const QModelIndex &parent) const//FIXME
 {
     if (parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return 3;  // name, age, email
 }
 
 bool ESimModel::hasChildren(const QModelIndex &parent) const
@@ -52,31 +62,59 @@ void ESimModel::fetchMore(const QModelIndex &parent)
     // FIXME: Implement me!
 }
 
-QVariant ESimModel::data(const QModelIndex &index, int role) const
+QVariant ESimModel::data(const QModelIndex &index, int role) const//FIXME
 {
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
-    return QVariant();
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
+    {
+        const Person &p = persons[index.row()];
+        switch (index.column())
+        {
+            case 0: return p.name;
+            case 1: return p.age;
+            case 2: return p.email;
+        }
+    }
+        return QVariant();
 }
 
-bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int role)//FIXME
 {
-    if (data(index, role) != value) {
-        // FIXME: Implement me!
+    if (role == Qt::EditRole)
+    {
+        Person &p = persons[index.row()];
+        switch (index.column())
+        {
+            case 0: p.name = value.toString(); break;
+            case 1: p.age = value.toInt(); break;
+            case 2: p.email = value.toString(); break;
+        }
         emit dataChanged(index, index, {role});
         return true;
     }
     return false;
+
+//    if (data(index, role) != value) {
+//        // FIXME: Implement me!
+//        emit dataChanged(index, index, {role});
+//        return true;
+//    }
+//    return false;
 }
 
-Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
+Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const//FIXME
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable; // FIXME: Implement me!
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+
+//    if (!index.isValid())
+//        return Qt::NoItemFlags;
+
+//    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
 bool ESimModel::insertRows(int row, int count, const QModelIndex &parent)
@@ -109,4 +147,26 @@ bool ESimModel::removeColumns(int column, int count, const QModelIndex &parent)
     // FIXME: Implement me!
     endRemoveColumns();
     return true;
+}
+
+
+
+
+
+
+void ESimModel::addPerson(const Person &person)//FIXME
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    persons.append(person);
+    endInsertRows();
+}
+
+void ESimModel::removePerson(int row)//FIXME
+{
+    if (row < 0 || row >= rowCount())
+        return;
+
+    beginRemoveRows(QModelIndex(), row, row);
+    persons.removeAt(row);
+    endRemoveRows();
 }
