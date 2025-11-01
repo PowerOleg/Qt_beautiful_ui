@@ -203,7 +203,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0" rowspan="3">
-        <widget class="QTableView" name="shopTableView">
+        <widget class="QTableView" name="currentProfilesTableView">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>

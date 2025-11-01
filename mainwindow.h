@@ -12,6 +12,8 @@ class MainWindow;
 QT_END_NAMESPACE
 
 class MainWindowController;
+class ESimModel;
+class QTableView;
 
 class MainWindow : public QMainWindow
 {

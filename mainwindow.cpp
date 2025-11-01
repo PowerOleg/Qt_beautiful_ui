@@ -2,9 +2,11 @@
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QMessageBox>
+#include <QTableView>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "mainwindowcontroller.h"
+#include "esimmodel.h"
 
 void MainWindow::Init()
 {
@@ -27,6 +29,53 @@ void MainWindow::Init()
 
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
+
+
+
+    //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
+    // Создаём модель и заполняем данными
+    ESimModel* model = new ESimModel(this);
+//    model->addPerson({"Иван", 25, "ivan@example.com"});
+//    model->addPerson({"Мария", 30, "maria@example.com"});
+    ui->currentProfilesTableView->setModel(model);
+
+    // Связываем с представлением
+//    QTableView *tableView = new QTableView(this);
+//    tableView->setModel(model);
+
+    // Добавляем tableView в layout вашего окна
+//    ui->verticalLayout->addWidget(tableView);
+
+
+
+
+
+
+
+
+
+
+
+
+//    const QSqlError err = model->lastError();
+//    if (err.isValid())
+//    {
+//        msg->setText(err.text());
+//        msg->show();
+//    }
+//    else
+//    {
+//        ui->tv_result->setModel(model);
+//        if (ui->cb_category->currentIndex() == 0)
+//        {
+//            ui->tv_result->hideColumn(0);
+//        } else
+//        {
+//             ui->tv_result->showColumn(0);
+//        }
+//    }
+
+
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)

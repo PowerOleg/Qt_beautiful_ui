@@ -21,6 +21,8 @@ set(PROJECT_SOURCES
         profile.cpp
         mainwindowcontroller.h
         mainwindowcontroller.cpp
+        esimmodel.h
+        esimmodel.cpp
         qrc.qrc
 )
 
