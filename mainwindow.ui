@@ -171,63 +171,20 @@
           </size>
          </property>
          <property name="text">
-          <string>Выбранный профиль</string>
+          <string>Список доступных профилей eSIM</string>
          </property>
          <property name="indent">
           <number>-1</number>
          </property>
         </widget>
        </item>
-       <item>
-        <spacer name="titleSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QFrame" name="chosenProductFrame">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>210</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <property name="midLineWidth">
-       <number>0</number>
-      </property>
-      <layout class="QGridLayout" name="chosenGridLayout">
-       <property name="leftMargin">
-        <number>9</number>
-       </property>
       </layout>
      </widget>
     </item>
     <item>
      <widget class="QFrame" name="editFrame">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -245,20 +202,17 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="2">
-        <widget class="QPushButton" name="addFeatureESimButton">
+       <item row="0" column="0" rowspan="3">
+        <widget class="QTableView" name="shopTableView">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text">
-          <string>Добавить профиль</string>
-         </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="2" column="1">
         <widget class="QPushButton" name="removeFeatureESimButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -271,38 +225,49 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1" rowspan="2">
-        <widget class="QTableView" name="shopTableView">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="addFeatureESimButton">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="0" rowspan="2">
-        <widget class="Profile" name="editESim">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>200</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+         <property name="text">
+          <string>Добавить профиль</string>
          </property>
         </widget>
        </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="chosenProductFrame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>10</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+      <layout class="QGridLayout" name="chosenGridLayout">
+       <property name="leftMargin">
+        <number>9</number>
+       </property>
       </layout>
      </widget>
     </item>
@@ -416,14 +381,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Profile</class>
-   <extends>QFrame</extends>
-   <header>profile.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

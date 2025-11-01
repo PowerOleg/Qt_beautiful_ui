@@ -6,7 +6,7 @@
 #include "ui_mainwindow.h"
 #include "mainwindowcontroller.h"
 
-void MainWindow::init()
+void MainWindow::Init()
 {
     ui->setupUi(this);
     QGridLayout* chosen_profile_layout = ui->chosenGridLayout;
@@ -31,9 +31,9 @@ void MainWindow::init()
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    init();
-    chosenProfile = new Profile(this);
-    mainWindowController->SetChosenProfile(chosenProfile);
+    Init();
+//    chosenProfile = new Profile(this);
+//    mainWindowController->SetChosenProfile(chosenProfile);
 
 }
 

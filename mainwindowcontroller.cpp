@@ -13,7 +13,7 @@ bool MainWindowController::SetChosenProfile(Profile* profile)
     {
         profile->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         profile->setFixedHeight(200);
-        profile->setFixedWidth(100);
+        profile->setFixedWidth(300);
         chosen_profile_layout->addWidget(profile, 0, 0, Qt::AlignLeft);
         return true;
     }
