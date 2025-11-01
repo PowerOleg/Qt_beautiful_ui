@@ -3,7 +3,7 @@
 #include <QGridLayout>
 #include "profile.h"
 
-Profile::Profile(/*QWidget*/QFrame *parent) : /*QWidget*/QFrame{parent}
+Profile::Profile(/*QFrame*/QWidget *parent) : /*QWidget*/QFrame{parent}
 {
 //    createWidgets();
        radio_button = new QRadioButton(this);

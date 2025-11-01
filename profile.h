@@ -12,7 +12,7 @@ class Profile : public QFrame//QWidget
 {
     Q_OBJECT
 public:
-    explicit Profile(/*QWidget*/QFrame *parent = nullptr);
+    explicit Profile(/*QFrame*/QWidget *parent = nullptr);
     QRadioButton* radio_button;
 
 signals:

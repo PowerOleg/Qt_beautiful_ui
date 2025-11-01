@@ -27,5 +27,7 @@ private:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+private:
+     void init();
 };
 #endif // MAINWINDOW_H
