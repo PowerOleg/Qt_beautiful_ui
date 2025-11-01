@@ -19,6 +19,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
         profile.h
         profile.cpp
+        mainwindowcontroller.h
+        mainwindowcontroller.cpp
         qrc.qrc
 )
 
