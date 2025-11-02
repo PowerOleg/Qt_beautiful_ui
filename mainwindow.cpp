@@ -3,10 +3,15 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
+#include <QStandardItemModel>
+#include <QStandardItem>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "mainwindowcontroller.h"
+#include "checkboxitemdelegate.h"
 #include "esimmodel.h"
+
 
 void MainWindow::Init()
 {
@@ -33,21 +38,36 @@ void MainWindow::Init()
 
 
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
-    // Создаём модель и заполняем данными
+//    QStandardItemModel* model = new QStandardItemModel(3, 1);
     ESimModel* model = new ESimModel(this);
-    model->addPerson({"Иван", 25, "ivan@example.com"});
-    model->addPerson({"Мария", 30, "maria@example.com"});
+    model->addPerson({true, "Иван", 25});
+    model->addPerson({true, "Мария", 30});
+
+//    model->setData(0, 0, Qt::CheckStateRole);
+//    model->setData(1, 0, new QStandardItem("Элемент 2"));
+
+
+    // Настраиваем tableView
     ui->currentProfilesTableView->setModel(model);
 
-    // Связываем с представлением
-//    QTableView *tableView = new QTableView(this);
-//    tableView->setModel(model);
 
-    // Добавляем tableView в layout вашего окна
-//    ui->verticalLayout->addWidget(tableView);
+    // Устанавливаем делегат для первого столбца
+    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();//(ui->currentProfilesTableView);
+    ui->currentProfilesTableView->setItemDelegateForColumn(0, checkbox_delegate);
 
 
 
+//-----------------------------------------------------------------------
+//    m_p_QTableView->setItemDelegateForColumn(iTableColumnIndex, new GFQtCheckboxItemDelegate() );
+//    ...
+//    bool yesno ...;
+//    pGrid->setData(index, yesno, Qt::CheckStateRole);
+
+
+
+//    Person person{"Иван", 25, "ivan@example.com"};
+//    QStandardItem* item1 = new QStandardItem("Элемент 1");
+//    model->addPerson(item1);
 
 
 
@@ -57,6 +77,42 @@ void MainWindow::Init()
 
 
 
+
+
+
+
+
+
+
+
+
+//    Попытка2
+//    // Создаём модель и заполняем данными
+//    ESimModel* model = new ESimModel(this);
+//    model->addPerson({"Иван", 25, "ivan@example.com"});
+//    model->addPerson({"Мария", 30, "maria@example.com"});
+//    ui->currentProfilesTableView->setModel(model);
+
+
+
+//    // Связываем с представлением
+////    QTableView *tableView = new QTableView(this);
+////    tableView->setModel(model);
+
+//    // Добавляем tableView в layout вашего окна
+////    ui->verticalLayout->addWidget(tableView);
+
+
+
+
+
+
+
+
+
+
+
+//Попытка1
 //    const QSqlError err = model->lastError();
 //    if (err.isValid())
 //    {

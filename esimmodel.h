@@ -3,11 +3,14 @@
 
 #include <QAbstractTableModel>
 #include <QVector>
+#include "profile.h"
 
-struct Person {
+struct Person
+{
+    bool status;
     QString name;
     int age;
-    QString email;
+//    QString email;
 };
 
 class ESimModel : public QAbstractTableModel
@@ -47,11 +50,12 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
-    void addPerson(const Person &person);//FIXME
-    void removePerson(int row);
+    bool addPerson(const Person &person);//FIXME
+    bool removePerson(int row);
 
 private:
     QVector<Person> persons;//хранилище данных
+    bool* checkStateForRow;
 };
 
 #endif // ESIMMODEL_H

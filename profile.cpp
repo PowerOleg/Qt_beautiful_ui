@@ -6,13 +6,14 @@
 Profile::Profile(/*QFrame*/QWidget *parent) : /*QWidget*/QFrame{parent}
 {
 //    createWidgets();
-       radio_button = new QRadioButton(this);
+    resize(50, 50);
+    radio_button = new QRadioButton(this);
 }
 /*//    m_ui->setupUi(this);
 
 
 
-       resize(100, 50);
+
        setWindowTitle("my_frame");
        QGridLayout* lCalcLayout = new QGridLayout;
        setLayout(lCalcLayout);

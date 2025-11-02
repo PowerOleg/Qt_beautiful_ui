@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        checkboxitemdelegate.h
+        checkboxitemdelegate.cpp
         profile.h
         profile.cpp
         mainwindowcontroller.h
