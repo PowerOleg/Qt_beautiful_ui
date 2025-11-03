@@ -10,11 +10,11 @@ class QGridLayout;
 class MainWindowController
 {
 public:
-    MainWindowController(QGridLayout* chosen_profile_layout = nullptr);
-    bool SetChosenProfile(Profile *parent);
-    void ClearChosenProfile();
+    MainWindowController(/*QGridLayout* chosen_profile_layout = nullptr*/);
+//    bool SetChosenProfile(Profile *parent);
+//    void ClearChosenProfile();
 private:
-    QGridLayout* chosen_profile_layout = nullptr;
+//    QGridLayout* chosen_profile_layout = nullptr;
 };
 
 #endif // MAINWINDOWCONTROLLER_H

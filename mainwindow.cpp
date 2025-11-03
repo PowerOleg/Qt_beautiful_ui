@@ -3,8 +3,8 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
-#include <QStandardItemModel>
-#include <QStandardItem>
+#include <QVBoxLayout>
+
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -13,46 +13,84 @@
 #include "esimmodel.h"
 
 
-void MainWindow::Init()
+void MainWindow::CreateWidgets()
 {
     ui->setupUi(this);
-    QGridLayout* chosen_profile_layout = ui->chosenGridLayout;
-    if (!chosen_profile_layout)
-    {
-        QMessageBox::information(this, "Выбор профиля ESim", "Ошибка. Отсутствует стандартное место для вставки выбранного профиля ESim\n");
-    }
-    mainWindowController = new MainWindowController(chosen_profile_layout);
+        ui->editFrame->setVisible(false);
+    mainWindowController = new MainWindowController();
     QLayout* main_layout = this->centralWidget()->layout();
     if (main_layout)
     {
         main_layout->setContentsMargins(0, 0, 0, 0);
     }
     this->setWindowFlags(Qt::FramelessWindowHint);
+
+    QFrame* table_view_frame = new QFrame(this);
+    main_layout->addWidget(table_view_frame);
+    QGridLayout* chosen_profile_layout1 = new QGridLayout(this);
+    table_view_frame->setLayout(chosen_profile_layout1);
+
+
+
+
+    this->current_profiles_table_view1 = new QTableView(this);//QTableView* current_profiles_table_view = ui->currentProfilesTableView;
+    chosen_profile_layout1->addWidget(current_profiles_table_view1, 0, 0, 4, 3);
+
+
+
+    QFrame* buttons_frame = new QFrame(this);
+    chosen_profile_layout1->addWidget(buttons_frame, 2, 4, 2, 1);
+
+
+
+    QVBoxLayout* buttons_layout = new QVBoxLayout;
+    QPushButton* addButton1 = new QPushButton("add");
+    QPushButton* deleteButton1 = new QPushButton("delete");
+    buttons_layout->addWidget(addButton1);
+    buttons_layout->addWidget(deleteButton1);
+    buttons_frame->setLayout(buttons_layout);
+
+
+//    if (!chosen_profile_layout)
+//    {
+//        QMessageBox::information(this, "Выбор профиля ESim", "Ошибка. Отсутствует стандартное место для вставки выбранного профиля ESim\n");
+//    }
 //    main_layout->setContentsMargins(0, 0, 0, 0);  // убрать отступы
 //    main_layout->addWidget(ui->headerWidget);  // добавляем шапку сверху
 //    main_layout->addStretch();
 
-    connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
-    connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
+
+
+
+
+  connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
+  connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
+}
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+{
+
+    CreateWidgets();
+
+
+
+
 
 
 
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
-    ESimModel* model = new ESimModel(this);
-//    QModelIndex idx = model->index(0, 3);  // строка 0, столбец 3
-//    model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
-//  вспомогательный метод
-//    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
+//    ESimModel* model = new ESimModel(this);
 
 
-//    QModelIndex idx = model->index(1, 4);
-//    model->setData(idx, "2024-02-15", Qt::EditRole);
-
-    ui->currentProfilesTableView->setModel(model);
-    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
-    ui->currentProfilesTableView->setItemDelegateForColumn(3, checkbox_delegate);
 
 
+
+
+
+
+//    ui->currentProfilesTableView->setModel(model);
+//    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
+//    ui->currentProfilesTableView->setItemDelegateForColumn(3, checkbox_delegate);
 
 
 
@@ -64,6 +102,14 @@ void MainWindow::Init()
 
 
 
+
+
+    //    QModelIndex idx = model->index(0, 3);  // строка 0, столбец 3
+    //    model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
+    //  вспомогательный метод
+    //    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
+    //    QModelIndex idx = model->index(1, 4);
+    //    model->setData(idx, "2024-02-15", Qt::EditRole);
 
 
     //    const QSqlError err = model->lastError();
@@ -77,11 +123,17 @@ void MainWindow::Init()
 //    // Добавляем tableView в layout вашего окна
 //    ui->verticalLayout->addWidget(tableView);
 // }
-}
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
-{
-    Init();
+
+
+
+
+
+
+
+
+
+
 //    chosenProfile = new Profile(this);
 //    mainWindowController->SetChosenProfile(chosenProfile);
 
@@ -90,7 +142,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     delete ui;
-    mainWindowController->ClearChosenProfile();
+//    mainWindowController->ClearChosenProfile();//031125
     delete mainWindowController;
 }
 

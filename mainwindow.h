@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "profile.h"
+//#include "profile.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -26,14 +26,15 @@ public:
 private:
     Ui::MainWindow* ui;
     MainWindowController* mainWindowController = nullptr;
+    QTableView* current_profiles_table_view1 = nullptr;
+
     bool is_dragging;//Флаг:идёт ли перетаскивание
     QPoint drag_start_position;//Начальная точка нажатия перетаскивания окна
-    Profile* chosenProfile = nullptr;
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 private:
-     void Init();
+     void CreateWidgets();
 };
 #endif // MAINWINDOW_H
