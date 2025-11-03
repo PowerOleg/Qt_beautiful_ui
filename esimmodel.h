@@ -7,11 +7,10 @@
 
 struct ItemModel
 {
-//    bool status;
-    Qt::CheckState checkState;
-    QString name;
     int id;
+    QString name;
     QString operator_name;
+    Qt::CheckState checkState;
     QString date;
 };
 
@@ -52,14 +51,14 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool addItemModel(const ItemModel &itemModel);//FIXME
-    bool removeItemModel(int row);
+    void addItemModel(const ItemModel &itemModel);//FIXME
+    void removeItemModel(int row);
 
     void setCheckState(int row, Qt::CheckState state);
 
 private:
+    const int CHECKBOX_COLUMN_NUM = 3;
     QVector<ItemModel> items;//хранилище данных
-    bool* checkStateForRow;
 };
 
 #endif // ESIMMODEL_H

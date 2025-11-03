@@ -44,7 +44,7 @@ void MainWindow::Init()
 //    model->addPerson({false, "Мария", 30});
 //    model->setData(1, 0, new QStandardItem("Элемент 2"));
 
-    QModelIndex idx = model->index(0, 0);  // строка 0, столбец 1
+    QModelIndex idx = model->index(0, 3);  // строка 0, столбец 1
     model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
 //  вспомогательный метод
 //    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
@@ -55,7 +55,7 @@ void MainWindow::Init()
 
     // Устанавливаем делегат для первого столбца
     CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();//(ui->currentProfilesTableView);
-    ui->currentProfilesTableView->setItemDelegateForColumn(0, checkbox_delegate);
+    ui->currentProfilesTableView->setItemDelegateForColumn(3, checkbox_delegate);
 
 
 
