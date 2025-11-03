@@ -2,7 +2,11 @@
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {
-    checkStateForRow = new bool[3];//021125_TODO
+    checkStateForRow = new bool[0];//031125_delete
+
+    items << ItemModel{Qt::Checked, "Item 1", 0};
+    items << ItemModel{Qt::Unchecked, "Item 2", 1};
+    items << ItemModel{Qt::PartiallyChecked, "Item 3", 2};
 }
 
 QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const//FIXME
@@ -15,8 +19,8 @@ QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int rol
         switch (section)
         {
             case 0: return tr("Статус");
-            case 1: return tr("Возраст");
-            case 2: return tr("Email");
+            case 1: return tr("Имя");
+            case 2: return tr("Возраст");
         }
     }
     return QVariant();
@@ -34,12 +38,11 @@ bool ESimModel::setHeaderData(int section, Qt::Orientation orientation, const QV
 }
 
 
-int ESimModel::rowCount(const QModelIndex &parent) const//FIXME
+int ESimModel::rowCount(const QModelIndex &parent) const//+
 {
     if (parent.isValid())
         return 0;//для иерархических моделей
-    return persons.size();
-
+    return items.size();
 }
 
 int ESimModel::columnCount(const QModelIndex &parent) const//FIXME
@@ -47,7 +50,7 @@ int ESimModel::columnCount(const QModelIndex &parent) const//FIXME
     if (parent.isValid())
         return 0;
 
-    return 3;  // status, name, age//021125
+    return 5;  // id, name, operator_name, status, date
 }
 
 bool ESimModel::hasChildren(const QModelIndex &parent) const
@@ -86,55 +89,87 @@ void ESimModel::fetchMore(const QModelIndex &parent)
 
 
 
-
-
-
-
 // dont't let the default QStyledItemDelegate create the true/false combobox
+
+
+QVariant ESimModel::data(const QModelIndex &index, int role) const//+
+{
+//    if (role == Qt::EditRole) {
+//        return checkStateForRow[0];//[index.row()];
+//    }
+    if (!index.isValid())
+        return QVariant();
+    const ItemModel &item = items[index.row()];
+
+    switch (role)
+    {
+        case Qt::DisplayRole:
+            if (index.column() == 1)
+                return item.name;
+            break;
+        case Qt::CheckStateRole:
+            if (index.column() == 0)  // Чекбокс только во втором столбце
+                return static_cast<int>(item.checkState);
+            break;
+    }//031125_TODO_еще case
+        return QVariant();
+}
+
 bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-if (role == Qt::CheckStateRole)
-{
-    checkStateForRow[index.row()] = value.toInt();
-    emit dataChanged(index, index, {role});//021125_???too many arguments 'index'
+    if (!index.isValid() || role != Qt::CheckStateRole || index.column() != 0/*статус на 0 столбце*/)
+        return false;
+
+    ItemModel &item = items[index.row()];
+    item.checkState = static_cast<Qt::CheckState>(value.toInt());
+
+    emit dataChanged(index, index, {role});
     return true;
 }
-return false;
+
+Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags defaultFlags = QAbstractTableModel::flags(index);
+    if (index.column() == 0) {  // 0 столбец — чекбоксы
+        return defaultFlags | Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
+    }
+    return defaultFlags;
 }
-//beginInsertRows(QModelIndex(), rowCount(), rowCount());
-//persons.append(person);
-//endInsertRows();
 
 
+void ESimModel::setCheckState(int row, Qt::CheckState state)
+{
+    QModelIndex index = createIndex(row, 0);  // Столбец 0 — чекбоксы
+    setData(index, static_cast<int>(state), Qt::CheckStateRole);
+}
 
+//bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int role)
+//{
+//if (role == Qt::CheckStateRole)
+//{
+//    checkStateForRow[0] = value.toInt();//[index.row()] = value.toInt();
+//    emit dataChanged(index, index, {role});//021125_???too many arguments 'index'
+//    return true;
+//}
+//return false;
+//}
 
 
 //Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
 //{
-//    return QAbstractListModel::flags(index) | Qt::ItemIsUserCheckable;
+//    if (!index.isValid())
+//        return Qt::NoItemFlags;
+
+
+//    if (index.column() == 0) {  // для столбца с чекбоксами
+//        return QAbstractTableModel::flags(index) |
+//               Qt::ItemIsUserCheckable |
+//               Qt::ItemIsEditable;
+//    }
+//    return QAbstractTableModel::flags(index);  // для остальных — стандартно
 //}
 
-Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return Qt::NoItemFlags;
 
-
-    if (index.column() == 0) {  // для столбца с чекбоксами
-        return QAbstractTableModel::flags(index) |
-               Qt::ItemIsUserCheckable |
-               Qt::ItemIsEditable;
-    }
-    return QAbstractTableModel::flags(index);  // для остальных — стандартно
-}
-
-QVariant ESimModel::data(const QModelIndex &index, int role) const
-{
-    if (role == Qt::EditRole) {
-        return checkStateForRow[index.row()];
-    }
-    return QVariant();
-}
 
 
 
@@ -246,23 +281,23 @@ bool ESimModel::removeColumns(int column, int count, const QModelIndex &parent)
 
 
 
-bool ESimModel::addPerson(const Person &person)//FIXME
+bool ESimModel::addItemModel(const ItemModel &itemModel)//FIXME
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    persons.append(person);
+    items.append(itemModel);
     endInsertRows();
     return checkStateForRow[0];//021125/должно быть checkStateForRow[rowCount()]
 }
 
-bool ESimModel::removePerson(int row)//FIXME
+bool ESimModel::removeItemModel(int row)//FIXME
 {
     if (row < 0 || row >= rowCount())
-        return false;
+        return checkStateForRow[0];
 
     beginRemoveRows(QModelIndex(), row, row);
-    persons.removeAt(row);
+    items.removeAt(row);
     endRemoveRows();
-    return checkStateForRow[row];//021125
+    return checkStateForRow[0];//021125
 }
 
 

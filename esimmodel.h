@@ -5,12 +5,14 @@
 #include <QVector>
 #include "profile.h"
 
-struct Person
+struct ItemModel
 {
-    bool status;
+//    bool status;
+    Qt::CheckState checkState;
     QString name;
-    int age;
-//    QString email;
+    int id;
+    QString operator_name;
+    QString date;
 };
 
 class ESimModel : public QAbstractTableModel
@@ -50,11 +52,13 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool addPerson(const Person &person);//FIXME
-    bool removePerson(int row);
+    bool addItemModel(const ItemModel &itemModel);//FIXME
+    bool removeItemModel(int row);
+
+    void setCheckState(int row, Qt::CheckState state);
 
 private:
-    QVector<Person> persons;//хранилище данных
+    QVector<ItemModel> items;//хранилище данных
     bool* checkStateForRow;
 };
 

@@ -40,12 +40,14 @@ void MainWindow::Init()
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
 //    QStandardItemModel* model = new QStandardItemModel(3, 1);
     ESimModel* model = new ESimModel(this);
-    model->addPerson({true, "Иван", 25});
-    model->addPerson({true, "Мария", 30});
-
-//    model->setData(0, 0, Qt::CheckStateRole);
+//    model->addPerson({true, "Иван", 25});
+//    model->addPerson({false, "Мария", 30});
 //    model->setData(1, 0, new QStandardItem("Элемент 2"));
 
+    QModelIndex idx = model->index(0, 0);  // строка 0, столбец 1
+    model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
+//  вспомогательный метод
+//    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
 
     // Настраиваем tableView
     ui->currentProfilesTableView->setModel(model);
