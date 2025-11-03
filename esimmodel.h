@@ -23,7 +23,6 @@ public:
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-
     bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
 
     // Basic functionality:
@@ -44,15 +43,18 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    // Add data:
-    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+//    // Add data:
+//    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+//    bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
 
     // Remove data:
-    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
-    void addItemModel(const ItemModel &itemModel);//FIXME
-    void removeItemModel(int row);
+//    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+//    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+
+
+    //custom data managing
+//    void addItemModel(const ItemModel &itemModel);//FIXME
+//    void removeItemModel(int row);
 
     void setCheckState(int row, Qt::CheckState state);
 

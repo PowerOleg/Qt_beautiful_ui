@@ -38,38 +38,18 @@ void MainWindow::Init()
 
 
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
-//    QStandardItemModel* model = new QStandardItemModel(3, 1);
     ESimModel* model = new ESimModel(this);
-//    model->addPerson({true, "Иван", 25});
-//    model->addPerson({false, "Мария", 30});
-//    model->setData(1, 0, new QStandardItem("Элемент 2"));
-
-    QModelIndex idx = model->index(0, 3);  // строка 0, столбец 1
-    model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
+//    QModelIndex idx = model->index(0, 3);  // строка 0, столбец 3
+//    model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
 //  вспомогательный метод
 //    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
 
-    // Настраиваем tableView
     ui->currentProfilesTableView->setModel(model);
-
-
-    // Устанавливаем делегат для первого столбца
-    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();//(ui->currentProfilesTableView);
+    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
     ui->currentProfilesTableView->setItemDelegateForColumn(3, checkbox_delegate);
 
 
 
-//-----------------------------------------------------------------------
-//    m_p_QTableView->setItemDelegateForColumn(iTableColumnIndex, new GFQtCheckboxItemDelegate() );
-//    ...
-//    bool yesno ...;
-//    pGrid->setData(index, yesno, Qt::CheckStateRole);
-
-
-
-//    Person person{"Иван", 25, "ivan@example.com"};
-//    QStandardItem* item1 = new QStandardItem("Элемент 1");
-//    model->addPerson(item1);
 
 
 
@@ -82,58 +62,17 @@ void MainWindow::Init()
 
 
 
-
-
-
-
-
-
-//    Попытка2
-//    // Создаём модель и заполняем данными
-//    ESimModel* model = new ESimModel(this);
-//    model->addPerson({"Иван", 25, "ivan@example.com"});
-//    model->addPerson({"Мария", 30, "maria@example.com"});
-//    ui->currentProfilesTableView->setModel(model);
-
-
-
-//    // Связываем с представлением
-////    QTableView *tableView = new QTableView(this);
-////    tableView->setModel(model);
-
+    //    const QSqlError err = model->lastError();
+    //    if (err.isValid())
+    //    {
+    //        msg->setText(err.text());
+    //        msg->show();
+    //    }
+    //    else
+    //    {
 //    // Добавляем tableView в layout вашего окна
-////    ui->verticalLayout->addWidget(tableView);
-
-
-
-
-
-
-
-
-
-
-
-//Попытка1
-//    const QSqlError err = model->lastError();
-//    if (err.isValid())
-//    {
-//        msg->setText(err.text());
-//        msg->show();
-//    }
-//    else
-//    {
-//        ui->tv_result->setModel(model);
-//        if (ui->cb_category->currentIndex() == 0)
-//        {
-//            ui->tv_result->hideColumn(0);
-//        } else
-//        {
-//             ui->tv_result->showColumn(0);
-//        }
-//    }
-
-
+//    ui->verticalLayout->addWidget(tableView);
+// }
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)

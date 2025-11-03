@@ -7,7 +7,7 @@ ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
     items << ItemModel{2, "Item 3", "Operator", Qt::PartiallyChecked, ""};
 }
 
-QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const//FIXME
+QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole)
            return QVariant();
@@ -38,14 +38,14 @@ bool ESimModel::setHeaderData(int section, Qt::Orientation orientation, const QV
 }
 
 
-int ESimModel::rowCount(const QModelIndex &parent) const//+
+int ESimModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;//для иерархических моделей
     return items.size();
 }
 
-int ESimModel::columnCount(const QModelIndex &parent) const//+
+int ESimModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -53,7 +53,7 @@ int ESimModel::columnCount(const QModelIndex &parent) const//+
     return 5;  // id, name, operator_name, status, date
 }
 
-bool ESimModel::hasChildren(const QModelIndex &parent) const//+
+bool ESimModel::hasChildren(const QModelIndex &parent) const
 {
     return items.size() > 0;
 }
@@ -89,7 +89,7 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const//031125_TODO_
                 return item.date;
             break;
         case Qt::CheckStateRole:
-            if (index.column() == CHECKBOX_COLUMN_NUM)//Чекбокс
+            if (index.column() == CHECKBOX_COLUMN_NUM)
                 return static_cast<int>(item.checkState);
             break;
     }
@@ -117,7 +117,6 @@ Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
     return defaultFlags;
 }
 
-
 void ESimModel::setCheckState(int row, Qt::CheckState state)
 {
     QModelIndex index = createIndex(row, CHECKBOX_COLUMN_NUM);
@@ -125,58 +124,52 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
 }
 
 
-bool ESimModel::insertRows(int row, int count, const QModelIndex &parent)//Implement me!
-{
-    beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!    items.append(itemModel);
-    endInsertRows();
-    return true;
-}
+//bool ESimModel::insertRows(int row, int count, const QModelIndex &parent)//Implement me!
+//{
+//    beginInsertRows(parent, row, row + count - 1);
+//    // FIXME: Implement me!    items.append(itemModel);
+//    endInsertRows();
+//    return true;
+//}
 
-bool ESimModel::insertColumns(int column, int count, const QModelIndex &parent)//Implement me!
-{
-    beginInsertColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endInsertColumns();
-    return true;
-}
+//bool ESimModel::insertColumns(int column, int count, const QModelIndex &parent)//Implement me!
+//{
+//    beginInsertColumns(parent, column, column + count - 1);
+//    // FIXME: Implement me!
+//    endInsertColumns();
+//    return true;
+//}
 
-bool ESimModel::removeRows(int row, int count, const QModelIndex &parent)//Implement me!
-{
-    beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-    endRemoveRows();
-    return true;
-}
+//bool ESimModel::removeRows(int row, int count, const QModelIndex &parent)//Implement me!
+//{
+//    beginRemoveRows(parent, row, row + count - 1);
+//    // FIXME: Implement me!
+//    endRemoveRows();
+//    return true;
+//}
 
-bool ESimModel::removeColumns(int column, int count, const QModelIndex &parent)//Implement me!
-{
-    beginRemoveColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endRemoveColumns();
-    return true;
-}
-
-
+//bool ESimModel::removeColumns(int column, int count, const QModelIndex &parent)//Implement me!
+//{
+//    beginRemoveColumns(parent, column, column + count - 1);
+//    // FIXME: Implement me!
+//    endRemoveColumns();
+//    return true;
+//}
 
 
+//void ESimModel::addItemModel(const ItemModel &itemModel)
+//{
+//    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+//    items.append(itemModel);
+//    endInsertRows();
+//}
 
+//void ESimModel::removeItemModel(int row)//FIXME
+//{
+//    if (row < 0 || row >= rowCount())
+//        return;
 
-void ESimModel::addItemModel(const ItemModel &itemModel)
-{
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    items.append(itemModel);
-    endInsertRows();
-    //return checkStateForRow[0];//021125/должно быть checkStateForRow[rowCount()]
-}
-
-void ESimModel::removeItemModel(int row)//FIXME
-{
-    if (row < 0 || row >= rowCount())
-        return;
-
-    beginRemoveRows(QModelIndex(), row, row);
-    items.removeAt(row);
-    endRemoveRows();
-//    return checkStateForRow[0];//021125
-}
+//    beginRemoveRows(QModelIndex(), row, row);
+//    items.removeAt(row);
+//    endRemoveRows();
+//}
