@@ -10,7 +10,7 @@ struct ItemModel
     int id;
     QString name;
     QString operator_name;
-    Qt::CheckState checkState;
+    Qt::CheckState check_state;
     QString date;
 };
 
@@ -56,12 +56,12 @@ public:
 //    void addItemModel(const ItemModel &itemModel);//FIXME
 //    void removeItemModel(int row);
 
-    void setCheckState(int row, Qt::CheckState state);
-    void setDate(int row, const QString &date);//Метод для установки даты
+    void setCheckState(int row, Qt::CheckState state);//Метод для установки чекбокса
 
 
 private:
     const int CHECKBOX_COLUMN_NUM = 3;
+    const int DATE_COLUMN_NUM = 4;
     QVector<ItemModel> items;//Хранилище данных
 };
 

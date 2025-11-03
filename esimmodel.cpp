@@ -1,10 +1,11 @@
 ﻿#include "esimmodel.h"
+#include "QDate"
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {
-    items << ItemModel{0, "Item 1", "Operator", Qt::Checked, "2023-10-05"};
-    items << ItemModel{1, "Item 2", "Operator", Qt::Unchecked, ""};
-    items << ItemModel{2, "Item 3", "Operator", Qt::PartiallyChecked, ""};
+    items << ItemModel{0, "Operator A eSIM", "Vodafone", Qt::Checked, "2023-10-05"};
+    items << ItemModel{1, "Operator B eSIM", "Kolyaphone", Qt::Unchecked, ""};
+    items << ItemModel{2, "Operator C eSIM", "Company 3", Qt::PartiallyChecked, ""};
 }
 
 QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -85,12 +86,12 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const//031125_TODO_
                 return item.name;
             if (index.column() == 2)
                 return item.operator_name;
-            if (index.column() == 4)
+            if (index.column() == DATE_COLUMN_NUM)
                 return item.date;
             break;
         case Qt::CheckStateRole:
             if (index.column() == CHECKBOX_COLUMN_NUM)
-                return static_cast<int>(item.checkState);
+                return static_cast<int>(item.check_state);
             break;
     }
         return QVariant();
@@ -105,26 +106,26 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
     if (role == Qt::CheckStateRole && index.column() == CHECKBOX_COLUMN_NUM)
     {
-        item.checkState = static_cast<Qt::CheckState>(value.toInt());
+        item.check_state = static_cast<Qt::CheckState>(value.toInt());
         emit dataChanged(index, index, {role});
-        QModelIndex date_idx = index.model()->index(index.row(), 4);
-        setData(date_idx, "2999-99-99", Qt::EditRole);
+        QString date_value = QDate::currentDate().toString("yyyy-MM-dd");
+        if (!value.toBool())
+        {
+            date_value = "";
+        }
+
+        QModelIndex date_idx = index.model()->index(index.row(), DATE_COLUMN_NUM);
+        setData(date_idx, date_value, Qt::EditRole);
         return true;
     }
 
-    if (role == Qt::EditRole)//для изменения даты
+    //для изменения даты
+    if (role == Qt::EditRole)//&& index.column() == DATE_COLUMN_NUM
     {
         item.date = value.toString();
         emit dataChanged(index, index, {role});
         return true;
     }
-
-//    if (role == Qt::EditRole && index.column() == 4)//Столбец даты
-//    {
-//        item.date = value.toString();
-//        emit dataChanged(index, index, {role});
-//        return true;
-//    }
 
     return false;
 }
@@ -136,7 +137,7 @@ Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
     if (index.column() == CHECKBOX_COLUMN_NUM)//Чекбокс
         return defaultFlags | Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
 
-//    if (index.column() == 4)//Дата
+//    if (index.column() == DATE_COLUMN_NUM)//Дата
 //        return defaultFlags | Qt::ItemIsEditable;//Разрешаем редактирование
 
     return defaultFlags;
@@ -146,15 +147,6 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
 {
     QModelIndex index = createIndex(row, CHECKBOX_COLUMN_NUM);
     setData(index, static_cast<int>(state), Qt::CheckStateRole);
-}
-
-void ESimModel::setDate(int row, const QString &date)
-{
-    QModelIndex index = createIndex(row, 4);//Столбец 4 — дата
-//    setData(index, date, Qt::EditRole);
-    ItemModel &item = items[index.row()];
-    item.date = date;
-//    emit dataChanged(index, index, {role});
 }
 
 //bool ESimModel::insertRows(int row, int count, const QModelIndex &parent)//Implement me!
