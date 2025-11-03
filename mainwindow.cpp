@@ -44,6 +44,10 @@ void MainWindow::Init()
 //  вспомогательный метод
 //    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
 
+
+//    QModelIndex idx = model->index(1, 4);
+//    model->setData(idx, "2024-02-15", Qt::EditRole);
+
     ui->currentProfilesTableView->setModel(model);
     CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
     ui->currentProfilesTableView->setItemDelegateForColumn(3, checkbox_delegate);

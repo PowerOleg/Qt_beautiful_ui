@@ -57,10 +57,12 @@ public:
 //    void removeItemModel(int row);
 
     void setCheckState(int row, Qt::CheckState state);
+    void setDate(int row, const QString &date);//Метод для установки даты
+
 
 private:
     const int CHECKBOX_COLUMN_NUM = 3;
-    QVector<ItemModel> items;//хранилище данных
+    QVector<ItemModel> items;//Хранилище данных
 };
 
 #endif // ESIMMODEL_H

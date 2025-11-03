@@ -28,7 +28,7 @@ public:
         (void)parent;
         (void)option;
         (void)index;
-        return nullptr;
+        return nullptr;//031125_зачем тут возвращать QCheckBox
     }
 
 

@@ -2,7 +2,7 @@
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {
-    items << ItemModel{0, "Item 1", "Operator", Qt::Checked, ""};
+    items << ItemModel{0, "Item 1", "Operator", Qt::Checked, "2023-10-05"};
     items << ItemModel{1, "Item 2", "Operator", Qt::Unchecked, ""};
     items << ItemModel{2, "Item 3", "Operator", Qt::PartiallyChecked, ""};
 }
@@ -16,8 +16,8 @@ QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int rol
     {
         switch (section)
         {
-            case 0: return tr("Идентификатор");
-            case 1: return tr("Имя");
+            case 0: return tr("ID");
+            case 1: return tr("Название");
             case 2: return tr("Оператор");
             case 3: return tr("Статус");
             case 4: return tr("Дата активации");
@@ -98,22 +98,47 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const//031125_TODO_
 
 bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (!index.isValid() || role != Qt::CheckStateRole || index.column() != CHECKBOX_COLUMN_NUM)
+    if (!index.isValid())
         return false;
 
     ItemModel &item = items[index.row()];
-    item.checkState = static_cast<Qt::CheckState>(value.toInt());
 
-    emit dataChanged(index, index, {role});
-    return true;
+    if (role == Qt::CheckStateRole && index.column() == CHECKBOX_COLUMN_NUM)
+    {
+        item.checkState = static_cast<Qt::CheckState>(value.toInt());
+        emit dataChanged(index, index, {role});
+        QModelIndex date_idx = index.model()->index(index.row(), 4);
+        setData(date_idx, "2999-99-99", Qt::EditRole);
+        return true;
+    }
+
+    if (role == Qt::EditRole)//для изменения даты
+    {
+        item.date = value.toString();
+        emit dataChanged(index, index, {role});
+        return true;
+    }
+
+//    if (role == Qt::EditRole && index.column() == 4)//Столбец даты
+//    {
+//        item.date = value.toString();
+//        emit dataChanged(index, index, {role});
+//        return true;
+//    }
+
+    return false;
 }
 
 Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractTableModel::flags(index);
-    if (index.column() == CHECKBOX_COLUMN_NUM) {
+
+    if (index.column() == CHECKBOX_COLUMN_NUM)//Чекбокс
         return defaultFlags | Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
-    }
+
+//    if (index.column() == 4)//Дата
+//        return defaultFlags | Qt::ItemIsEditable;//Разрешаем редактирование
+
     return defaultFlags;
 }
 
@@ -123,6 +148,14 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
     setData(index, static_cast<int>(state), Qt::CheckStateRole);
 }
 
+void ESimModel::setDate(int row, const QString &date)
+{
+    QModelIndex index = createIndex(row, 4);//Столбец 4 — дата
+//    setData(index, date, Qt::EditRole);
+    ItemModel &item = items[index.row()];
+    item.date = date;
+//    emit dataChanged(index, index, {role});
+}
 
 //bool ESimModel::insertRows(int row, int count, const QModelIndex &parent)//Implement me!
 //{
