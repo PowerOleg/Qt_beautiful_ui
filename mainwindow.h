@@ -26,7 +26,7 @@ public:
 private:
     Ui::MainWindow* ui;
     MainWindowController* mainWindowController = nullptr;
-    QTableView* current_profiles_table_view1 = nullptr;
+    QTableView* current_profiles_table_view = nullptr;
 
     bool is_dragging;//Флаг:идёт ли перетаскивание
     QPoint drag_start_position;//Начальная точка нажатия перетаскивания окна

@@ -1,10 +1,10 @@
-﻿//#include <QDebug>
+﻿#include <QDebug>
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
 #include <QVBoxLayout>
-
+#include <QLabel>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -15,40 +15,35 @@
 
 void MainWindow::CreateWidgets()
 {
+    //    mainWindowController = new MainWindowController();
     ui->setupUi(this);
-        ui->editFrame->setVisible(false);
-    mainWindowController = new MainWindowController();
-    QLayout* main_layout = this->centralWidget()->layout();
-    if (main_layout)
-    {
-        main_layout->setContentsMargins(0, 0, 0, 0);
-    }
     this->setWindowFlags(Qt::FramelessWindowHint);
+    QLayout* central_widget_layout = this->centralWidget()->layout();
+    if (central_widget_layout)
+    {
+        central_widget_layout->setContentsMargins(0, 0, 0, 0);
+    }
 
-    QFrame* table_view_frame = new QFrame(this);
-    main_layout->addWidget(table_view_frame);
-    QGridLayout* chosen_profile_layout1 = new QGridLayout(this);
-    table_view_frame->setLayout(chosen_profile_layout1);
+    QFrame* main_frame = new QFrame(this);
+    main_frame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    central_widget_layout->addWidget(main_frame);
 
+    QGridLayout* table_view_layout = new QGridLayout(main_frame);
+    main_frame->setLayout(table_view_layout);
+    this->current_profiles_table_view = new QTableView(main_frame);
+    table_view_layout->addWidget(current_profiles_table_view, 0, 0, 4, 3);
+    QFrame* buttons_frame = new QFrame(main_frame);
+    table_view_layout->addWidget(buttons_frame, 3, 4, 1, 1);
 
-
-
-    this->current_profiles_table_view1 = new QTableView(this);//QTableView* current_profiles_table_view = ui->currentProfilesTableView;
-    chosen_profile_layout1->addWidget(current_profiles_table_view1, 0, 0, 4, 3);
-
-
-
-    QFrame* buttons_frame = new QFrame(this);
-    chosen_profile_layout1->addWidget(buttons_frame, 2, 4, 2, 1);
-
-
-
-    QVBoxLayout* buttons_layout = new QVBoxLayout;
+    QVBoxLayout* buttons_layout = new QVBoxLayout(buttons_frame);
+    buttons_frame->setLayout(buttons_layout);
     QPushButton* addButton1 = new QPushButton("add");
     QPushButton* deleteButton1 = new QPushButton("delete");
     buttons_layout->addWidget(addButton1);
     buttons_layout->addWidget(deleteButton1);
-    buttons_frame->setLayout(buttons_layout);
+
+
+
 
 
 //    if (!chosen_profile_layout)
@@ -142,7 +137,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     delete ui;
-//    mainWindowController->ClearChosenProfile();//031125
     delete mainWindowController;
 }
 
