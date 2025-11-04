@@ -1,10 +1,41 @@
 ﻿//#include <QMessageBox>
-#include <QWidget>
-//#include <QGridLayout>
+#include <QTableView>
+#include <QHeaderView>
+//#include <QAbstractItemModel>
 #include "tablecontroller.h"
+#include "esimmodel.h"
+#include "checkboxitemdelegate.h"
 
-TableController::TableController(/*QGridLayout* layout*/)// : chosen_profile_layout(layout)
-{}
+TableController::TableController(QObject* parent, QTableView* tableView) : QObject(parent), currentProfilesTableView(tableView)
+{
+    currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    currentProfilesTableView->setFixedHeight(500);
+    currentProfilesTableView->verticalHeader()->hide();
+    currentProfilesTableView->horizontalHeader()->setMinimumSectionSize(50);
+
+    this->tableModel = new ESimModel(parent);
+    currentProfilesTableView->setModel(tableModel);
+    this->checkboxDelegate = new CheckBoxItemDelegate();
+    currentProfilesTableView->setItemDelegateForColumn(tableModel->CHECKBOX_COLUMN_NUM, checkboxDelegate);
+
+    //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
+    currentProfilesTableView->resizeColumnsToContents();
+    connect(this->tableModel, &QAbstractItemModel::dataChanged, this->currentProfilesTableView, &QTableView::resizeColumnsToContents);
+    connect(this->tableModel, &QAbstractItemModel::rowsInserted, this->currentProfilesTableView, &QTableView::resizeColumnsToContents);
+}
+
+TableController::~TableController()
+{
+//    delete tableModel;
+    delete checkboxDelegate;
+}
+
+
+
+
+
+
+
 
 //bool MainWindowController::SetChosenProfile(Profile* profile)
 //{

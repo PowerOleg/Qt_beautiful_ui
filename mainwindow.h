@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-//#include "profile.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -13,7 +12,7 @@ QT_END_NAMESPACE
 
 class TableController;
 class ESimModel;
-class QTableView;
+class QTableView;//d
 class QPushButton;
 
 class MainWindow : public QMainWindow
@@ -27,7 +26,7 @@ public:
 private:
     Ui::MainWindow* ui;
     TableController* tableController = nullptr;
-    QTableView* currentProfilesTableView = nullptr;
+//    QTableView* currentProfilesTableView = nullptr;
     QPushButton* addButton = nullptr;
     QPushButton* deleteButton = nullptr;
     QPushButton* refreshButton = nullptr;

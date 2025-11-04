@@ -5,8 +5,6 @@
 #include <QObject>
 #include <QWidget>
 
-
-
 class CheckBoxItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT

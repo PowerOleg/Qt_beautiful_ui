@@ -5,15 +5,21 @@
 
 class QWidget;
 class QGridLayout;
+class QTableView;
+class ESimModel;
+class CheckBoxItemDelegate;
 
-class TableController
+class TableController : public QObject
 {
+    Q_OBJECT
 public:
-    TableController(/*QGridLayout* chosen_profile_layout = nullptr*/);
-//    bool SetChosenProfile(Profile *parent);
-//    void ClearChosenProfile();
+    explicit TableController(QObject* parent = nullptr, QTableView* tableView = nullptr);
+    ~TableController();
+
 private:
-//    QGridLayout* chosen_profile_layout = nullptr;
+    QTableView* currentProfilesTableView = nullptr;
+    ESimModel* tableModel = nullptr;
+    CheckBoxItemDelegate* checkboxDelegate = nullptr;
 };
 
 #endif // MAINWINDOWCONTROLLER_H

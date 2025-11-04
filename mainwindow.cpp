@@ -3,7 +3,7 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
-#include <QHeaderView>
+//#include <QHeaderView>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
@@ -12,8 +12,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
-#include "checkboxitemdelegate.h"
-#include "esimmodel.h"
+//#include "checkboxitemdelegate.h"
+//#include "esimmodel.h"
 
 
 void MainWindow::CreateWidgets()
@@ -25,12 +25,8 @@ void MainWindow::CreateWidgets()
     }
 
     QFrame* mainFrame = new QFrame(this);
-    mainFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);//mainFrame->setFixedHeight(500);
+    mainFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     mainFrame->setFrameShape(QFrame::NoFrame);
-//    mainFrame->setStyleSheet(
-//        "border: 2px solid red;"
-//        "background-color: gray;"
-//    );
     centralWidgetLayout->addWidget(mainFrame);
 
 
@@ -55,16 +51,13 @@ void MainWindow::CreateWidgets()
     tableViewLayout->addWidget(tableLabel, 0, 0, 1, 3, Qt::AlignCenter);
 
 
-    this->currentProfilesTableView = new QTableView(mainFrame);
-    currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    currentProfilesTableView->setFixedHeight(500);
-    currentProfilesTableView->verticalHeader()->hide();
-    currentProfilesTableView->horizontalHeader()->setMinimumSectionSize(50);
-    tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
-    //    if (нечем изначально наполнить currentProfilesTableView)
+    QTableView* currentProfilesTableView = new QTableView(mainFrame);
+    tableController = new TableController(this, currentProfilesTableView);
+    //    if (tableController.IsEmpty())
     //    {
-    //        QMessageBox::information(this, "Выбор профиля ESim", "Ошибка. Отсутствует стандартное место для вставки выбранного профиля ESim\n");
+    //        QMessageBox::information(this, "Предупреждение", "Нет доступных профилей");
     //    }
+    tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
 
     QFrame* buttonsFrame = new QFrame(mainFrame);
     tableViewLayout->addWidget(buttonsFrame, 4, 4, 1, 1);
@@ -96,20 +89,9 @@ void MainWindow::InitActions()
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    tableController = new TableController();
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
     CreateWidgets();
-    //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
-    ESimModel* tableModel = new ESimModel(this);
-    currentProfilesTableView->setModel(tableModel);
-    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
-    currentProfilesTableView->setItemDelegateForColumn(tableModel->CHECKBOX_COLUMN_NUM, checkbox_delegate);
-
-    //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
-    currentProfilesTableView->resizeColumnsToContents();
-    connect(tableModel, &QAbstractItemModel::dataChanged, currentProfilesTableView, &QTableView::resizeColumnsToContents);
-    connect(tableModel, &QAbstractItemModel::rowsInserted, currentProfilesTableView, &QTableView::resizeColumnsToContents);
     InitActions();
 
 
