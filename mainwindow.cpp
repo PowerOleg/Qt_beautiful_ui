@@ -1,10 +1,9 @@
 ﻿//#include <QDebug>
-#include <QApplication>
-#include <QWidget>
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
+#include <QHeaderView>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
@@ -59,37 +58,38 @@ void MainWindow::CreateWidgets()
     this->currentProfilesTableView = new QTableView(mainFrame);
     currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     currentProfilesTableView->setFixedHeight(500);
-    currentProfilesTableView->setStyleSheet(
-                "background-color: #228B22;"
-                "color: white;"
-                "border: 2px solid #228B22;"
-                "padding: 4px;"
-                "font-size: 14px;"
-                "font-weight: bold;"
-            );
+    currentProfilesTableView->resizeColumnsToContents();
+    currentProfilesTableView->verticalHeader()->hide();
+
     tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
+    //    if (нечем изначально наполнить currentProfilesTableView)
+    //    {
+    //        QMessageBox::information(this, "Выбор профиля ESim", "Ошибка. Отсутствует стандартное место для вставки выбранного профиля ESim\n");
+    //    }
+
     QFrame* buttonsFrame = new QFrame(mainFrame);
     tableViewLayout->addWidget(buttonsFrame, 4, 4, 1, 1);
 
     QVBoxLayout* buttonsLayout = new QVBoxLayout(buttonsFrame);
     buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsFrame->setLayout(buttonsLayout);
-    QPushButton* addButton1 = new QPushButton("add");//d
-    QPushButton* deleteButton1 = new QPushButton("delete");//d
-    buttonsLayout->addWidget(addButton1);
-    buttonsLayout->addWidget(deleteButton1);
+    QPushButton* addButton = new QPushButton("Добавить профиль", buttonsFrame);
+    QPushButton* deleteButton = new QPushButton("Удалить выбранный профиль", buttonsFrame);
+    QPushButton* refreshButton = new QPushButton("Обновить список", buttonsFrame);
+    buttonsLayout->addWidget(addButton);
+    buttonsLayout->addWidget(deleteButton);
+    buttonsLayout->addWidget(refreshButton);
 
-    QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);//d
+    QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
     tableViewLayout->addItem(spacerEnd, 5, 0);
 
+}
 
-//    if (!chosen_profile_layout)
-//    {
-//        QMessageBox::information(this, "Выбор профиля ESim", "Ошибка. Отсутствует стандартное место для вставки выбранного профиля ESim\n");
-//    }
+void MainWindow::InitActions()
+{
+    connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
+    connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
 
-  connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
-  connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -98,36 +98,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
     CreateWidgets();
-
-
-
-
-
-
-
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
-//    ESimModel* model = new ESimModel(this);
+    ESimModel* model = new ESimModel(this);
+    currentProfilesTableView->setModel(model);
+    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
+    currentProfilesTableView->setItemDelegateForColumn(model->CHECKBOX_COLUMN_NUM, checkbox_delegate);
 
-
-
-
-
-
-
-
-//    ui->currentProfilesTableView->setModel(model);
-//    CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
-//    ui->currentProfilesTableView->setItemDelegateForColumn(3, checkbox_delegate);
-
-
-
-
-
-
-
-
-
-
+    InitActions();
 
 
 
@@ -191,7 +168,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (isDragging && (event->buttons() & Qt::LeftButton))
     {
-        QPoint new_pos = event->globalPos() - dragStartPosition;//Вычисляем новое положение окна//- frameGeometry().topLeft();
+        QPoint new_pos = event->globalPos() - dragStartPosition;
         move(new_pos);
         event->accept();
     }

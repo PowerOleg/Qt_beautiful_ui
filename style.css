@@ -1,20 +1,20 @@
 ﻿QMainWindow
 {
-    background-color: #1B1212;
+    background-color: #1B1212;/*черный цвет*/
 }
 
 #headerWidget
 {
-    background-color: #ACE1AF;/*#2E8B57*/
+    background-color: #008000;
     border-bottom: 1px solid #1a2533;
 }
 
 QPushButton
 {
-    border: 2px solid #228B22;
+    border: 2px solid #1B1212;
     border-radius: 20px;
     padding: 2px;
-    background-color: #228B22;
+    background-color: #228B22;/*зеленый цвет*/
     color: white;
     font-size: 14px;
     font-weight: bold;
@@ -29,4 +29,50 @@ QPushButton#closeWindowButton:hover
 {
     background-color: rgba(255, 0, 0, 0.5);
 }
+
+QHeaderView {
+    background-color: #228B22;
+}
+
+
+QTableView {
+    background-color: #228B22;
+
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+QHeaderView::section {/*Горизонтальные заголовки столбцов*/
+    background-color: #228B22;
+
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+
+    border: 1px solid #1A641A;
+}
+
+
+QHeaderView::section:vertical {
+    background-color: #228B22;
+
+    color: white;
+    font-size: 14px;
+
+    border: 1px solid #1A641A;
+    width: 40px;
+    font-weight: bold;
+}
+
+QTableView::corner-button {
+    background-color: #228B22;
+
+}
+
+
+
+
+
 

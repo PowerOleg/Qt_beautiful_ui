@@ -36,5 +36,6 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 private:
      void CreateWidgets();
+     void InitActions();
 };
 #endif // MAINWINDOW_H

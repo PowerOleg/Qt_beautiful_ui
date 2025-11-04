@@ -20,6 +20,8 @@ class ESimModel : public QAbstractTableModel
 
 public:
     explicit ESimModel(QObject *parent = nullptr);
+    const int CHECKBOX_COLUMN_NUM = 3;
+    const int DATE_COLUMN_NUM = 4;
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -57,11 +59,7 @@ public:
 //    void removeItemModel(int row);
 
     void setCheckState(int row, Qt::CheckState state);//Метод для установки чекбокса
-
-
 private:
-    const int CHECKBOX_COLUMN_NUM = 3;
-    const int DATE_COLUMN_NUM = 4;
     QVector<ItemModel> items;//Хранилище данных
 };
 
