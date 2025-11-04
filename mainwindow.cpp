@@ -58,7 +58,6 @@ void MainWindow::CreateWidgets()
     this->currentProfilesTableView = new QTableView(mainFrame);
     currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     currentProfilesTableView->setFixedHeight(500);
-    currentProfilesTableView->resizeColumnsToContents();
     currentProfilesTableView->verticalHeader()->hide();
 
     tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
@@ -99,11 +98,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->setWindowFlags(Qt::FramelessWindowHint);
     CreateWidgets();
     //считываем JSON инициализируем профили  засовываем в model и отображаем в TableView
-    ESimModel* model = new ESimModel(this);
-    currentProfilesTableView->setModel(model);
+    ESimModel* tableModel = new ESimModel(this);
+    currentProfilesTableView->setModel(tableModel);
     CheckBoxItemDelegate* checkbox_delegate = new CheckBoxItemDelegate();
-    currentProfilesTableView->setItemDelegateForColumn(model->CHECKBOX_COLUMN_NUM, checkbox_delegate);
+    currentProfilesTableView->setItemDelegateForColumn(tableModel->CHECKBOX_COLUMN_NUM, checkbox_delegate);
 
+    //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
+    currentProfilesTableView->resizeColumnsToContents();
+    connect(tableModel, &QAbstractItemModel::dataChanged, currentProfilesTableView, &QTableView::resizeColumnsToContents);
+    connect(tableModel, &QAbstractItemModel::rowsInserted, currentProfilesTableView, &QTableView::resizeColumnsToContents);
     InitActions();
 
 

@@ -30,21 +30,25 @@ QPushButton#closeWindowButton:hover
     background-color: rgba(255, 0, 0, 0.5);
 }
 
-QHeaderView {
+QHeaderView
+{
     background-color: #228B22;
 }
 
 
-QTableView {
+QTableView
+{
     background-color: #228B22;
 
     color: white;
     font-size: 14px;
     font-weight: bold;
+    border: 1px solid #228B22;
 }
 
-
-QHeaderView::section {/*Горизонтальные заголовки столбцов*/
+/*Горизонтальные заголовки столбцов*/
+QHeaderView::section
+{
     background-color: #228B22;
 
     color: white;
@@ -55,7 +59,8 @@ QHeaderView::section {/*Горизонтальные заголовки стол
 }
 
 
-QHeaderView::section:vertical {
+QHeaderView::section:vertical
+{
     background-color: #228B22;
 
     color: white;
@@ -66,7 +71,8 @@ QHeaderView::section:vertical {
     font-weight: bold;
 }
 
-QTableView::corner-button {
+QTableView::corner-button
+{
     background-color: #228B22;
 
 }
