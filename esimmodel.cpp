@@ -91,7 +91,7 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const//031125_TODO_
             break;
         case Qt::CheckStateRole:
             if (index.column() == CHECKBOX_COLUMN_NUM)
-                return static_cast<int>(item.check_state);
+                return static_cast<int>(item.checkState);
             break;
     }
         return QVariant();
@@ -106,7 +106,7 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
     if (role == Qt::CheckStateRole && index.column() == CHECKBOX_COLUMN_NUM)
     {
-        item.check_state = static_cast<Qt::CheckState>(value.toInt());
+        item.checkState = static_cast<Qt::CheckState>(value.toInt());
         emit dataChanged(index, index, {role});
         QString date_value = QDate::currentDate().toString("yyyy-MM-dd");
         if (!value.toBool())

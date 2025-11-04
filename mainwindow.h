@@ -26,10 +26,10 @@ public:
 private:
     Ui::MainWindow* ui;
     MainWindowController* mainWindowController = nullptr;
-    QTableView* current_profiles_table_view = nullptr;
+    QTableView* currentProfilesTableView = nullptr;
 
-    bool is_dragging;//Флаг:идёт ли перетаскивание
-    QPoint drag_start_position;//Начальная точка нажатия перетаскивания окна
+    bool isDragging;//Флаг:идёт ли перетаскивание
+    QPoint dragStartPosition;//Начальная точка нажатия перетаскивания окна
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;

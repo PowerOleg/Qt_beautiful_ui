@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-class Profile;
 class QWidget;
 class QGridLayout;
 

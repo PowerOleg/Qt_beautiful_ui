@@ -2,7 +2,6 @@
 #include <QWidget>
 //#include <QGridLayout>
 #include "mainwindowcontroller.h"
-#include "profile.h"
 
 MainWindowController::MainWindowController(/*QGridLayout* layout*/)// : chosen_profile_layout(layout)
 {}

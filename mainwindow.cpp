@@ -1,10 +1,14 @@
-﻿#include <QDebug>
+﻿//#include <QDebug>
+#include <QApplication>
+#include <QWidget>
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
 #include <QVBoxLayout>
+#include <QPushButton>
 #include <QLabel>
+#include <QSpacerItem>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -15,48 +19,74 @@
 
 void MainWindow::CreateWidgets()
 {
-    //    mainWindowController = new MainWindowController();
-    ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint);
-    QLayout* central_widget_layout = this->centralWidget()->layout();
-    if (central_widget_layout)
+    QLayout* centralWidgetLayout = this->centralWidget()->layout();
+    if (centralWidgetLayout)
     {
-        central_widget_layout->setContentsMargins(0, 0, 0, 0);
+        centralWidgetLayout->setContentsMargins(0, 0, 0, 0);
     }
 
-    QFrame* main_frame = new QFrame(this);
-    main_frame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    central_widget_layout->addWidget(main_frame);
-
-    QGridLayout* table_view_layout = new QGridLayout(main_frame);
-    main_frame->setLayout(table_view_layout);
-    this->current_profiles_table_view = new QTableView(main_frame);
-    table_view_layout->addWidget(current_profiles_table_view, 0, 0, 4, 3);
-    QFrame* buttons_frame = new QFrame(main_frame);
-    table_view_layout->addWidget(buttons_frame, 3, 4, 1, 1);
-
-    QVBoxLayout* buttons_layout = new QVBoxLayout(buttons_frame);
-    buttons_frame->setLayout(buttons_layout);
-    QPushButton* addButton1 = new QPushButton("add");
-    QPushButton* deleteButton1 = new QPushButton("delete");
-    buttons_layout->addWidget(addButton1);
-    buttons_layout->addWidget(deleteButton1);
+    QFrame* mainFrame = new QFrame(this);
+    mainFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);//mainFrame->setFixedHeight(500);
+    mainFrame->setFrameShape(QFrame::NoFrame);
+//    mainFrame->setStyleSheet(
+//        "border: 2px solid red;"
+//        "background-color: gray;"
+//    );
+    centralWidgetLayout->addWidget(mainFrame);
 
 
+    QGridLayout* tableViewLayout = new QGridLayout(mainFrame);
+    tableViewLayout->setContentsMargins(10, 10, 10, 10);
+    mainFrame->setLayout(tableViewLayout);
 
+
+    QLabel* tableLabel = new QLabel(mainFrame);
+    tableLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    tableLabel->setStyleSheet(
+            "background-color: #228B22;"
+            "color: white;"
+            "border: 2px solid #228B22;"
+            "border-radius: 6px;"
+            "padding: 4px;"
+            "font-size: 14px;"
+            "font-weight: bold;"
+        );
+
+    tableLabel->setText("Список доступных профилей eSIM");
+    tableViewLayout->addWidget(tableLabel, 0, 0, 1, 3, Qt::AlignCenter);
+
+
+    this->currentProfilesTableView = new QTableView(mainFrame);
+    currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    currentProfilesTableView->setFixedHeight(500);
+    currentProfilesTableView->setStyleSheet(
+                "background-color: #228B22;"
+                "color: white;"
+                "border: 2px solid #228B22;"
+                "padding: 4px;"
+                "font-size: 14px;"
+                "font-weight: bold;"
+            );
+    tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
+    QFrame* buttonsFrame = new QFrame(mainFrame);
+    tableViewLayout->addWidget(buttonsFrame, 4, 4, 1, 1);
+
+    QVBoxLayout* buttonsLayout = new QVBoxLayout(buttonsFrame);
+    buttonsLayout->setContentsMargins(0, 0, 0, 0);
+    buttonsFrame->setLayout(buttonsLayout);
+    QPushButton* addButton1 = new QPushButton("add");//d
+    QPushButton* deleteButton1 = new QPushButton("delete");//d
+    buttonsLayout->addWidget(addButton1);
+    buttonsLayout->addWidget(deleteButton1);
+
+    QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);//d
+    tableViewLayout->addItem(spacerEnd, 5, 0);
 
 
 //    if (!chosen_profile_layout)
 //    {
 //        QMessageBox::information(this, "Выбор профиля ESim", "Ошибка. Отсутствует стандартное место для вставки выбранного профиля ESim\n");
 //    }
-//    main_layout->setContentsMargins(0, 0, 0, 0);  // убрать отступы
-//    main_layout->addWidget(ui->headerWidget);  // добавляем шапку сверху
-//    main_layout->addStretch();
-
-
-
-
 
   connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
   connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
@@ -64,7 +94,9 @@ void MainWindow::CreateWidgets()
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-
+    mainWindowController = new MainWindowController();
+    ui->setupUi(this);
+    this->setWindowFlags(Qt::FramelessWindowHint);
     CreateWidgets();
 
 
@@ -144,22 +176,22 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && ui->headerWidget->geometry().contains(event->pos()))
     {
-        is_dragging = true;
-        drag_start_position = event->globalPos() - frameGeometry().topLeft();
+        isDragging = true;
+        dragStartPosition = event->globalPos() - frameGeometry().topLeft();
         event->accept();
     }
     else
     {
-        is_dragging = false;
+        isDragging = false;
         QMainWindow::mousePressEvent(event);//Передаём событие дальше
     }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if (is_dragging && (event->buttons() & Qt::LeftButton))
+    if (isDragging && (event->buttons() & Qt::LeftButton))
     {
-        QPoint new_pos = event->globalPos() - drag_start_position;//Вычисляем новое положение окна//- frameGeometry().topLeft();
+        QPoint new_pos = event->globalPos() - dragStartPosition;//Вычисляем новое положение окна//- frameGeometry().topLeft();
         move(new_pos);
         event->accept();
     }

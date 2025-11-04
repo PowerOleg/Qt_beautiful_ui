@@ -10,7 +10,7 @@ struct ItemModel
     int id;
     QString name;
     QString operator_name;
-    Qt::CheckState check_state;
+    Qt::CheckState checkState;
     QString date;
 };
 
