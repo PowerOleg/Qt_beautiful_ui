@@ -33,6 +33,7 @@ QPushButton#closeWindowButton:hover
 QHeaderView
 {
     background-color: #228B22;
+    border-radius: 5px;
 }
 
 
@@ -44,6 +45,7 @@ QTableView
     font-size: 14px;
     font-weight: bold;
     border: 1px solid #228B22;
+    border-radius: 5px;
 }
 
 /*Горизонтальные заголовки столбцов*/

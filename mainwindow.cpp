@@ -45,7 +45,7 @@ void MainWindow::CreateWidgets()
             "background-color: #228B22;"
             "color: white;"
             "border: 2px solid #228B22;"
-            "border-radius: 6px;"
+            "border-radius: 15px;"
             "padding: 4px;"
             "font-size: 14px;"
             "font-weight: bold;"
@@ -59,7 +59,7 @@ void MainWindow::CreateWidgets()
     currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     currentProfilesTableView->setFixedHeight(500);
     currentProfilesTableView->verticalHeader()->hide();
-
+    currentProfilesTableView->horizontalHeader()->setMinimumSectionSize(50);
     tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
     //    if (нечем изначально наполнить currentProfilesTableView)
     //    {
@@ -73,8 +73,11 @@ void MainWindow::CreateWidgets()
     buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsFrame->setLayout(buttonsLayout);
     QPushButton* addButton = new QPushButton("Добавить профиль", buttonsFrame);
+    addButton->setFixedHeight(40);
     QPushButton* deleteButton = new QPushButton("Удалить выбранный профиль", buttonsFrame);
+    deleteButton->setFixedHeight(40);
     QPushButton* refreshButton = new QPushButton("Обновить список", buttonsFrame);
+    refreshButton->setFixedHeight(40);
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
     buttonsLayout->addWidget(refreshButton);
