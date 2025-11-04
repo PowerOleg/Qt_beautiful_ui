@@ -1,9 +1,9 @@
 ﻿//#include <QMessageBox>
 #include <QWidget>
 //#include <QGridLayout>
-#include "mainwindowcontroller.h"
+#include "tablecontroller.h"
 
-MainWindowController::MainWindowController(/*QGridLayout* layout*/)// : chosen_profile_layout(layout)
+TableController::TableController(/*QGridLayout* layout*/)// : chosen_profile_layout(layout)
 {}
 
 //bool MainWindowController::SetChosenProfile(Profile* profile)

@@ -3,7 +3,6 @@
 
 #include <QAbstractTableModel>
 #include <QVector>
-#include "profile.h"
 
 struct ItemModel
 {

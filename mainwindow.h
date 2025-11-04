@@ -11,9 +11,10 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindowController;
+class TableController;
 class ESimModel;
 class QTableView;
+class QPushButton;
 
 class MainWindow : public QMainWindow
 {
@@ -25,9 +26,11 @@ public:
 
 private:
     Ui::MainWindow* ui;
-    MainWindowController* mainWindowController = nullptr;
+    TableController* tableController = nullptr;
     QTableView* currentProfilesTableView = nullptr;
-
+    QPushButton* addButton = nullptr;
+    QPushButton* deleteButton = nullptr;
+    QPushButton* refreshButton = nullptr;
     bool isDragging;//Флаг:идёт ли перетаскивание
     QPoint dragStartPosition;//Начальная точка нажатия перетаскивания окна
 
@@ -37,5 +40,6 @@ protected:
 private:
      void CreateWidgets();
      void InitActions();
+
 };
 #endif // MAINWINDOW_H

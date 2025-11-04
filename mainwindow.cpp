@@ -11,7 +11,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mainwindowcontroller.h"
+#include "tablecontroller.h"
 #include "checkboxitemdelegate.h"
 #include "esimmodel.h"
 
@@ -72,11 +72,11 @@ void MainWindow::CreateWidgets()
     QVBoxLayout* buttonsLayout = new QVBoxLayout(buttonsFrame);
     buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsFrame->setLayout(buttonsLayout);
-    QPushButton* addButton = new QPushButton("Добавить профиль", buttonsFrame);
+    addButton = new QPushButton("Добавить профиль", buttonsFrame);
     addButton->setFixedHeight(40);
-    QPushButton* deleteButton = new QPushButton("Удалить выбранный профиль", buttonsFrame);
+    deleteButton = new QPushButton("Удалить выбранный профиль", buttonsFrame);
     deleteButton->setFixedHeight(40);
-    QPushButton* refreshButton = new QPushButton("Обновить список", buttonsFrame);
+    refreshButton = new QPushButton("Обновить список", buttonsFrame);
     refreshButton->setFixedHeight(40);
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
@@ -96,7 +96,7 @@ void MainWindow::InitActions()
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    mainWindowController = new MainWindowController();
+    tableController = new TableController();
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
     CreateWidgets();
@@ -152,7 +152,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete mainWindowController;
+    delete tableController;
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)

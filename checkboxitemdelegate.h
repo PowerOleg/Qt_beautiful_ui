@@ -4,18 +4,8 @@
 #include <QStyledItemDelegate>
 #include <QObject>
 #include <QWidget>
-#include <QModelIndex>
-#include <QPainter>
-#include <QStyleOptionViewItem>
-#include <QStyleOptionFrame>
-#include <QRect>
-#include <QStyle>
-#include <QStyleOption>
-#include <QStyleOptionButton>
-#include <QApplication>
-#include <QAbstractItemModel>
-#include <QMouseEvent>
-#include <QEvent>
+
+
 
 class CheckBoxItemDelegate : public QStyledItemDelegate
 {

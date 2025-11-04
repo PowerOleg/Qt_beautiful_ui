@@ -1,4 +1,16 @@
-﻿#include "checkboxitemdelegate.h"
+﻿#include <QModelIndex>
+#include <QPainter>
+#include <QStyleOptionViewItem>
+#include <QStyleOptionFrame>
+#include <QRect>
+#include <QStyle>
+#include <QStyleOption>
+#include <QStyleOptionButton>
+#include <QApplication>
+#include <QAbstractItemModel>
+#include <QMouseEvent>
+#include <QEvent>
+#include "checkboxitemdelegate.h"
 
 QWidget* CheckBoxItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

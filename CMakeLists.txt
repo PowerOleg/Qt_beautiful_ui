@@ -19,13 +19,11 @@ set(PROJECT_SOURCES
         mainwindow.ui
         checkboxitemdelegate.h
         checkboxitemdelegate.cpp
-        mainwindowcontroller.h
-        mainwindowcontroller.cpp
+        tablecontroller.h
+        tablecontroller.cpp
         esimmodel.h
         esimmodel.cpp
         qrc.qrc
-#        profile.h
-#        profile.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

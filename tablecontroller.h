@@ -6,10 +6,10 @@
 class QWidget;
 class QGridLayout;
 
-class MainWindowController
+class TableController
 {
 public:
-    MainWindowController(/*QGridLayout* chosen_profile_layout = nullptr*/);
+    TableController(/*QGridLayout* chosen_profile_layout = nullptr*/);
 //    bool SetChosenProfile(Profile *parent);
 //    void ClearChosenProfile();
 private:
