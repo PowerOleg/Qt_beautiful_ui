@@ -3,7 +3,6 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTableView>
-//#include <QHeaderView>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
@@ -12,9 +11,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
-//#include "checkboxitemdelegate.h"
-//#include "esimmodel.h"
-
+#include "addprofile.h"
+#include "ui_addprofile.h"
 
 void MainWindow::CreateWidgets()
 {
@@ -52,7 +50,7 @@ void MainWindow::CreateWidgets()
 
 
     QTableView* currentProfilesTableView = new QTableView(mainFrame);
-    tableController = new TableController(this, currentProfilesTableView);
+    this->tableController = new TableController(this, currentProfilesTableView);
     //    if (tableController.IsEmpty())
     //    {
     //        QMessageBox::information(this, "Предупреждение", "Нет доступных профилей");
@@ -84,13 +82,14 @@ void MainWindow::InitActions()
 {
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
-
+    connect(this->addButton, &QPushButton::clicked, this, &MainWindow::AddButtonClicked);
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
+    this->addProfileDialog = new AddProfile(this);
     CreateWidgets();
     InitActions();
 
@@ -166,3 +165,9 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
+void MainWindow::AddButtonClicked()
+{
+    addProfileDialog->show();
+    addProfileDialog->raise();
+    addProfileDialog->activateWindow();
+}

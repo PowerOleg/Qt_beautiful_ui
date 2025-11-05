@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-class QWidget;
 class QGridLayout;
 class QTableView;
 class ESimModel;

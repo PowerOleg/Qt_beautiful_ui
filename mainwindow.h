@@ -12,13 +12,12 @@ QT_END_NAMESPACE
 
 class TableController;
 class ESimModel;
-class QTableView;//d
+class AddProfile;
 class QPushButton;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
@@ -30,15 +29,19 @@ private:
     QPushButton* addButton = nullptr;
     QPushButton* deleteButton = nullptr;
     QPushButton* refreshButton = nullptr;
+    AddProfile* addProfileDialog = nullptr;
     bool isDragging;//Флаг:идёт ли перетаскивание
     QPoint dragStartPosition;//Начальная точка нажатия перетаскивания окна
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
+
+private slots:
+     void AddButtonClicked();
+
 private:
      void CreateWidgets();
      void InitActions();
-
 };
 #endif // MAINWINDOW_H

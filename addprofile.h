@@ -1,13 +1,13 @@
-#ifndef ADDPROFILE_H
+﻿#ifndef ADDPROFILE_H
 #define ADDPROFILE_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class AddProfile;
 }
 
-class AddProfile : public QWidget
+class AddProfile : public QDialog
 {
     Q_OBJECT
 
