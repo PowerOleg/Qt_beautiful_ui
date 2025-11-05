@@ -1,4 +1,5 @@
 ﻿//#include <QDebug>
+#include <QDialog>
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QMessageBox>
@@ -6,16 +7,65 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QLineEdit>
 #include <QSpacerItem>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
-#include "addprofile.h"
-#include "ui_addprofile.h"
 
 void MainWindow::CreateWidgets()
 {
+    this->addDialog = new QDialog(this);
+    addDialog->setWindowTitle("Добавить профиль");
+    addDialog->resize(300, 200);
+    addDialog->setStyleSheet(
+            "background-color: #228B22;"
+            "color: white;"
+            "font-size: 14px;"
+            "font-weight: bold;"
+        );
+    QVBoxLayout* dialogLayout = new QVBoxLayout(addDialog);
+    dialogLayout->setContentsMargins(20, 20, 20, 20);
+    dialogLayout->setSpacing(10);
+
+
+    QLabel* nameLabel = new QLabel(addDialog);
+    nameLabel->setText("Название");
+    nameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    dialogLayout->addWidget(nameLabel);
+
+    QLineEdit* nameText = new QLineEdit(addDialog);
+    nameText->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    nameText->setStyleSheet(
+            "background-color: #1B1212;"
+            "color: white;"
+            "font-size: 14px;"
+            "font-weight: bold;"
+        );
+    nameText->setFixedWidth(200);
+    dialogLayout->addWidget(nameText);
+
+
+    QLabel* nameOperatorLabel = new QLabel(addDialog);
+    nameOperatorLabel->setText("Название оператора");
+    nameOperatorLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    dialogLayout->addWidget(nameOperatorLabel);
+
+    QLineEdit* nameOperatorText = new QLineEdit(addDialog);
+    nameOperatorText->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    nameOperatorText->setStyleSheet(
+            "background-color: #1B1212;"
+            "color: white;"
+            "font-size: 14px;"
+            "font-weight: bold;"
+        );
+    nameOperatorText->setFixedWidth(200);
+    dialogLayout->addWidget(nameOperatorText);
+    dialogLayout->addStretch();
+
+
+
     QLayout* centralWidgetLayout = this->centralWidget()->layout();
     if (centralWidgetLayout)
     {
@@ -89,7 +139,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
-    this->addProfileDialog = new AddProfile(this);
     CreateWidgets();
     InitActions();
 
@@ -167,7 +216,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
 void MainWindow::AddButtonClicked()
 {
-    addProfileDialog->show();
-    addProfileDialog->raise();
-    addProfileDialog->activateWindow();
+        addDialog->show();
+        addDialog->raise();
+        addDialog->activateWindow();
 }

@@ -23,9 +23,6 @@ set(PROJECT_SOURCES
         tablecontroller.cpp
         esimmodel.h
         esimmodel.cpp
-        addprofile.h
-        addprofile.cpp
-        addprofile.ui
         qrc.qrc
 )
 

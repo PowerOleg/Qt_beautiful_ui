@@ -29,7 +29,7 @@ private:
     QPushButton* addButton = nullptr;
     QPushButton* deleteButton = nullptr;
     QPushButton* refreshButton = nullptr;
-    AddProfile* addProfileDialog = nullptr;
+    QDialog* addDialog = nullptr;
     bool isDragging;//Флаг:идёт ли перетаскивание
     QPoint dragStartPosition;//Начальная точка нажатия перетаскивания окна
 
