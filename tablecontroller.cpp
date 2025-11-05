@@ -18,6 +18,7 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
     currentProfilesTableView->setModel(tableModel);
     this->checkboxDelegate = new CheckBoxItemDelegate();
     currentProfilesTableView->setItemDelegateForColumn(tableModel->CHECKBOX_COLUMN_NUM, checkboxDelegate);
+    currentProfilesTableView->setSortingEnabled(true);
 
     //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
     currentProfilesTableView->resizeColumnsToContents();

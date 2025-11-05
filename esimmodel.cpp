@@ -1,12 +1,14 @@
 ﻿#include "esimmodel.h"
 #include "QDate"
+#include <algorithm>
+#include <QString>
+#include <QVariant>
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {
-
-    items << ItemModel{0, "Operator A eSIM", "Vodafone", Qt::Checked, "2023-10-05"};
-    items << ItemModel{1, "Operator B eSIM", "Kolyaphone", Qt::Unchecked, ""};
-    items << ItemModel{2, "Operator C eSIM", "Company 3", Qt::PartiallyChecked, ""};
+//    items << ItemModel{0, "Operator A eSIM", "Vodafone", Qt::Checked, "2023-10-05"};
+//    items << ItemModel{1, "Operator B eSIM", "Kolyaphone", Qt::Unchecked, ""};
+//    items << ItemModel{2, "Operator C eSIM", "Company 3", Qt::PartiallyChecked, ""};
 }
 
 QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -60,18 +62,6 @@ bool ESimModel::hasChildren(const QModelIndex &parent) const
     return items.size() > 0;
 }
 
-//bool ESimModel::canFetchMore(const QModelIndex &parent) const//Implement me!
-//{
-//    // FIXME: Implement me!
-//    return false;
-//}
-
-//void ESimModel::fetchMore(const QModelIndex &parent)//Implement me!
-//{
-//    // FIXME: Implement me!
-//}
-
-
 QVariant ESimModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
@@ -86,7 +76,7 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const
             if (index.column() == 1)
                 return item.name;
             if (index.column() == 2)
-                return item.operator_name;
+                return item.operatorName;
             if (index.column() == DATE_COLUMN_NUM)
                 return item.date;
             break;
@@ -166,4 +156,47 @@ void ESimModel::removeItemModel(const int rowNumber)
     beginRemoveRows(QModelIndex(), rowNumber, rowNumber);
     items.removeAt(rowNumber);
     endRemoveRows();
+}
+
+void ESimModel::sort(int column, Qt::SortOrder order)
+{
+    if (column < 0 || column >= columnCount())
+        return;
+
+    beginResetModel();//Уведомляем представления о начале изменения модели
+    std::sort(items.begin(), items.end(), [column, order](const ItemModel& a, const ItemModel& b)
+    {
+        if (column == 0)
+        {
+            const quint64 aNum = a.id;
+            const quint64 bNum = b.id;
+            return (order == Qt::AscendingOrder) ? aNum < bNum : aNum > bNum;
+        }
+
+        if (column == 1)
+        {
+            const QString aName = a.name;
+            const QString bName = b.name;
+            return (order == Qt::AscendingOrder) ? aName < bName : aName > bName;
+        }
+        if (column == 2)
+        {
+            const QString aName = a.operatorName;
+            const QString bName = b.operatorName;
+            return (order == Qt::AscendingOrder) ? aName < bName : aName > bName;
+        }
+        if (column == 4)
+        {
+            const QString aDate = a.date;
+            const QString bDate = b.date;
+            return (order == Qt::AscendingOrder) ? aDate < bDate : aDate > bDate;
+        }
+        if (column == 3)
+        {
+            const Qt::CheckState aNum = a.checkState;
+            const Qt::CheckState bNum = b.checkState;
+            return (order == Qt::AscendingOrder) ? aNum < bNum : aNum > bNum;
+        }
+    });
+    endResetModel();//Конец изменения модели
 }
