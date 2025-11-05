@@ -15,13 +15,15 @@ public:
     explicit TableController(QObject* parent = nullptr, QTableView* tableView = nullptr);
     ~TableController();
 
-    bool AddProfile(QString name, QString nameOperator);
+    void AddProfile(QString name, QString nameOperator);
 private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;
     CheckBoxItemDelegate* checkboxDelegate = nullptr;
 
     quint64 rowId = 0;
+public slots:
+    void RemoveSelectedProfile();
 };
 
 #endif // MAINWINDOWCONTROLLER_H

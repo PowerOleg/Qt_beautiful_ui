@@ -160,6 +160,7 @@ void MainWindow::InitActions()
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
     connect(this->addButton, &QPushButton::clicked, this, &MainWindow::OnAddButtonClicked);
+    connect(this->deleteButton, &QPushButton::clicked, tableController, &TableController::RemoveSelectedProfile);
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)

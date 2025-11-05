@@ -28,11 +28,20 @@ TableController::~TableController()
     delete checkboxDelegate;
 }
 
-bool TableController::AddProfile(QString name, QString nameOperator)
+void TableController::AddProfile(QString name, QString nameOperator)
 {
     ItemModel* itemModel = new ItemModel{rowId++, name, nameOperator, Qt::Unchecked, ""};
     tableModel->addItemModel(itemModel);
-    return true;
+}
+
+void TableController::RemoveSelectedProfile()
+{
+    QItemSelectionModel* selectionModel = currentProfilesTableView->selectionModel();
+    QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
+    if (selectedIndexes.isEmpty())
+        return;
+    const QModelIndex modelIndex = selectedIndexes.at(0);
+    tableModel->removeItemModel(modelIndex.row());
 }
 
 

@@ -190,12 +190,12 @@ void ESimModel::addItemModel(const ItemModel* itemModel)
     endInsertRows();
 }
 
-void ESimModel::removeItemModel(const int row)//FIXME
+void ESimModel::removeItemModel(const int rowNumber)
 {
-    if (row < 0 || row >= rowCount())
+    if (rowNumber < 0 || rowNumber >= rowCount())
         return;
 
-    beginRemoveRows(QModelIndex(), row, row);
-    items.removeAt(row);
+    beginRemoveRows(QModelIndex(), rowNumber, rowNumber);
+    items.removeAt(rowNumber);
     endRemoveRows();
 }
