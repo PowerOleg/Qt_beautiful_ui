@@ -15,6 +15,7 @@ public:
     explicit TableController(QObject* parent = nullptr, QTableView* tableView = nullptr);
     ~TableController();
 
+    bool AddProfile(QString name, QString nameOperator);
 private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;

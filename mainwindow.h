@@ -14,6 +14,7 @@ class TableController;
 class ESimModel;
 class AddProfile;
 class QPushButton;
+class QLineEdit;
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +31,8 @@ private:
     QPushButton* deleteButton = nullptr;
     QPushButton* refreshButton = nullptr;
     QDialog* addDialog = nullptr;
+    QLineEdit* nameText = nullptr;
+    QLineEdit* nameOperatorText = nullptr;
     bool isDragging;//Флаг:идёт ли перетаскивание
     QPoint dragStartPosition;//Начальная точка нажатия перетаскивания окна
 
@@ -38,10 +41,11 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 
 private slots:
-     void AddButtonClicked();
-
+    void OnAddButtonClicked();
+    void OnOkDialogButtonClicked();
 private:
      void CreateWidgets();
      void InitActions();
+     void InitAddButtonDialog();
 };
 #endif // MAINWINDOW_H

@@ -1,7 +1,5 @@
-﻿//#include <QMessageBox>
-#include <QTableView>
+﻿#include <QTableView>
 #include <QHeaderView>
-//#include <QAbstractItemModel>
 #include "tablecontroller.h"
 #include "esimmodel.h"
 #include "checkboxitemdelegate.h"
@@ -28,6 +26,11 @@ TableController::~TableController()
 {
 //    delete tableModel;
     delete checkboxDelegate;
+}
+
+bool TableController::AddProfile(QString name, QString nameOperator)
+{
+    return true;
 }
 
 

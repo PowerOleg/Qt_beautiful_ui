@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QTableView>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QLineEdit>
@@ -14,7 +15,7 @@
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
 
-void MainWindow::CreateWidgets()
+void MainWindow::InitAddButtonDialog()
 {
     this->addDialog = new QDialog(this);
     addDialog->setWindowTitle("Добавить профиль");
@@ -35,7 +36,7 @@ void MainWindow::CreateWidgets()
     nameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     dialogLayout->addWidget(nameLabel);
 
-    QLineEdit* nameText = new QLineEdit(addDialog);
+    this->nameText = new QLineEdit(addDialog);
     nameText->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     nameText->setStyleSheet(
             "background-color: #1B1212;"
@@ -52,7 +53,7 @@ void MainWindow::CreateWidgets()
     nameOperatorLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     dialogLayout->addWidget(nameOperatorLabel);
 
-    QLineEdit* nameOperatorText = new QLineEdit(addDialog);
+    this->nameOperatorText = new QLineEdit(addDialog);
     nameOperatorText->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     nameOperatorText->setStyleSheet(
             "background-color: #1B1212;"
@@ -62,10 +63,35 @@ void MainWindow::CreateWidgets()
         );
     nameOperatorText->setFixedWidth(200);
     dialogLayout->addWidget(nameOperatorText);
+    QFrame* dialogButtonsFrame = new QFrame(addDialog);
+    QHBoxLayout* dialogButtonsLayout = new QHBoxLayout(dialogButtonsFrame);
+    dialogButtonsLayout->setContentsMargins(0, 0, 0, 0);
+    dialogButtonsLayout->setSpacing(10);
+
+    QPushButton* okButton = new QPushButton("Добавить", dialogButtonsFrame);
+    okButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    okButton->setStyleSheet(
+            "background-color: #1B1212;"
+            "border-radius: 10px;"
+        );
+    dialogButtonsLayout->addWidget(okButton);
+    QPushButton* cancelButton = new QPushButton("Отмена", dialogButtonsFrame);
+    cancelButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    cancelButton->setStyleSheet(
+            "background-color: #1B1212;"
+            "border-radius: 10px;"
+        );
+    dialogButtonsLayout->addWidget(cancelButton);
+    dialogLayout->addWidget(dialogButtonsFrame);
     dialogLayout->addStretch();
 
 
+    connect(okButton, &QPushButton::clicked, this, &MainWindow::OnOkDialogButtonClicked);
+}
 
+void MainWindow::CreateWidgets()
+{
+    InitAddButtonDialog();
     QLayout* centralWidgetLayout = this->centralWidget()->layout();
     if (centralWidgetLayout)
     {
@@ -132,7 +158,7 @@ void MainWindow::InitActions()
 {
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
-    connect(this->addButton, &QPushButton::clicked, this, &MainWindow::AddButtonClicked);
+    connect(this->addButton, &QPushButton::clicked, this, &MainWindow::OnAddButtonClicked);
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -214,9 +240,23 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void MainWindow::AddButtonClicked()
+void MainWindow::OnAddButtonClicked()
 {
         addDialog->show();
         addDialog->raise();
         addDialog->activateWindow();
+}
+
+void MainWindow::OnOkDialogButtonClicked()
+{
+    QString name = nameText->text();
+    QString nameOperator = nameOperatorText->text();
+
+    tableController->AddProfile(name, nameOperator);
+    nameText->clear();
+    nameOperatorText->clear();
+
+    if (addDialog) {
+        addDialog->close();
+    }
 }
