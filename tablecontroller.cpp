@@ -6,6 +6,9 @@
 
 TableController::TableController(QObject* parent, QTableView* tableView) : QObject(parent), currentProfilesTableView(tableView)
 {
+    currentProfilesTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    currentProfilesTableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+
     currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     currentProfilesTableView->setFixedHeight(500);
     currentProfilesTableView->verticalHeader()->hide();
@@ -30,8 +33,9 @@ TableController::~TableController()
 
 void TableController::AddProfile(QString name, QString nameOperator)
 {
-    ItemModel* itemModel = new ItemModel{rowId++, name, nameOperator, Qt::Unchecked, ""};
+    ItemModel itemModel{rowId++, name, nameOperator, Qt::Unchecked, ""};
     tableModel->addItemModel(itemModel);
+    currentProfilesTableView->selectionModel()->clearSelection();
 }
 
 void TableController::RemoveSelectedProfile()
@@ -42,6 +46,7 @@ void TableController::RemoveSelectedProfile()
         return;
     const QModelIndex modelIndex = selectedIndexes.at(0);
     tableModel->removeItemModel(modelIndex.row());
+    currentProfilesTableView->selectionModel()->clearSelection();
 }
 
 

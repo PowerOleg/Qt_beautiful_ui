@@ -60,19 +60,19 @@ bool ESimModel::hasChildren(const QModelIndex &parent) const
     return items.size() > 0;
 }
 
-bool ESimModel::canFetchMore(const QModelIndex &parent) const//Implement me!
-{
-    // FIXME: Implement me!
-    return false;
-}
+//bool ESimModel::canFetchMore(const QModelIndex &parent) const//Implement me!
+//{
+//    // FIXME: Implement me!
+//    return false;
+//}
 
-void ESimModel::fetchMore(const QModelIndex &parent)//Implement me!
-{
-    // FIXME: Implement me!
-}
+//void ESimModel::fetchMore(const QModelIndex &parent)//Implement me!
+//{
+//    // FIXME: Implement me!
+//}
 
-// dont't let the default QStyledItemDelegate create the true/false combobox
-QVariant ESimModel::data(const QModelIndex &index, int role) const//031125_TODO_надо переделать под дату
+
+QVariant ESimModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -121,7 +121,7 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
     }
 
     //для изменения даты
-    if (role == Qt::EditRole)//&& index.column() == DATE_COLUMN_NUM
+    if (role == Qt::EditRole)
     {
         item.date = value.toString();
         emit dataChanged(index, index, {role});
@@ -150,43 +150,11 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
     setData(index, static_cast<int>(state), Qt::CheckStateRole);
 }
 
-//bool ESimModel::insertRows(int row, int count, const QModelIndex &parent)//Implement me!
-//{
-//    beginInsertRows(parent, row, row + count - 1);
-//    // FIXME: Implement me!    items.append(itemModel);
-//    endInsertRows();
-//    return true;
-//}
 
-//bool ESimModel::insertColumns(int column, int count, const QModelIndex &parent)//Implement me!
-//{
-//    beginInsertColumns(parent, column, column + count - 1);
-//    // FIXME: Implement me!
-//    endInsertColumns();
-//    return true;
-//}
-
-//bool ESimModel::removeRows(int row, int count, const QModelIndex &parent)//Implement me!
-//{
-//    beginRemoveRows(parent, row, row + count - 1);
-//    // FIXME: Implement me!
-//    endRemoveRows();
-//    return true;
-//}
-
-//bool ESimModel::removeColumns(int column, int count, const QModelIndex &parent)//Implement me!
-//{
-//    beginRemoveColumns(parent, column, column + count - 1);
-//    // FIXME: Implement me!
-//    endRemoveColumns();
-//    return true;
-//}
-
-
-void ESimModel::addItemModel(const ItemModel* itemModel)
+void ESimModel::addItemModel(const ItemModel &itemModel)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    items.append(*itemModel);
+    items.append(itemModel);
     endInsertRows();
 }
 
