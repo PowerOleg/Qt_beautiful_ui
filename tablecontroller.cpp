@@ -30,6 +30,8 @@ TableController::~TableController()
 
 bool TableController::AddProfile(QString name, QString nameOperator)
 {
+    ItemModel* itemModel = new ItemModel{rowId++, name, nameOperator, Qt::Unchecked, ""};
+    tableModel->addItemModel(itemModel);
     return true;
 }
 

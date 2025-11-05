@@ -20,6 +20,8 @@ private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;
     CheckBoxItemDelegate* checkboxDelegate = nullptr;
+
+    quint64 rowId = 0;
 };
 
 #endif // MAINWINDOWCONTROLLER_H

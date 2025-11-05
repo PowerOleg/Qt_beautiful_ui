@@ -86,7 +86,8 @@ void MainWindow::InitAddButtonDialog()
     dialogLayout->addStretch();
 
 
-    connect(okButton, &QPushButton::clicked, this, &MainWindow::OnOkDialogButtonClicked);
+    connect(okButton, &QPushButton::clicked, this, &MainWindow::OnOkButtonDialogClicked);
+    connect(cancelButton, &QPushButton::clicked, addDialog, &QDialog::reject);
 }
 
 void MainWindow::CreateWidgets()
@@ -247,7 +248,7 @@ void MainWindow::OnAddButtonClicked()
         addDialog->activateWindow();
 }
 
-void MainWindow::OnOkDialogButtonClicked()
+void MainWindow::OnOkButtonDialogClicked()
 {
     QString name = nameText->text();
     QString nameOperator = nameOperatorText->text();

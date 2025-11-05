@@ -42,7 +42,7 @@ protected:
 
 private slots:
     void OnAddButtonClicked();
-    void OnOkDialogButtonClicked();
+    void OnOkButtonDialogClicked();
 private:
      void CreateWidgets();
      void InitActions();

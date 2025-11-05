@@ -3,6 +3,7 @@
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {
+
     items << ItemModel{0, "Operator A eSIM", "Vodafone", Qt::Checked, "2023-10-05"};
     items << ItemModel{1, "Operator B eSIM", "Kolyaphone", Qt::Unchecked, ""};
     items << ItemModel{2, "Operator C eSIM", "Company 3", Qt::PartiallyChecked, ""};
@@ -182,19 +183,19 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
 //}
 
 
-//void ESimModel::addItemModel(const ItemModel &itemModel)
-//{
-//    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-//    items.append(itemModel);
-//    endInsertRows();
-//}
+void ESimModel::addItemModel(const ItemModel* itemModel)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    items.append(*itemModel);
+    endInsertRows();
+}
 
-//void ESimModel::removeItemModel(int row)//FIXME
-//{
-//    if (row < 0 || row >= rowCount())
-//        return;
+void ESimModel::removeItemModel(const int row)//FIXME
+{
+    if (row < 0 || row >= rowCount())
+        return;
 
-//    beginRemoveRows(QModelIndex(), row, row);
-//    items.removeAt(row);
-//    endRemoveRows();
-//}
+    beginRemoveRows(QModelIndex(), row, row);
+    items.removeAt(row);
+    endRemoveRows();
+}

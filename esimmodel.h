@@ -6,7 +6,7 @@
 
 struct ItemModel
 {
-    int id;
+    quint64 id;
     QString name;
     QString operator_name;
     Qt::CheckState checkState;
@@ -39,8 +39,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     // Editable:
-    bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole) override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
@@ -54,8 +53,8 @@ public:
 
 
     //custom data managing
-//    void addItemModel(const ItemModel &itemModel);//FIXME
-//    void removeItemModel(int row);
+    void addItemModel(const ItemModel* itemModel);
+    void removeItemModel(const int row);
 
     void setCheckState(int row, Qt::CheckState state);//Метод для установки чекбокса
 private:
