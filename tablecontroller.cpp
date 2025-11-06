@@ -14,24 +14,29 @@
 
 TableController::TableController(QObject* parent, QTableView* tableView) : QObject(parent), currentProfilesTableView(tableView)
 {
+    //задаем визуальные параметры для таблицы
     currentProfilesTableView->setSelectionMode(QAbstractItemView::SingleSelection);
     currentProfilesTableView->setSelectionBehavior(QAbstractItemView::SelectItems);
-
     currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    currentProfilesTableView->setMinimumSize(600, 600);
+    currentProfilesTableView->setMinimumSize(TABLE_WIDTH, TABLE_HEIGHT);
     currentProfilesTableView->verticalHeader()->hide();
     currentProfilesTableView->horizontalHeader()->setMinimumSectionSize(50);
 
+    //создаем модель таблицы и задаем параметры для модели
     this->tableModel = new ESimModel(parent);
     currentProfilesTableView->setModel(tableModel);
+
+    //функционал чтобы чекбокс нажимался
     this->checkboxDelegate = new CheckBoxItemDelegate();
     currentProfilesTableView->setItemDelegateForColumn(tableModel->checkboxColumnNumber, checkboxDelegate);
-    currentProfilesTableView->setSortingEnabled(true);
 
     //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
     currentProfilesTableView->resizeColumnsToContents();
     connect(this->tableModel, &QAbstractItemModel::dataChanged, this->currentProfilesTableView, &QTableView::resizeColumnsToContents);
     connect(this->tableModel, &QAbstractItemModel::rowsInserted, this->currentProfilesTableView, &QTableView::resizeColumnsToContents);
+
+    //функциональность сортировки по нажатию на заголовок столбца
+    currentProfilesTableView->setSortingEnabled(true);
 }
 
 TableController::~TableController()

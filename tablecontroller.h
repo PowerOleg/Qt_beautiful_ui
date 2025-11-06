@@ -8,6 +8,9 @@ class QTableView;
 class ESimModel;
 class CheckBoxItemDelegate;
 
+const int TABLE_WIDTH = 600;//глобальный параметр для задания ширины таблицы в диалоговом окне
+const int TABLE_HEIGHT = 600;//глобальный параметр для задания высоты таблицы в диалоговом окне
+
 class TableController : public QObject
 {
     Q_OBJECT
@@ -22,7 +25,7 @@ private:
     ESimModel* tableModel = nullptr;
     CheckBoxItemDelegate* checkboxDelegate = nullptr;
 
-    quint64 idGlobal = 0;
+    quint64 idGlobal = 0;//параметр для реализации сквозного уникального инкрементирующего идентификатора для всей таблицы
 public slots:
     void RemoveSelectedProfile();
     void RefreshTable();

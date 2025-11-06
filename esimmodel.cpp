@@ -28,7 +28,6 @@ bool ESimModel::setHeaderData(int section, Qt::Orientation orientation, const QV
 {
     if (value != headerData(section, orientation, role))
     {
-        // FIXME: Implement me!
         emit headerDataChanged(orientation, section, section);
         return true;
     }
@@ -48,7 +47,7 @@ int ESimModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 5;  // id, name, operator_name, status, date
+    return 5;//id, name, operator_name, status, date
 }
 
 bool ESimModel::hasChildren(const QModelIndex &parent) const

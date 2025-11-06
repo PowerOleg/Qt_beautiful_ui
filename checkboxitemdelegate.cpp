@@ -17,16 +17,15 @@ QWidget* CheckBoxItemDelegate::createEditor(QWidget *parent, const QStyleOptionV
     (void)parent;
     (void)option;
     (void)index;
-    return nullptr;//031125_зачем тут возвращать QCheckBox
+    return nullptr;
 }
 
 QRect CheckBoxItemDelegate::GetCheckboxRect(const QStyleOptionViewItem &option) const
 {
     QStyleOptionButton opt_button;
     opt_button.QStyleOption::operator=(option);
-    QRect sz = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &opt_button);//subElementRect(QStyle::SE_ViewItemCheckIndicator, &opt_button);
+    QRect sz = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &opt_button);
     QRect r = option.rect;
-    // center 'sz' within 'r'
     int dx = (r.width() - sz.width())/2;
     int dy = (r.height()- sz.height())/2;
     r.setTopLeft(r.topLeft() + QPoint(dx,dy));
@@ -48,9 +47,7 @@ bool CheckBoxItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
             if(ro.contains(pte) )
             {
                 bool value = index.data(CHECK_ROLE).toBool();
-
-                // invert checkbox state
-                model->setData(index, !value, CHECK_ROLE);
+                model->setData(index, !value, CHECK_ROLE);//изменяем значение в чекбоксе на противоположное
 
                 return true;
             }

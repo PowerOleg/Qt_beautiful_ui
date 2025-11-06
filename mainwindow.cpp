@@ -15,6 +15,24 @@
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
 
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    InitAddButtonDialog();
+    CreateWidgets();
+    InitMainWindowActions();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+    delete tableController;
+}
+
+/**
+ * @brief Инициализирует диалог, который добавляет профиль eSIM в таблицу
+ */
 void MainWindow::InitAddButtonDialog()
 {
     this->addDialog = new QDialog(this);
@@ -89,15 +107,16 @@ void MainWindow::InitAddButtonDialog()
     connect(cancelButton, &QPushButton::clicked, addDialog, &QDialog::reject);
 }
 
+/**
+ * @brief Метод инициализирует виджеты, расположенные на главном диалоговом окне
+ */
 void MainWindow::CreateWidgets()
 {
-    InitAddButtonDialog();
     QLayout* centralWidgetLayout = this->centralWidget()->layout();
     if (centralWidgetLayout)
     {
         centralWidgetLayout->setContentsMargins(0, 0, 0, 0);
     }
-
     QFrame* mainFrame = new QFrame(this);
     mainFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     mainFrame->setFrameShape(QFrame::NoFrame);
@@ -126,7 +145,6 @@ void MainWindow::CreateWidgets()
 
 
     QTableView* currentProfilesTableView = new QTableView();
-
     tableStacked = new QStackedWidget(mainFrame);
     tableStacked->addWidget(currentProfilesTableView);
     QLabel* noProfilesLabel = new QLabel(mainFrame);
@@ -140,9 +158,8 @@ void MainWindow::CreateWidgets()
     tableStacked->addWidget(noProfilesLabel);
     tableViewLayout->addWidget(tableStacked, 1, 0, 4, 3);
 
-
-
     this->tableController = new TableController(this, currentProfilesTableView);
+    //в зависимости от наличия данных в файле реализовна логика выбора отображаемого виджета: 0 - таблицы или 1- QLabel
     bool isReadFile = tableController->ReadFile(":/profiles.txt");
     if (isReadFile)
     {
@@ -177,7 +194,10 @@ void MainWindow::CreateWidgets()
     tableViewLayout->addItem(spacerEnd, 2, 0);
 }
 
-void MainWindow::InitActions()
+/**
+ * @brief Метод инициализирует сигнало-слотовое взаимодействие для главного диалогового окна
+ */
+void MainWindow::InitMainWindowActions()
 {
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
@@ -185,21 +205,10 @@ void MainWindow::InitActions()
     connect(this->deleteButton, &QPushButton::clicked, tableController, &TableController::RemoveSelectedProfile);
     connect(this->refreshButton, &QPushButton::clicked, tableController, &TableController::RefreshTable);
 }
-
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint);
-    CreateWidgets();
-    InitActions();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-    delete tableController;
-}
-
+/**
+ * @brief Обработка зажатия левой кнопки мыши
+ * @param event
+ */
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && ui->headerWidget->geometry().contains(event->pos()))
@@ -215,6 +224,10 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
 }
 
+/**
+ * @brief Обработка перетаскивания окна
+ * @param event
+ */
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (isDragging && (event->buttons() & Qt::LeftButton))
@@ -229,6 +242,9 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
+/**
+ * @brief Обработчик нажатия на кнопку "Добавить профиль"
+ */
 void MainWindow::OnAddButtonClicked()
 {
         addDialog->show();
@@ -236,6 +252,9 @@ void MainWindow::OnAddButtonClicked()
         addDialog->activateWindow();
 }
 
+/**
+ * @brief Обработчик нажатия на кнопку "Добавить" в диалоговом окне добавления профиля eSIM
+ */
 void MainWindow::OnOkButtonDialogClicked()
 {
     int currentIndex = tableStacked->currentIndex();
@@ -244,7 +263,7 @@ void MainWindow::OnOkButtonDialogClicked()
         tableStacked->setCurrentIndex(0);
         tableStacked->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableViewLayout->setAlignment(tableStacked, Qt::AlignLeft | Qt::AlignTop);
-        tableStacked->setMinimumSize(600, 600);
+        tableStacked->setMinimumSize(TABLE_WIDTH, TABLE_HEIGHT);
     }
 
     QString name = nameText->text();
