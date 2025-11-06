@@ -25,6 +25,7 @@ private:
     quint64 idGlobal = 0;
 public slots:
     void RemoveSelectedProfile();
+    void RefreshTable();
 };
 
 #endif // MAINWINDOWCONTROLLER_H

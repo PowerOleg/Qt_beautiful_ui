@@ -33,6 +33,5 @@
     "operatorName": "Openeagle",
     "checkState": 0,
     "date": ""
-  },
-
+  }
 ]

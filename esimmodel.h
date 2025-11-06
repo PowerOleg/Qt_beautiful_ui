@@ -21,8 +21,8 @@ class ESimModel : public QAbstractTableModel
 
 public:
     explicit ESimModel(QObject *parent = nullptr);
-    const int CHECKBOX_COLUMN_NUM = 3;
-    const int DATE_COLUMN_NUM = 4;
+    const int checkboxColumnNumber = 3;
+    const int dateColumnNumber = 4;
 
     using Row = std::vector<QVariant>;
     //для заполнения заголовков таблицы

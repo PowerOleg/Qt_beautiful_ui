@@ -71,11 +71,11 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const
                 return item.name;
             if (index.column() == 2)
                 return item.operatorName;
-            if (index.column() == DATE_COLUMN_NUM)
+            if (index.column() == dateColumnNumber)
                 return item.date;
             break;
         case Qt::CheckStateRole:
-            if (index.column() == CHECKBOX_COLUMN_NUM)
+            if (index.column() == checkboxColumnNumber)
                 return static_cast<int>(item.checkState);
             break;
     }
@@ -89,7 +89,7 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
     ItemModel &item = items[index.row()];
 
-    if (role == Qt::CheckStateRole && index.column() == CHECKBOX_COLUMN_NUM)
+    if (role == Qt::CheckStateRole && index.column() == checkboxColumnNumber)
     {
         item.checkState = static_cast<Qt::CheckState>(value.toInt());
         emit dataChanged(index, index, {role});
@@ -99,7 +99,7 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
             date_value = "";
         }
 
-        QModelIndex date_idx = index.model()->index(index.row(), DATE_COLUMN_NUM);
+        QModelIndex date_idx = index.model()->index(index.row(), dateColumnNumber);
         setData(date_idx, date_value, Qt::EditRole);
         return true;
     }
@@ -119,7 +119,7 @@ Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractTableModel::flags(index);
 
-    if (index.column() == CHECKBOX_COLUMN_NUM)//Чекбокс
+    if (index.column() == checkboxColumnNumber)//Чекбокс
         return defaultFlags | Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
 
 //    if (index.column() == DATE_COLUMN_NUM)//Дата
@@ -130,7 +130,7 @@ Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
 
 void ESimModel::setCheckState(int row, Qt::CheckState state)
 {
-    QModelIndex index = createIndex(row, CHECKBOX_COLUMN_NUM);
+    QModelIndex index = createIndex(row, checkboxColumnNumber);
     setData(index, static_cast<int>(state), Qt::CheckStateRole);
 }
 

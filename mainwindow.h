@@ -28,7 +28,6 @@ public:
 private:
     Ui::MainWindow* ui;
     TableController* tableController = nullptr;
-//    QTableView* currentProfilesTableView = nullptr;
     QPushButton* addButton = nullptr;
     QPushButton* deleteButton = nullptr;
     QPushButton* refreshButton = nullptr;

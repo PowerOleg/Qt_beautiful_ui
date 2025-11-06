@@ -11,7 +11,6 @@
 #include <QJsonObject>
 #include <QFileInfo>
 #include <QString>
-//#include <QDebug>
 
 TableController::TableController(QObject* parent, QTableView* tableView) : QObject(parent), currentProfilesTableView(tableView)
 {
@@ -19,7 +18,6 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
     currentProfilesTableView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
     currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-//    currentProfilesTableView->setFixedHeight(500);
     currentProfilesTableView->setMinimumSize(600, 600);
     currentProfilesTableView->verticalHeader()->hide();
     currentProfilesTableView->horizontalHeader()->setMinimumSectionSize(50);
@@ -27,7 +25,7 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
     this->tableModel = new ESimModel(parent);
     currentProfilesTableView->setModel(tableModel);
     this->checkboxDelegate = new CheckBoxItemDelegate();
-    currentProfilesTableView->setItemDelegateForColumn(tableModel->CHECKBOX_COLUMN_NUM, checkboxDelegate);
+    currentProfilesTableView->setItemDelegateForColumn(tableModel->checkboxColumnNumber, checkboxDelegate);
     currentProfilesTableView->setSortingEnabled(true);
 
     //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
@@ -111,10 +109,20 @@ bool TableController::ReadFile(const QString& filename)
         item.name = obj["name"].toString();
         item.operatorName = obj["operatorName"].toString();
         item.checkState = static_cast<Qt::CheckState>(obj["checkState"].toInt());
-        item.date = obj["date"].toString();  // или QDateTime::fromString(obj["date"].toString(), Qt::ISODate)
+        item.date = obj["date"].toString();
 
         tableModel->addItemModel(item);
     }
     idGlobal = ++idMax;
     return true;
+}
+
+void TableController::RefreshTable()
+{
+    int rowMax = tableModel->rowCount();
+    if (rowMax == 0)
+        return;
+
+    emit tableModel->dataChanged(tableModel->index(0, 0), tableModel->index(rowMax - 1, tableModel->dateColumnNumber));
+    currentProfilesTableView->selectionModel()->clearSelection();
 }
