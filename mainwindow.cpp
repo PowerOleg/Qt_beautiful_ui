@@ -128,10 +128,11 @@ void MainWindow::CreateWidgets()
 
     QTableView* currentProfilesTableView = new QTableView(mainFrame);
     this->tableController = new TableController(this, currentProfilesTableView);
-    //    if (tableController.IsEmpty())
-    //    {
-    //        QMessageBox::information(this, "Предупреждение", "Нет доступных профилей");
-    //    }
+    bool isReadFile = tableController->ReadFile(":/profiles.txt");
+    if (!isReadFile)
+    {
+        QMessageBox::information(this, "Предупреждение", "Нет доступных профилей");
+    }
     tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
 
     QFrame* buttonsFrame = new QFrame(mainFrame);
@@ -169,42 +170,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->setWindowFlags(Qt::FramelessWindowHint);
     CreateWidgets();
     InitActions();
-
-
-
-    //    QModelIndex idx = model->index(0, 3);  // строка 0, столбец 3
-    //    model->setData(idx, Qt::Checked, Qt::CheckStateRole);  // Вариант 1: напрямую
-    //  вспомогательный метод
-    //    model->setCheckState(0, Qt::Unchecked);  // Вариант 2: удобнее
-    //    QModelIndex idx = model->index(1, 4);
-    //    model->setData(idx, "2024-02-15", Qt::EditRole);
-
-
-    //    const QSqlError err = model->lastError();
-    //    if (err.isValid())
-    //    {
-    //        msg->setText(err.text());
-    //        msg->show();
-    //    }
-    //    else
-    //    {
-//    // Добавляем tableView в layout вашего окна
-//    ui->verticalLayout->addWidget(tableView);
-// }
-
-
-
-
-
-
-
-
-
-
-
-//    chosenProfile = new Profile(this);
-//    mainWindowController->SetChosenProfile(chosenProfile);
-
 }
 
 MainWindow::~MainWindow()

@@ -4,6 +4,15 @@
 #include "esimmodel.h"
 #include "checkboxitemdelegate.h"
 
+#include <QMessageBox>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QFileInfo>
+#include <QString>
+//#include <QDebug>
+
 TableController::TableController(QObject* parent, QTableView* tableView) : QObject(parent), currentProfilesTableView(tableView)
 {
     currentProfilesTableView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -34,7 +43,7 @@ TableController::~TableController()
 
 void TableController::AddProfile(QString name, QString nameOperator)
 {
-    ItemModel itemModel{rowId++, name, nameOperator, Qt::Unchecked, ""};
+    ItemModel itemModel{idGlobal++, name, nameOperator, Qt::Unchecked, ""};
     tableModel->addItemModel(itemModel);
     currentProfilesTableView->selectionModel()->clearSelection();
 }
@@ -50,24 +59,56 @@ void TableController::RemoveSelectedProfile()
     currentProfilesTableView->selectionModel()->clearSelection();
 }
 
+/**
+ * @brief Метод возвращает true только если файл читается и не пустой
+ * @param filename
+ *
+ */
+bool TableController::ReadFile(const QString& filename)
+{
+    if (filename == "")
+    {
+        const QString message = QString("Отсутствует файл с профилями eSIM");
+        QMessageBox::information(nullptr, "Ошибка", message);
+        return false;
+    }
+    QFileInfo fileInfo(filename);
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        const QString message = QString("Невозможно открыть файл %1").arg(fileInfo.fileName());
+        QMessageBox::information(nullptr, "Ошибка", message);
+        return false;
+    }
 
+    QByteArray data = file.readAll();
+    file.close();
 
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &error);
+    if (error.error != QJsonParseError::NoError)
+    {
+        const QString message = QString("Ошибка обработки данных файла %1: %2").arg(fileInfo.fileName()).arg(error.errorString());
+        QMessageBox::information(nullptr, "Ошибка", message);
+        return false;
+    }
 
+    quint64 idMax = 0;
+    QJsonArray itemModelArray = doc.array();
+    for (const QJsonValue& value : itemModelArray)
+    {
+        QJsonObject obj = value.toObject();
+        ItemModel item;
+        quint64 id = obj["id"].toVariant().toULongLong();
+        idMax = idMax < id ? id : idMax;
+        item.id = id;
+        item.name = obj["name"].toString();
+        item.operatorName = obj["operatorName"].toString();
+        item.checkState = static_cast<Qt::CheckState>(obj["checkState"].toInt());
+        item.date = obj["date"].toString();  // или QDateTime::fromString(obj["date"].toString(), Qt::ISODate)
 
-
-
-
-
-
-//void MainWindowController::ClearChosenProfile()
-//{
-//    while (chosen_profile_layout->count() > 0)
-//    {
-//        QLayoutItem* item = chosen_profile_layout->takeAt(0);
-//        if (item->widget())
-//        {
-//            delete item->widget();//удаляем виджет
-//        }
-//        delete item;//удаляем QLayoutItem
-//    }
-//}
+        tableModel->addItemModel(item);
+    }
+    idGlobal = ++idMax;
+    return true;
+}

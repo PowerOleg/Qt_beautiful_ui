@@ -16,12 +16,13 @@ public:
     ~TableController();
 
     void AddProfile(QString name, QString nameOperator);
+    bool ReadFile(const QString& filename);
 private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;
     CheckBoxItemDelegate* checkboxDelegate = nullptr;
 
-    quint64 rowId = 0;
+    quint64 idGlobal = 0;
 public slots:
     void RemoveSelectedProfile();
 };

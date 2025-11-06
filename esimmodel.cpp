@@ -1,15 +1,9 @@
 ﻿#include "esimmodel.h"
 #include "QDate"
 #include <algorithm>
-#include <QString>
-#include <QVariant>
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
-{
-//    items << ItemModel{0, "Operator A eSIM", "Vodafone", Qt::Checked, "2023-10-05"};
-//    items << ItemModel{1, "Operator B eSIM", "Kolyaphone", Qt::Unchecked, ""};
-//    items << ItemModel{2, "Operator C eSIM", "Company 3", Qt::PartiallyChecked, ""};
-}
+{}
 
 QVariant ESimModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -172,7 +166,6 @@ void ESimModel::sort(int column, Qt::SortOrder order)
             const quint64 bNum = b.id;
             return (order == Qt::AscendingOrder) ? aNum < bNum : aNum > bNum;
         }
-
         if (column == 1)
         {
             const QString aName = a.name;
@@ -197,6 +190,7 @@ void ESimModel::sort(int column, Qt::SortOrder order)
             const Qt::CheckState bNum = b.checkState;
             return (order == Qt::AscendingOrder) ? aNum < bNum : aNum > bNum;
         }
+        return false;
     });
     endResetModel();//Конец изменения модели
 }
