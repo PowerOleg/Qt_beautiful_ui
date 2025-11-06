@@ -87,3 +87,7 @@ QScrollBar::up-arrow:vertical   { background-color: white; } /* Стрелка �
 QScrollBar::down-arrow:vertical { background-color: white; } /* Стрелка «вниз» */
 QScrollBar::add-page:vertical   { background-color: green; } /* Область ниже ползунка (верт.) */
 QScrollBar::sub-page:vertical   { background-color: green; } /* Область выше ползунка (верт.) */
+
+QScrollBar:horizontal        { background-color: green; }  /* Вертикальная полоса */
+QScrollBar::handle:horizontal    { background-color: white; }  /* Ползунок (верт.) */
+
