@@ -1,5 +1,4 @@
-﻿//#include <QDebug>
-#include <QDialog>
+﻿#include <QDialog>
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QMessageBox>
@@ -131,7 +130,15 @@ void MainWindow::CreateWidgets()
     bool isReadFile = tableController->ReadFile(":/profiles.txt");
     if (!isReadFile)
     {
-        QMessageBox::information(this, "Предупреждение", "Нет доступных профилей");
+        QLabel* noProfilesLabel = new QLabel(mainFrame);
+        noProfilesLabel->setStyleSheet(
+                "background-color: #1B1212;"
+                "color: red;"
+                "font-size: 20px;"
+                "font-weight: bold;"
+        );
+        noProfilesLabel->setText("Нет доступных профилей");
+        tableViewLayout->addWidget(noProfilesLabel, 1, 0, 1, 2, Qt::AlignCenter);
     }
     else
     {
@@ -153,6 +160,11 @@ void MainWindow::CreateWidgets()
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
     buttonsLayout->addWidget(refreshButton);
+
+
+
+
+
 
     QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
     tableViewLayout->addItem(spacerEnd, 5, 0);
