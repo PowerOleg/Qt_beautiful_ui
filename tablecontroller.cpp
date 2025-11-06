@@ -18,8 +18,9 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
     currentProfilesTableView->setSelectionMode(QAbstractItemView::SingleSelection);
     currentProfilesTableView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-    currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    currentProfilesTableView->setFixedHeight(500);
+    currentProfilesTableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//    currentProfilesTableView->setFixedHeight(500);
+    currentProfilesTableView->setMinimumSize(600, 600);
     currentProfilesTableView->verticalHeader()->hide();
     currentProfilesTableView->horizontalHeader()->setMinimumSectionSize(50);
 

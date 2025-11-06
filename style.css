@@ -78,3 +78,12 @@ QTableView::corner-button
     background-color: #228B22;
 
 }
+
+QScrollBar:vertical        { background-color: green; }  /* Вертикальная полоса */
+QScrollBar::handle:vertical   { background-color: white; }  /* Ползунок (верт.) */
+QScrollBar::add-line:vertical   { background-color: green; } /* Кнопка «вниз» (верт.) */
+QScrollBar::sub-line:vertical   { background-color: green; } /* Кнопка «вверх» (верт.) */
+QScrollBar::up-arrow:vertical   { background-color: white; } /* Стрелка «вверх» */
+QScrollBar::down-arrow:vertical { background-color: white; } /* Стрелка «вниз» */
+QScrollBar::add-page:vertical   { background-color: green; } /* Область ниже ползунка (верт.) */
+QScrollBar::sub-page:vertical   { background-color: green; } /* Область выше ползунка (верт.) */

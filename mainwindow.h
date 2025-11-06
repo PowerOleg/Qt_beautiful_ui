@@ -15,6 +15,8 @@ class ESimModel;
 class AddProfile;
 class QPushButton;
 class QLineEdit;
+class QGridLayout;
+class QStackedWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -36,6 +38,8 @@ private:
     bool isDragging;//Флаг:идёт ли перетаскивание
     QPoint dragStartPosition;//Начальная точка нажатия перетаскивания окна
 
+    QStackedWidget* tableStacked;
+    QGridLayout* tableViewLayout = nullptr;
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;

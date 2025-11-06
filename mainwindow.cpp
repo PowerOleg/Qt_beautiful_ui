@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QSpacerItem>
+#include <QStackedWidget>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -59,7 +60,7 @@ void MainWindow::InitAddButtonDialog()
             "color: white;"
             "font-size: 14px;"
             "font-weight: bold;"
-        );
+    );
     nameOperatorText->setFixedWidth(200);
     dialogLayout->addWidget(nameOperatorText);
     QFrame* dialogButtonsFrame = new QFrame(addDialog);
@@ -84,7 +85,6 @@ void MainWindow::InitAddButtonDialog()
     dialogLayout->addWidget(dialogButtonsFrame);
     dialogLayout->addStretch();
 
-
     connect(okButton, &QPushButton::clicked, this, &MainWindow::OnOkButtonDialogClicked);
     connect(cancelButton, &QPushButton::clicked, addDialog, &QDialog::reject);
 }
@@ -104,7 +104,7 @@ void MainWindow::CreateWidgets()
     centralWidgetLayout->addWidget(mainFrame);
 
 
-    QGridLayout* tableViewLayout = new QGridLayout(mainFrame);
+    this->tableViewLayout = new QGridLayout(mainFrame);
     tableViewLayout->setContentsMargins(10, 10, 10, 10);
     mainFrame->setLayout(tableViewLayout);
 
@@ -126,23 +126,34 @@ void MainWindow::CreateWidgets()
 
 
     QTableView* currentProfilesTableView = new QTableView();
+
+    tableStacked = new QStackedWidget(mainFrame);
+    tableStacked->addWidget(currentProfilesTableView);
+    QLabel* noProfilesLabel = new QLabel(mainFrame);
+    noProfilesLabel->setStyleSheet(
+            "background-color: #1B1212;"
+            "color: red;"
+            "font-size: 20px;"
+            "font-weight: bold;"
+    );
+    noProfilesLabel->setText("Нет доступных профилей");
+    tableStacked->addWidget(noProfilesLabel);
+    tableViewLayout->addWidget(tableStacked, 1, 0, 4, 3);
+
+
+
     this->tableController = new TableController(this, currentProfilesTableView);
     bool isReadFile = tableController->ReadFile(":/profiles.txt");
-    if (!isReadFile)
+    if (isReadFile)
     {
-        QLabel* noProfilesLabel = new QLabel(mainFrame);
-        noProfilesLabel->setStyleSheet(
-                "background-color: #1B1212;"
-                "color: red;"
-                "font-size: 20px;"
-                "font-weight: bold;"
-        );
-        noProfilesLabel->setText("Нет доступных профилей");
-        tableViewLayout->addWidget(noProfilesLabel, 1, 0, 1, 2, Qt::AlignCenter);
+        tableStacked->setCurrentIndex(0);
     }
     else
     {
-        tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
+        tableStacked->setCurrentIndex(1);
+        tableStacked->setFixedHeight(40);
+        noProfilesLabel->setAlignment(Qt::AlignCenter);
+        tableViewLayout->setAlignment(tableStacked, Qt::AlignCenter | Qt::AlignTop);
     }
 
     QFrame* buttonsFrame = new QFrame(mainFrame);
@@ -160,16 +171,10 @@ void MainWindow::CreateWidgets()
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
     buttonsLayout->addWidget(refreshButton);
-
-
-
-
-
+    buttonsLayout->addStretch();
 
     QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    tableViewLayout->addItem(spacerEnd, 5, 0);
-
-
+    tableViewLayout->addItem(spacerEnd, 2, 0);
 }
 
 void MainWindow::InitActions()
@@ -232,9 +237,17 @@ void MainWindow::OnAddButtonClicked()
 
 void MainWindow::OnOkButtonDialogClicked()
 {
+    int currentIndex = tableStacked->currentIndex();
+    if (currentIndex == 1)
+    {
+        tableStacked->setCurrentIndex(0);
+        tableStacked->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        tableViewLayout->setAlignment(tableStacked, Qt::AlignLeft | Qt::AlignTop);
+        tableStacked->setMinimumSize(600, 600);
+    }
+
     QString name = nameText->text();
     QString nameOperator = nameOperatorText->text();
-
     tableController->AddProfile(name, nameOperator);
     nameText->clear();
     nameOperatorText->clear();
