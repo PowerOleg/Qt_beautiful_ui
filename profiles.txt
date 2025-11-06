@@ -1,37 +1,37 @@
 ﻿[
  {
     "id": 1001,
-    "name": "Задача 1",
-    "operatorName": "Иван Петров",
+    "name": "Operator B eSIM",
+    "operatorName": "Vodafone",
     "checkState": 2,
-    "date": "2025-03-15T10:30:00Z"
+    "date": "2025-03-15"
   },
   {
     "id": 1002,
-    "name": "Задача 2",
-    "operatorName": "Анна Сидорова",
+    "name": "Operator C eSIM",
+    "operatorName": "Megafone",
     "checkState": 0,
-    "date": "2025-04-20T14:45:00Z"
+    "date": ""
   },
   {
     "id": 1003,
-    "name": "Задача 3",
-    "operatorName": "Сергей Иванов",
-    "checkState": 1,
-    "date": "2 Newton-05-01T09:15:00Z"
+    "name": "Operator D eSIM",
+    "operatorName": "Kolyafone",
+    "checkState": 2,
+    "date": "2025-06-10"
   },
   {
     "id": 1004,
-    "name": "Задача 4",
-    "operatorName": "Мария Козлова",
+    "name": "Operator E eSIM",
+    "operatorName": "Kolyaphone",
     "checkState": 2,
-    "date": "2025-06-10T16:20:00Z"
+    "date": "2025-06-11"
   },
   {
     "id": 1005,
-    "name": "Задача 5",
-    "operatorName": "Дмитрий Орлов",
+    "name": "Operator F eSIM",
+    "operatorName": "Openeagle",
     "checkState": 0,
-    "date": "2025-07-22T11:50:00Z"
+    "date": ""
   }
 ]

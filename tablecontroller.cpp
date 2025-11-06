@@ -37,7 +37,7 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
 
 TableController::~TableController()
 {
-//    delete tableModel;
+    delete currentProfilesTableView;
     delete checkboxDelegate;
 }
 
@@ -83,6 +83,11 @@ bool TableController::ReadFile(const QString& filename)
 
     QByteArray data = file.readAll();
     file.close();
+
+    if (data.size() < 20)
+    {
+        return false;
+    }
 
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(data, &error);

@@ -126,21 +126,24 @@ void MainWindow::CreateWidgets()
     tableViewLayout->addWidget(tableLabel, 0, 0, 1, 3, Qt::AlignCenter);
 
 
-    QTableView* currentProfilesTableView = new QTableView(mainFrame);
+    QTableView* currentProfilesTableView = new QTableView();
     this->tableController = new TableController(this, currentProfilesTableView);
     bool isReadFile = tableController->ReadFile(":/profiles.txt");
     if (!isReadFile)
     {
         QMessageBox::information(this, "Предупреждение", "Нет доступных профилей");
     }
-    tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
+    else
+    {
+        tableViewLayout->addWidget(currentProfilesTableView, 1, 0, 4, 3);
+    }
 
     QFrame* buttonsFrame = new QFrame(mainFrame);
-    tableViewLayout->addWidget(buttonsFrame, 4, 4, 1, 1);
-
     QVBoxLayout* buttonsLayout = new QVBoxLayout(buttonsFrame);
-    buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsFrame->setLayout(buttonsLayout);
+
+    buttonsLayout->setContentsMargins(0, 0, 0, 0);
+    tableViewLayout->addWidget(buttonsFrame, 1, 4, 1, 1);
     addButton = new QPushButton("Добавить профиль", buttonsFrame);
     addButton->setFixedHeight(40);
     deleteButton = new QPushButton("Удалить выбранный профиль", buttonsFrame);
@@ -153,6 +156,7 @@ void MainWindow::CreateWidgets()
 
     QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
     tableViewLayout->addItem(spacerEnd, 5, 0);
+
 
 }
 
