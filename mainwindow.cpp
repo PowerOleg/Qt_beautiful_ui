@@ -10,18 +10,21 @@
 #include <QLineEdit>
 #include <QSpacerItem>
 #include <QStackedWidget>
+#include "esimmodel.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
+#include "./factory/greenfactory.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
-    InitAddButtonDialog();
-    CreateWidgets();
-    InitMainWindowActions();
+    factory = new GreenFactory(this);
+    initAddButtonDialog();
+    createWidgets();
+    initMainWindowActions();
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +36,7 @@ MainWindow::~MainWindow()
 /**
  * @brief Инициализирует диалог, который добавляет профиль eSIM в таблицу
  */
-void MainWindow::InitAddButtonDialog()
+void MainWindow::initAddButtonDialog()
 {
     this->addDialog = new QDialog(this);
     addDialog->setWindowTitle("Добавить профиль");
@@ -110,7 +113,7 @@ void MainWindow::InitAddButtonDialog()
 /**
  * @brief Метод инициализирует виджеты, расположенные на главном диалоговом окне
  */
-void MainWindow::CreateWidgets()
+void MainWindow::createWidgets()
 {
     QLayout* centralWidgetLayout = this->centralWidget()->layout();
     if (centralWidgetLayout)
@@ -197,7 +200,7 @@ void MainWindow::CreateWidgets()
 /**
  * @brief Метод инициализирует сигнало-слотовое взаимодействие для главного диалогового окна
  */
-void MainWindow::InitMainWindowActions()
+void MainWindow::initMainWindowActions()
 {
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
@@ -268,7 +271,10 @@ void MainWindow::OnOkButtonDialogClicked()
 
     QString name = nameText->text();
     QString nameOperator = nameOperatorText->text();
-    tableController->AddProfile(name, nameOperator);
+    ItemModel localAddProfile = tableController->AddProfile(name, nameOperator);
+//    qDebug() << "\n4" << &localAddProfile;
+//    QString nameProfile = localAddProfile.name;
+//    qDebug() << "\n5" << nameProfile;
     nameText->clear();
     nameOperatorText->clear();
 

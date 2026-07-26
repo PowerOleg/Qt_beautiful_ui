@@ -137,7 +137,9 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
 void ESimModel::addItemModel(const ItemModel &itemModel)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    std::cout << "\n2" << &itemModel;//<< itemModel << " "
     items.append(itemModel);
+//    std::cout << "\n3" << itemModel << " " << &itemModel;
     endInsertRows();
 }
 

@@ -2,6 +2,11 @@
 #define MAINWINDOWCONTROLLER_H
 
 #include <QObject>
+#include <QAbstractItemModel>
+#include "esimmodel.h"
+#include <iostream>
+#include <string>
+#include <sstream>
 
 class QGridLayout;
 class QTableView;
@@ -18,7 +23,7 @@ public:
     explicit TableController(QObject* parent = nullptr, QTableView* tableView = nullptr);
     ~TableController();
 
-    void AddProfile(QString name, QString nameOperator);
+    ItemModel AddProfile(QString name, QString nameOperator);
     bool ReadFile(const QString& filename);
 private:
     QTableView* currentProfilesTableView = nullptr;

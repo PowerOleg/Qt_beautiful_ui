@@ -1,0 +1,26 @@
+﻿#ifndef GREENFACTORY_H
+#define GREENFACTORY_H
+
+#include "factory.h"
+
+class GreenFactory : public Factory
+{
+    Q_OBJECT
+public:
+    explicit GreenFactory(QObject *parent = nullptr);
+    QVBoxLayout* createVBoxLayout(QWidget *parent) override;
+    QHBoxLayout* createHBoxLayout(QWidget *parent) override;
+    QGridLayout* createGridLayout(QWidget *parent) override;
+    QFrame* createFrame(QWidget *parent) override;
+    QTableView* createTableView() override;
+    QStackedWidget* createStackedWidget(QWidget *parent) override;
+    QSpacerItem* createSpacer(int w, int h,
+                              QSizePolicy::Policy hPolicy,
+                              QSizePolicy::Policy vPolicy) override;
+    QDialog* createDialog(QWidget *parent) override;
+    QLabel* createLabel(QWidget *parent) override;
+    QLineEdit* createLineEdit(QWidget *parent) override;
+    QPushButton* createPushButton(QWidget *parent) override;
+};
+
+#endif // GREENFACTORY_H

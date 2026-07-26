@@ -1,6 +1,6 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QDebug>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -17,6 +17,7 @@ class QPushButton;
 class QLineEdit;
 class QGridLayout;
 class QStackedWidget;
+class Factory;
 
 class MainWindow : public QMainWindow
 {
@@ -26,6 +27,8 @@ public:
     ~MainWindow();
 
 private:
+    Factory* factory = nullptr;
+
     Ui::MainWindow* ui;
     TableController* tableController = nullptr;//для работы с таблицей
     QPushButton* addButton = nullptr;
@@ -48,8 +51,8 @@ private slots:
     void OnAddButtonClicked();
     void OnOkButtonDialogClicked();
 private:
-     void CreateWidgets();
-     void InitMainWindowActions();
-     void InitAddButtonDialog();
+     void createWidgets();
+     void initMainWindowActions();
+     void initAddButtonDialog();
 };
 #endif // MAINWINDOW_H

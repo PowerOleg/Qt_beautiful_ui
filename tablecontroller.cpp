@@ -1,4 +1,5 @@
-﻿#include <QTableView>
+﻿#include <QDebug>
+#include <QTableView>
 #include <QHeaderView>
 #include "tablecontroller.h"
 #include "esimmodel.h"
@@ -45,11 +46,14 @@ TableController::~TableController()
     delete checkboxDelegate;
 }
 
-void TableController::AddProfile(QString name, QString nameOperator)
+ItemModel TableController::AddProfile(QString name, QString nameOperator)
 {
     ItemModel itemModel{idGlobal++, name, nameOperator, Qt::Unchecked, ""};
+//    std::cout << itemModel << " " << &itemModel;
     tableModel->addItemModel(itemModel);
     currentProfilesTableView->selectionModel()->clearSelection();
+//    std::cout  << "\n3" << itemModel << " " << &itemModel;
+    return itemModel;
 }
 
 void TableController::RemoveSelectedProfile()
