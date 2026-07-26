@@ -23,12 +23,6 @@ QDialog* GreenFactory::createDialog(QWidget *parent)
     QDialog* d = new QDialog(parent);
     d->setWindowTitle("Добавить профиль");
     d->resize(300, 200);
-    /*d->setStyleSheet(
-        "background-color: #228B22;"
-        "color: white;"
-        "font-size: 14px;"
-        "font-weight: bold;"
-    );*/
     d->setStyleSheet(
             "background-color: " + palette.bgMain + ";"
             "color: " + palette.textColor + ";"
@@ -43,14 +37,10 @@ QLabel* GreenFactory::createLabel(QWidget *parent)
     QLabel* l = new QLabel(parent);
     l->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     l->setStyleSheet(
-            "background-color: #228B22;"
-//            "color: white;"
-//           "background-color: " + palette.bgMain + ";"
+           "background-color: " + palette.bgButton + ";"
             "color: " + palette.textColor + ";"
-//            "border: 2px solid #228B22;"
             "border: 2px solid" + palette.bgMain + ";"
-
-            "border-radius: 15px;"
+            "border-radius: 5px;"
             "padding: 4px;"
             "font-size: 14px;"
             "font-weight: bold;"
@@ -76,8 +66,6 @@ QLineEdit* GreenFactory::createLineEdit(QWidget *parent)
 QPushButton* GreenFactory::createPushButton(QWidget *parent)
 {
     QPushButton* b = new QPushButton(parent);
-//    b->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-//    b->setStyleSheet("background-color: #1B1212;"
     b->setStyleSheet(
             "border: 2px solid " + palette.borderColor + ";"
             "border-radius: 10px;"
@@ -86,7 +74,6 @@ QPushButton* GreenFactory::createPushButton(QWidget *parent)
             "color: " + palette.textColor + ";"
             "font-size: 14px;"
             "font-weight: bold;"
-            // :hover тут не сработает, если стиль задан только на кнопке
         );
     return b;
 }
@@ -133,16 +120,7 @@ QTableView* GreenFactory::createTableView()
             "border: 1px solid " + palette.bgButton + ";"
             "border-radius: 5px;"
         );
-    /*QTableView
-    {
-        background-color: #228B22;
 
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        border: 1px solid #228B22;
-        border-radius: 5px;
-    }*/
     return tableView;
 }
 
@@ -160,6 +138,18 @@ QString Factory::getTableViewStyle() const
         "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { background-color: " + p.textColor + "; }"
         "QScrollBar:horizontal { background-color: " + p.bgButton + "; }"
         "QScrollBar::handle:horizontal { background-color: " + p.textColor + "; }";
+}
+
+QString Factory::getHeaderStyle() const
+{
+    return "background-color: #008000;"
+    "border-bottom: 1px solid #1a2533;";
+
+}
+
+QString Factory::getGlobalBackgroundStyle() const
+{
+    return "QMainWindow { background-color: #1B1212; }";
 }
 
 QStackedWidget* GreenFactory::createStackedWidget(QWidget *parent)

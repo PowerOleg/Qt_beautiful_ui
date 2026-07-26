@@ -78,6 +78,9 @@ void MainWindow::initAddButtonDialog()
  */
 void MainWindow::createWidgets()
 {
+    this->setStyleSheet(factory->getGlobalBackgroundStyle());
+    ui->headerWidget->setStyleSheet(factory->getHeaderStyle());
+
     QLayout* centralWidgetLayout = this->centralWidget()->layout();
     if (centralWidgetLayout)
         centralWidgetLayout->setContentsMargins(0, 0, 0, 0);
@@ -88,7 +91,6 @@ void MainWindow::createWidgets()
     this->tableViewLayout = factory->createGridLayout(mainFrame);
     tableViewLayout->setContentsMargins(10, 10, 10, 10);
     mainFrame->setLayout(tableViewLayout);
-
 
     QLabel* tableLabel = factory->createLabel(mainFrame);
     tableLabel->setText("Список доступных профилей eSIM");
@@ -104,19 +106,16 @@ void MainWindow::createWidgets()
     tableViewLayout->addWidget(tableStacked, 1, 0, 4, 3);
 
     this->tableController = new TableController(this, currentProfilesTableView);
-        bool isReadFile = tableController->ReadFile(":/profiles.txt");
+    bool isReadFile = tableController->ReadFile(":/profiles.txt");
 
-        if (isReadFile) {
-            tableStacked->setCurrentIndex(0);
-        } else {
-            tableStacked->setCurrentIndex(1);
-            tableStacked->setFixedHeight(40);
-            noProfilesLabel->setAlignment(Qt::AlignCenter);
-            tableViewLayout->setAlignment(tableStacked, Qt::AlignCenter | Qt::AlignTop);
-        }
-
-
-
+    if (isReadFile) {
+        tableStacked->setCurrentIndex(0);
+    } else {
+        tableStacked->setCurrentIndex(1);
+        tableStacked->setFixedHeight(40);
+        noProfilesLabel->setAlignment(Qt::AlignCenter);
+        tableViewLayout->setAlignment(tableStacked, Qt::AlignCenter | Qt::AlignTop);
+    }
 
     QFrame* buttonsFrame = factory->createFrame(mainFrame);
     QVBoxLayout* buttonsLayout = factory->createVBoxLayout(buttonsFrame);
