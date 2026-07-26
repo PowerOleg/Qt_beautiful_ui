@@ -18,11 +18,28 @@ class QStackedWidget;
 class QSpacerItem;
 class ESimModel;
 
+struct ThemePalette {
+    QString bgMain;
+    QString bgButton;
+    QString textColor;
+    QString borderColor;
+    QString hoverColor; // можно использовать как rgba-эффект вручную, если нужно
+};
+
+
+inline const ThemePalette greenPalette = {
+    "#1B1212", "#228B22", "white", "#1B1212", "rgba(255, 0, 0, 0.2)"
+};
+
+inline const ThemePalette bluePalette = {
+    "#0B1F33", "#4A7FA8", "white", "#0B1F33", "rgba(255, 255, 255, 0.3)"
+};
+
 class Factory : public QObject
 {
     Q_OBJECT
 public:
-    explicit Factory(QObject *parent = nullptr) : QObject(parent) {}
+    explicit Factory(const ThemePalette &palette, QObject *parent = nullptr) : palette(palette), QObject(parent) {}
     virtual ~Factory() {}
 
     virtual QVBoxLayout* createVBoxLayout(QWidget *parent) = 0;
@@ -38,6 +55,9 @@ public:
     virtual QLabel* createLabel(QWidget *parent) = 0;
     virtual QLineEdit* createLineEdit(QWidget *parent) = 0;
     virtual QPushButton* createPushButton(QWidget *parent) = 0;
+    const ThemePalette& getPalette() const { return palette; }
+protected:
+    ThemePalette palette;
 };
 
 #endif // FACTORY_H

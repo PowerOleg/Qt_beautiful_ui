@@ -15,12 +15,12 @@
 
 
 GreenFactory::GreenFactory(QObject *parent)
-    : Factory(parent)
+    : Factory(greenPalette, parent)
 {}
 
 QDialog* GreenFactory::createDialog(QWidget *parent)
 {
-    auto d = new QDialog(parent);
+    QDialog* d = new QDialog(parent);
     d->setWindowTitle("Добавить профиль");
     d->resize(300, 200);
     d->setStyleSheet(
@@ -34,14 +34,14 @@ QDialog* GreenFactory::createDialog(QWidget *parent)
 
 QLabel* GreenFactory::createLabel(QWidget *parent)
 {
-    auto l = new QLabel(parent);
+    QLabel* l = new QLabel(parent);
     l->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     return l;
 }
 
 QLineEdit* GreenFactory::createLineEdit(QWidget *parent)
 {
-    auto le = new QLineEdit(parent);
+    QLineEdit* le = new QLineEdit(parent);
     le->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     le->setStyleSheet(
         "background-color: #1B1212;"
@@ -55,18 +55,16 @@ QLineEdit* GreenFactory::createLineEdit(QWidget *parent)
 
 QPushButton* GreenFactory::createPushButton(QWidget *parent)
 {
-    auto b = new QPushButton(parent);
-    b->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    b->setStyleSheet(
-        "background-color: #1B1212;"
-        "border-radius: 10px;"
-    );
+    QPushButton* b = new QPushButton(parent);
+//    b->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+//    b->setStyleSheet("background-color: #1B1212;"
+//        "border-radius: 10px;");
     return b;
 }
 
 QVBoxLayout* GreenFactory::createVBoxLayout(QWidget *parent)
 {
-    auto l = new QVBoxLayout(parent);
+    QVBoxLayout* l = new QVBoxLayout(parent);
     l->setContentsMargins(20, 20, 20, 20);
     l->setSpacing(10);
     return l;
@@ -74,7 +72,7 @@ QVBoxLayout* GreenFactory::createVBoxLayout(QWidget *parent)
 
 QHBoxLayout* GreenFactory::createHBoxLayout(QWidget *parent)
 {
-    auto l = new QHBoxLayout(parent);
+    QHBoxLayout* l = new QHBoxLayout(parent);
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(10);
     return l;
@@ -82,14 +80,14 @@ QHBoxLayout* GreenFactory::createHBoxLayout(QWidget *parent)
 
 QGridLayout* GreenFactory::createGridLayout(QWidget *parent)
 {
-    auto l = new QGridLayout(parent);
+    QGridLayout* l = new QGridLayout(parent);
     l->setContentsMargins(10, 10, 10, 10);
     return l;
 }
 
 QFrame* GreenFactory::createFrame(QWidget *parent)
 {
-    auto f = new QFrame(parent);
+    QFrame* f = new QFrame(parent);
     f->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     f->setFrameShape(QFrame::NoFrame);
     return f;

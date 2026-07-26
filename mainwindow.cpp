@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete tableController;
+//    delete tableController;
 }
 
 /**
@@ -38,71 +38,34 @@ MainWindow::~MainWindow()
  */
 void MainWindow::initAddButtonDialog()
 {
-    this->addDialog = new QDialog(this);
-    addDialog->setWindowTitle("Добавить профиль");
-    addDialog->resize(300, 200);
-    addDialog->setStyleSheet(
-            "background-color: #228B22;"
-            "color: white;"
-            "font-size: 14px;"
-            "font-weight: bold;"
-        );
-    QVBoxLayout* dialogLayout = new QVBoxLayout(addDialog);
-    dialogLayout->setContentsMargins(20, 20, 20, 20);
-    dialogLayout->setSpacing(10);
+    this->addDialog = factory->createDialog(this);
+    QVBoxLayout* dialogLayout = factory->createVBoxLayout(addDialog);
 
-
-    QLabel* nameLabel = new QLabel(addDialog);
+    QLabel* nameLabel = factory->createLabel(addDialog);
     nameLabel->setText("Название");
-    nameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     dialogLayout->addWidget(nameLabel);
 
-    this->nameText = new QLineEdit(addDialog);
-    nameText->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    nameText->setStyleSheet(
-            "background-color: #1B1212;"
-            "color: white;"
-            "font-size: 14px;"
-            "font-weight: bold;"
-        );
-    nameText->setFixedWidth(200);
+    this->nameText = factory->createLineEdit(addDialog);
     dialogLayout->addWidget(nameText);
 
-
-    QLabel* nameOperatorLabel = new QLabel(addDialog);
+    QLabel* nameOperatorLabel = factory->createLabel(addDialog);
     nameOperatorLabel->setText("Название оператора");
-    nameOperatorLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     dialogLayout->addWidget(nameOperatorLabel);
 
-    this->nameOperatorText = new QLineEdit(addDialog);
-    nameOperatorText->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    nameOperatorText->setStyleSheet(
-            "background-color: #1B1212;"
-            "color: white;"
-            "font-size: 14px;"
-            "font-weight: bold;"
-    );
-    nameOperatorText->setFixedWidth(200);
+    this->nameOperatorText = factory->createLineEdit(addDialog);
     dialogLayout->addWidget(nameOperatorText);
-    QFrame* dialogButtonsFrame = new QFrame(addDialog);
-    QHBoxLayout* dialogButtonsLayout = new QHBoxLayout(dialogButtonsFrame);
-    dialogButtonsLayout->setContentsMargins(0, 0, 0, 0);
-    dialogButtonsLayout->setSpacing(10);
 
-    QPushButton* okButton = new QPushButton("Добавить", dialogButtonsFrame);
-    okButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    okButton->setStyleSheet(
-            "background-color: #1B1212;"
-            "border-radius: 10px;"
-        );
+    QFrame* dialogButtonsFrame = factory->createFrame(addDialog);
+    QHBoxLayout* dialogButtonsLayout = factory->createHBoxLayout(dialogButtonsFrame);
+
+    QPushButton* okButton = factory->createPushButton(dialogButtonsFrame);
+    okButton->setText("Добавить");
     dialogButtonsLayout->addWidget(okButton);
-    QPushButton* cancelButton = new QPushButton("Отмена", dialogButtonsFrame);
-    cancelButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    cancelButton->setStyleSheet(
-            "background-color: #1B1212;"
-            "border-radius: 10px;"
-        );
+
+    QPushButton* cancelButton = factory->createPushButton(dialogButtonsFrame);
+    cancelButton->setText("Отмена");
     dialogButtonsLayout->addWidget(cancelButton);
+
     dialogLayout->addWidget(dialogButtonsFrame);
     dialogLayout->addStretch();
 
@@ -117,22 +80,16 @@ void MainWindow::createWidgets()
 {
     QLayout* centralWidgetLayout = this->centralWidget()->layout();
     if (centralWidgetLayout)
-    {
         centralWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    }
-    QFrame* mainFrame = new QFrame(this);
-    mainFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    mainFrame->setFrameShape(QFrame::NoFrame);
+
+    QFrame* mainFrame = factory->createFrame(this);
     centralWidgetLayout->addWidget(mainFrame);
-
-
-    this->tableViewLayout = new QGridLayout(mainFrame);
+    this->tableViewLayout = factory->createGridLayout(mainFrame);
     tableViewLayout->setContentsMargins(10, 10, 10, 10);
     mainFrame->setLayout(tableViewLayout);
 
 
-    QLabel* tableLabel = new QLabel(mainFrame);
-    tableLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QLabel* tableLabel = factory->createLabel(mainFrame);
     tableLabel->setStyleSheet(
             "background-color: #228B22;"
             "color: white;"
@@ -146,11 +103,10 @@ void MainWindow::createWidgets()
     tableLabel->setText("Список доступных профилей eSIM");
     tableViewLayout->addWidget(tableLabel, 0, 0, 1, 3, Qt::AlignCenter);
 
-
-    QTableView* currentProfilesTableView = new QTableView();
-    tableStacked = new QStackedWidget(mainFrame);
+    QTableView* currentProfilesTableView = factory->createTableView();
+    tableStacked = factory->createStackedWidget(mainFrame);
     tableStacked->addWidget(currentProfilesTableView);
-    QLabel* noProfilesLabel = new QLabel(mainFrame);
+    QLabel* noProfilesLabel = factory->createLabel(mainFrame);
     noProfilesLabel->setStyleSheet(
             "background-color: #1B1212;"
             "color: red;"
@@ -162,38 +118,44 @@ void MainWindow::createWidgets()
     tableViewLayout->addWidget(tableStacked, 1, 0, 4, 3);
 
     this->tableController = new TableController(this, currentProfilesTableView);
-    //в зависимости от наличия данных в файле реализовна логика выбора отображаемого виджета: 0 - таблицы или 1- QLabel
-    bool isReadFile = tableController->ReadFile(":/profiles.txt");
-    if (isReadFile)
-    {
-        tableStacked->setCurrentIndex(0);
-    }
-    else
-    {
-        tableStacked->setCurrentIndex(1);
-        tableStacked->setFixedHeight(40);
-        noProfilesLabel->setAlignment(Qt::AlignCenter);
-        tableViewLayout->setAlignment(tableStacked, Qt::AlignCenter | Qt::AlignTop);
-    }
+        bool isReadFile = tableController->ReadFile(":/profiles.txt");
 
-    QFrame* buttonsFrame = new QFrame(mainFrame);
-    QVBoxLayout* buttonsLayout = new QVBoxLayout(buttonsFrame);
+        if (isReadFile) {
+            tableStacked->setCurrentIndex(0);
+        } else {
+            tableStacked->setCurrentIndex(1);
+            tableStacked->setFixedHeight(40);
+            noProfilesLabel->setAlignment(Qt::AlignCenter);
+            tableViewLayout->setAlignment(tableStacked, Qt::AlignCenter | Qt::AlignTop);
+        }
+
+    QFrame* buttonsFrame = factory->createFrame(mainFrame);
+    QVBoxLayout* buttonsLayout = factory->createVBoxLayout(buttonsFrame);
     buttonsFrame->setLayout(buttonsLayout);
-
     buttonsLayout->setContentsMargins(0, 0, 0, 0);
+
     tableViewLayout->addWidget(buttonsFrame, 1, 4, 1, 1);
-    addButton = new QPushButton("Добавить профиль", buttonsFrame);
+
+    addButton = factory->createPushButton(buttonsFrame);
+    addButton->setText("Добавить профиль");
     addButton->setFixedHeight(40);
-    deleteButton = new QPushButton("Удалить выбранный профиль", buttonsFrame);
+
+    deleteButton = factory->createPushButton(buttonsFrame);
+    deleteButton->setText("Удалить выбранный профиль");
     deleteButton->setFixedHeight(40);
-    refreshButton = new QPushButton("Обновить список", buttonsFrame);
+
+    refreshButton = factory->createPushButton(buttonsFrame);
+    refreshButton->setText("Обновить список");
     refreshButton->setFixedHeight(40);
+
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
     buttonsLayout->addWidget(refreshButton);
     buttonsLayout->addStretch();
 
-    QSpacerItem* spacerEnd = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSpacerItem* spacerEnd = factory->createSpacer(20, 20,
+                                            QSizePolicy::Expanding,
+                                            QSizePolicy::Expanding);
     tableViewLayout->addItem(spacerEnd, 2, 0);
 }
 
