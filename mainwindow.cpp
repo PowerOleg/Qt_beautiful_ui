@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     delete ui;
-//    delete tableController;
+    delete tableController;
 }
 
 /**
@@ -83,6 +83,7 @@ void MainWindow::createWidgets()
         centralWidgetLayout->setContentsMargins(0, 0, 0, 0);
 
     QFrame* mainFrame = factory->createFrame(this);
+    mainFrame->setStyleSheet(factory->getTableViewStyle());
     centralWidgetLayout->addWidget(mainFrame);
     this->tableViewLayout = factory->createGridLayout(mainFrame);
     tableViewLayout->setContentsMargins(10, 10, 10, 10);
@@ -90,16 +91,6 @@ void MainWindow::createWidgets()
 
 
     QLabel* tableLabel = factory->createLabel(mainFrame);
-    tableLabel->setStyleSheet(
-            "background-color: #228B22;"
-            "color: white;"
-            "border: 2px solid #228B22;"
-            "border-radius: 15px;"
-            "padding: 4px;"
-            "font-size: 14px;"
-            "font-weight: bold;"
-        );
-
     tableLabel->setText("Список доступных профилей eSIM");
     tableViewLayout->addWidget(tableLabel, 0, 0, 1, 3, Qt::AlignCenter);
 
@@ -107,12 +98,7 @@ void MainWindow::createWidgets()
     tableStacked = factory->createStackedWidget(mainFrame);
     tableStacked->addWidget(currentProfilesTableView);
     QLabel* noProfilesLabel = factory->createLabel(mainFrame);
-    noProfilesLabel->setStyleSheet(
-            "background-color: #1B1212;"
-            "color: red;"
-            "font-size: 20px;"
-            "font-weight: bold;"
-    );
+
     noProfilesLabel->setText("Нет доступных профилей");
     tableStacked->addWidget(noProfilesLabel);
     tableViewLayout->addWidget(tableStacked, 1, 0, 4, 3);
@@ -128,6 +114,9 @@ void MainWindow::createWidgets()
             noProfilesLabel->setAlignment(Qt::AlignCenter);
             tableViewLayout->setAlignment(tableStacked, Qt::AlignCenter | Qt::AlignTop);
         }
+
+
+
 
     QFrame* buttonsFrame = factory->createFrame(mainFrame);
     QVBoxLayout* buttonsLayout = factory->createVBoxLayout(buttonsFrame);

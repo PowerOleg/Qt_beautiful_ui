@@ -55,6 +55,7 @@ public:
     virtual QLabel* createLabel(QWidget *parent) = 0;
     virtual QLineEdit* createLineEdit(QWidget *parent) = 0;
     virtual QPushButton* createPushButton(QWidget *parent) = 0;
+    QString getTableViewStyle() const;
     const ThemePalette& getPalette() const { return palette; }
 protected:
     ThemePalette palette;

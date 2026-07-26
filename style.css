@@ -1,4 +1,4 @@
-﻿/*QMainWindow
+﻿QMainWindow
 {
     background-color: #1B1212;
 }
@@ -7,17 +7,6 @@
 {
     background-color: #008000;
     border-bottom: 1px solid #1a2533;
-}
-
-QPushButton
-{
-    border: 2px solid #1B1212;
-    border-radius: 20px;
-    padding: 2px;
-    background-color: #228B22;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
 }
 
 QPushButton:hover
@@ -30,14 +19,26 @@ QPushButton#closeWindowButton:hover
     background-color: rgba(255, 0, 0, 0.5);
 }
 
+/*QPushButton
+{
+    border: 2px solid #1B1212;
+    border-radius: 20px;
+    padding: 2px;
+    background-color: #228B22;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}*/
+
+/*
 QHeaderView
 {
     background-color: #228B22;
     border-radius: 5px;
 }
+*/
 
-
-QTableView
+/*QTableView
 {
     background-color: #228B22;
 
@@ -46,8 +47,8 @@ QTableView
     font-weight: bold;
     border: 1px solid #228B22;
     border-radius: 5px;
-}
-
+}*/
+/*
 Горизонтальные заголовки столбцов
 QHeaderView::section
 {
@@ -79,6 +80,7 @@ QTableView::corner-button
 
 }
 */
+
 /*QScrollBar:vertical        { background-color: green; }   Вертикальная полоса
 QScrollBar::handle:vertical   { background-color: white; }   Ползунок (верт.)
 QScrollBar::add-line:vertical   { background-color: green; }  Кнопка «вниз» (верт.)
