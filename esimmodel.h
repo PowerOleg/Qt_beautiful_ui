@@ -16,24 +16,7 @@ struct ItemModel
     QString operatorName;
     Qt::CheckState checkState;
     QString date;
-
-//    friend std::ostream& operator<<(std::ostream& os, const ItemModel& item);
 };
-
-/*QDebug operator<<(QDebug dbg, const ItemModel& person)
-{
-    QDebugStateSaver saver(dbg);  // Сохраняет состояние потока
-    dbg.nospace() << "Person(name: "
-                 << person.name << ", age: "
-                 << person.id << ", occupation: "
-                 << person.date << ")";
-    return dbg.maybeSpace();  // Восстанавливает пробелы
-}*/
-
-//std::ostream& operator<<(std::ostream& os, const ItemModel& item) {
-//    os << "Имя: " << item.name.toStdString()/*.toUtf8().constData()*/ << "";
-//    return os;
-//}
 
 class ESimModel : public QAbstractTableModel
 {

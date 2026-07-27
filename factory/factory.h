@@ -16,14 +16,13 @@ class QFrame;
 class QTableView;
 class QStackedWidget;
 class QSpacerItem;
-class ESimModel;
 
 struct ThemePalette {
     QString bgMain;
     QString bgButton;
     QString textColor;
     QString borderColor;
-    QString hoverColor; // можно использовать как rgba-эффект вручную, если нужно
+    QString hoverColor;
 };
 
 
@@ -55,9 +54,9 @@ public:
     virtual QLabel* createLabel(QWidget *parent) = 0;
     virtual QLineEdit* createLineEdit(QWidget *parent) = 0;
     virtual QPushButton* createPushButton(QWidget *parent) = 0;
-    QString getTableViewStyle() const;
-    QString getGlobalBackgroundStyle() const;
-    QString getHeaderStyle() const;
+    virtual QString getTableViewStyle() const = 0;
+    virtual QString getGlobalBackgroundStyle() const = 0;
+    virtual QString getHeaderStyle() const = 0;
     const ThemePalette& getPalette() const { return palette; }
 protected:
     ThemePalette palette;

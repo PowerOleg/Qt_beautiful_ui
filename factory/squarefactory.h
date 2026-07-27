@@ -1,13 +1,13 @@
-﻿#ifndef GREENFACTORY_H
-#define GREENFACTORY_H
+﻿#ifndef SQUAREFACTORY_H
+#define SQUAREFACTORY_H
 
 #include "factory.h"
 
-class GreenFactory : public Factory
+class SquareFactory : public Factory
 {
     Q_OBJECT
 public:
-    explicit GreenFactory(QObject *parent = nullptr);
+    explicit SquareFactory(QObject *parent = nullptr);
     QVBoxLayout* createVBoxLayout(QWidget *parent) override;
     QHBoxLayout* createHBoxLayout(QWidget *parent) override;
     QGridLayout* createGridLayout(QWidget *parent) override;
@@ -26,4 +26,4 @@ public:
     QString getHeaderStyle() const override;
 };
 
-#endif // GREENFACTORY_H
+#endif // SQUAREFACTORY_H

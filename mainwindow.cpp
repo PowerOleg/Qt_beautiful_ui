@@ -16,6 +16,7 @@
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
 #include "./factory/greenfactory.h"
+#include "./factory/squarefactory.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -222,9 +223,6 @@ void MainWindow::OnOkButtonDialogClicked()
     QString name = nameText->text();
     QString nameOperator = nameOperatorText->text();
     ItemModel localAddProfile = tableController->AddProfile(name, nameOperator);
-//    qDebug() << "\n4" << &localAddProfile;
-//    QString nameProfile = localAddProfile.name;
-//    qDebug() << "\n5" << nameProfile;
     nameText->clear();
     nameOperatorText->clear();
 

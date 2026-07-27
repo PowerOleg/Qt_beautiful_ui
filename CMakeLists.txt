@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
         factory/factory.h
         factory/greenfactory.h
         factory/greenfactory.cpp
+        factory/squarefactory.h
+        factory/squarefactory.cpp
         qrc.qrc
 )
 
