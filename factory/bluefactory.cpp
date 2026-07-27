@@ -14,7 +14,7 @@
 
 
 BlueSquareFactory::BlueSquareFactory(QObject *parent)
-    : Factory(bluePalette, parent)
+    : IFactory(bluePalette, parent)
 {}
 
 QDialog* BlueSquareFactory::createDialog(QWidget *parent)

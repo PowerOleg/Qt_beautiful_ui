@@ -14,7 +14,7 @@
 
 
 GreenRoundFactory::GreenRoundFactory(QObject *parent)
-    : Factory(greenPalette, parent)
+    : IFactory(greenPalette, parent)
 {}
 
 QDialog* GreenRoundFactory::createDialog(QWidget *parent)

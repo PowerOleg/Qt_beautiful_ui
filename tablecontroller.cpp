@@ -49,10 +49,8 @@ TableController::~TableController()
 ItemModel TableController::AddProfile(QString name, QString nameOperator)
 {
     ItemModel itemModel{idGlobal++, name, nameOperator, Qt::Unchecked, ""};
-//    std::cout << itemModel << " " << &itemModel;
     tableModel->addItemModel(itemModel);
     currentProfilesTableView->selectionModel()->clearSelection();
-//    std::cout  << "\n3" << itemModel << " " << &itemModel;
     return itemModel;
 }
 
@@ -126,7 +124,7 @@ bool TableController::ReadFile(const QString& filename)
     return true;
 }
 
-void TableController::RefreshTable()
+void TableController::CheckTable()
 {
     int rowMax = tableModel->rowCount();
     if (rowMax == 0)

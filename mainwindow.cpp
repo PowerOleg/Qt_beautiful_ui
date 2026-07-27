@@ -133,13 +133,13 @@ void MainWindow::createWidgets()
     deleteButton->setText("Удалить выбранный профиль");
     deleteButton->setFixedHeight(40);
 
-    refreshButton = factory->createPushButton(buttonsFrame);
-    refreshButton->setText("Обновить список");
-    refreshButton->setFixedHeight(40);
+    checkButton = factory->createPushButton(buttonsFrame);
+    checkButton->setText("Проверить актуальность");
+    checkButton->setFixedHeight(40);
 
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
-    buttonsLayout->addWidget(refreshButton);
+    buttonsLayout->addWidget(checkButton);
     buttonsLayout->addStretch();
 
     QSpacerItem* spacerEnd = factory->createSpacer(20, 20,
@@ -157,7 +157,7 @@ void MainWindow::initMainWindowActions()
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
     connect(this->addButton, &QPushButton::clicked, this, &MainWindow::OnAddButtonClicked);
     connect(this->deleteButton, &QPushButton::clicked, tableController, &TableController::RemoveSelectedProfile);
-    connect(this->refreshButton, &QPushButton::clicked, tableController, &TableController::RefreshTable);
+    connect(this->checkButton, &QPushButton::clicked, tableController, &TableController::CheckTable);
 }
 /**
  * @brief Обработка зажатия левой кнопки мыши

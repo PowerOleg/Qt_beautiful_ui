@@ -17,7 +17,7 @@ class QPushButton;
 class QLineEdit;
 class QGridLayout;
 class QStackedWidget;
-class Factory;
+class IFactory;
 
 class MainWindow : public QMainWindow
 {
@@ -27,13 +27,13 @@ public:
     ~MainWindow();
 
 private:
-    Factory* factory = nullptr;
+    IFactory* factory = nullptr;
 
     Ui::MainWindow* ui;
     TableController* tableController = nullptr;//для работы с таблицей
     QPushButton* addButton = nullptr;
     QPushButton* deleteButton = nullptr;
-    QPushButton* refreshButton = nullptr;
+    QPushButton* checkButton = nullptr;
     QDialog* addDialog = nullptr;//диалог для добавления профиля eSIM
     QLineEdit* nameText = nullptr;
     QLineEdit* nameOperatorText = nullptr;

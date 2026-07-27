@@ -1,9 +1,9 @@
 ﻿#ifndef SQUAREFACTORY_H
 #define SQUAREFACTORY_H
 
-#include "factory.h"
+#include "ifactory.h"
 
-class BlueSquareFactory : public Factory
+class BlueSquareFactory : public IFactory
 {
     Q_OBJECT
 public:

@@ -34,12 +34,12 @@ inline const ThemePalette bluePalette = {
     "#0B1F33", "#4A7FA8", "white", "#0B1F33", "rgba(255, 255, 255, 0.3)"
 };
 
-class Factory : public QObject
+class IFactory : public QObject
 {
     Q_OBJECT
 public:
-    explicit Factory(const ThemePalette &palette, QObject *parent = nullptr) : palette(palette), QObject(parent) {}
-    virtual ~Factory() {}
+    explicit IFactory(const ThemePalette &palette, QObject *parent = nullptr) : palette(palette), QObject(parent) {}
+    virtual ~IFactory() {}
 
     virtual QVBoxLayout* createVBoxLayout(QWidget *parent) = 0;
     virtual QHBoxLayout* createHBoxLayout(QWidget *parent) = 0;

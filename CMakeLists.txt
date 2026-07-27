@@ -23,11 +23,14 @@ set(PROJECT_SOURCES
         tablecontroller.cpp
         esimmodel.h
         esimmodel.cpp
-        factory/factory.h
+        factory/ifactory.h
         factory/greenfactory.h
         factory/greenfactory.cpp
         factory/bluefactory.h
         factory/bluefactory.cpp
+        visitor/ivisitor.h
+        visitor/checktablevisitor.h
+        visitor/checktablevisitor.cpp
         qrc.qrc
 )
 

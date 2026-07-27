@@ -33,7 +33,7 @@ private:
     quint64 idGlobal = 0;//параметр для реализации сквозного уникального инкрементирующего идентификатора для всей таблицы
 public slots:
     void RemoveSelectedProfile();
-    void RefreshTable();
+    void CheckTable();
 };
 
 #endif // MAINWINDOWCONTROLLER_H

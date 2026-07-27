@@ -1,9 +1,9 @@
 ﻿#ifndef GREENFACTORY_H
 #define GREENFACTORY_H
 
-#include "factory.h"
+#include "ifactory.h"
 
-class GreenRoundFactory : public Factory
+class GreenRoundFactory : public IFactory
 {
     Q_OBJECT
 public:
