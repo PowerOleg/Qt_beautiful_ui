@@ -13,11 +13,11 @@
 #include <QSpacerItem>
 
 
-GreenFactory::GreenFactory(QObject *parent)
+GreenRoundFactory::GreenRoundFactory(QObject *parent)
     : Factory(greenPalette, parent)
 {}
 
-QDialog* GreenFactory::createDialog(QWidget *parent)
+QDialog* GreenRoundFactory::createDialog(QWidget *parent)
 {
     QDialog* d = new QDialog(parent);
     d->setWindowTitle("Добавить профиль");
@@ -31,7 +31,7 @@ QDialog* GreenFactory::createDialog(QWidget *parent)
     return d;
 }
 
-QLabel* GreenFactory::createLabel(QWidget *parent)
+QLabel* GreenRoundFactory::createLabel(QWidget *parent)
 {
     QLabel* l = new QLabel(parent);
     l->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -47,7 +47,7 @@ QLabel* GreenFactory::createLabel(QWidget *parent)
     return l;
 }
 
-QLineEdit* GreenFactory::createLineEdit(QWidget *parent)
+QLineEdit* GreenRoundFactory::createLineEdit(QWidget *parent)
 {
     QLineEdit* le = new QLineEdit(parent);
     le->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -62,7 +62,7 @@ QLineEdit* GreenFactory::createLineEdit(QWidget *parent)
     return le;
 }
 
-QPushButton* GreenFactory::createPushButton(QWidget *parent)
+QPushButton* GreenRoundFactory::createPushButton(QWidget *parent)
 {
     QPushButton* b = new QPushButton(parent);
     b->setStyleSheet(
@@ -77,7 +77,7 @@ QPushButton* GreenFactory::createPushButton(QWidget *parent)
     return b;
 }
 
-QVBoxLayout* GreenFactory::createVBoxLayout(QWidget *parent)
+QVBoxLayout* GreenRoundFactory::createVBoxLayout(QWidget *parent)
 {
     QVBoxLayout* l = new QVBoxLayout(parent);
     l->setContentsMargins(20, 20, 20, 20);
@@ -85,7 +85,7 @@ QVBoxLayout* GreenFactory::createVBoxLayout(QWidget *parent)
     return l;
 }
 
-QHBoxLayout* GreenFactory::createHBoxLayout(QWidget *parent)
+QHBoxLayout* GreenRoundFactory::createHBoxLayout(QWidget *parent)
 {
     QHBoxLayout* l = new QHBoxLayout(parent);
     l->setContentsMargins(0, 0, 0, 0);
@@ -93,14 +93,14 @@ QHBoxLayout* GreenFactory::createHBoxLayout(QWidget *parent)
     return l;
 }
 
-QGridLayout* GreenFactory::createGridLayout(QWidget *parent)
+QGridLayout* GreenRoundFactory::createGridLayout(QWidget *parent)
 {
     QGridLayout* l = new QGridLayout(parent);
     l->setContentsMargins(10, 10, 10, 10);
     return l;
 }
 
-QFrame* GreenFactory::createFrame(QWidget *parent)
+QFrame* GreenRoundFactory::createFrame(QWidget *parent)
 {
     QFrame* f = new QFrame(parent);
     f->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -108,7 +108,7 @@ QFrame* GreenFactory::createFrame(QWidget *parent)
     return f;
 }
 
-QTableView* GreenFactory::createTableView()
+QTableView* GreenRoundFactory::createTableView()
 {
     QTableView* tableView = new QTableView();
     tableView->setStyleSheet(
@@ -123,7 +123,7 @@ QTableView* GreenFactory::createTableView()
     return tableView;
 }
 
-QString GreenFactory::getTableViewStyle() const
+QString GreenRoundFactory::getTableViewStyle() const
 {
     const auto &p = palette;
     return
@@ -139,23 +139,23 @@ QString GreenFactory::getTableViewStyle() const
         "QScrollBar::handle:horizontal { background-color: " + p.textColor + "; }";
 }
 
-QString GreenFactory::getHeaderStyle() const
+QString GreenRoundFactory::getHeaderStyle() const
 {
     return "background-color: #008000;"
     "border-bottom: 1px solid #1a2533;";
 }
 
-QString GreenFactory::getGlobalBackgroundStyle() const
+QString GreenRoundFactory::getGlobalBackgroundStyle() const
 {
     return "QMainWindow { background-color: #1B1212; }";
 }
 
-QStackedWidget* GreenFactory::createStackedWidget(QWidget *parent)
+QStackedWidget* GreenRoundFactory::createStackedWidget(QWidget *parent)
 {
     return new QStackedWidget(parent);
 }
 
-QSpacerItem* GreenFactory::createSpacer(int w, int h,
+QSpacerItem* GreenRoundFactory::createSpacer(int w, int h,
                                         QSizePolicy::Policy hPolicy,
                                         QSizePolicy::Policy vPolicy)
 {

@@ -3,11 +3,11 @@
 
 #include "factory.h"
 
-class GreenFactory : public Factory
+class GreenRoundFactory : public Factory
 {
     Q_OBJECT
 public:
-    explicit GreenFactory(QObject *parent = nullptr);
+    explicit GreenRoundFactory(QObject *parent = nullptr);
     QVBoxLayout* createVBoxLayout(QWidget *parent) override;
     QHBoxLayout* createHBoxLayout(QWidget *parent) override;
     QGridLayout* createGridLayout(QWidget *parent) override;

@@ -16,13 +16,13 @@
 #include "ui_mainwindow.h"
 #include "tablecontroller.h"
 #include "./factory/greenfactory.h"
-#include "./factory/squarefactory.h"
+#include "./factory/bluefactory.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
-    factory = new GreenFactory(this);
+    factory = new GreenRoundFactory(this);
     initAddButtonDialog();
     createWidgets();
     initMainWindowActions();
