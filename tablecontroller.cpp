@@ -4,6 +4,8 @@
 #include "tablecontroller.h"
 #include "esimmodel.h"
 #include "checkboxitemdelegate.h"
+#include "./command/addprofilecommand.h"
+#include "./command/removeprofilecommand.h"
 
 #include <QMessageBox>
 #include <QFile>
@@ -42,6 +44,9 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
 
 TableController::~TableController()
 {
+    qDeleteAll(m_undoStack);
+    qDeleteAll(m_redoStack);
+
     delete currentProfilesTableView;
     delete checkboxDelegate;
 }
@@ -49,8 +54,15 @@ TableController::~TableController()
 ItemModel TableController::addProfile(QString name, QString nameOperator)
 {
     ItemModel itemModel{idGlobal++, name, nameOperator, Qt::Unchecked, ""};
-    tableModel->addItemModel(itemModel);
+//    tableModel->addItemModel(itemModel);
+
+    AddProfileCommand* cmd = new AddProfileCommand(tableModel, itemModel);
+    cmd->execute();
+
+    m_undoStack.append(cmd);
+    m_redoStack.clear();
     currentProfilesTableView->selectionModel()->clearSelection();
+
     return itemModel;
 }
 
@@ -60,9 +72,58 @@ void TableController::removeSelectedProfile()
     QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
     if (selectedIndexes.isEmpty())
         return;
+
     const QModelIndex modelIndex = selectedIndexes.at(0);
-    tableModel->removeItemModel(modelIndex.row());
+    int row = modelIndex.row();
+
+    auto* cmd = new RemoveProfileCommand(tableModel, row);
+    cmd->execute();
+
+    m_undoStack.append(cmd);
+    m_redoStack.clear();
+//    tableModel->removeItemModel(row);
     currentProfilesTableView->selectionModel()->clearSelection();
+}
+
+
+void TableController::undo()
+{
+    if (!canUndo())
+        return;
+
+    ICommand* cmd = m_undoStack.last();
+    cmd->undo();
+
+    m_undoStack.pop_back();
+    m_redoStack.append(cmd);
+
+//    checkTable(); // Пересчитываем подсветку ошибок
+    currentProfilesTableView->selectionModel()->clearSelection();
+}
+
+void TableController::redo()
+{
+    if (!canRedo())
+        return;
+
+    ICommand* cmd = m_redoStack.last();
+    cmd->execute();
+
+    m_redoStack.pop_back();
+    m_undoStack.append(cmd);
+
+//    checkTable();
+    currentProfilesTableView->selectionModel()->clearSelection();
+}
+
+bool TableController::canUndo() const
+{
+    return !m_undoStack.isEmpty();
+}
+
+bool TableController::canRedo() const
+{
+    return !m_redoStack.isEmpty();
 }
 
 /**
@@ -122,11 +183,6 @@ bool TableController::readFile(const QString& filename)
     }
     idGlobal = ++idMax;
     return true;
-}
-
-void TableController::undo()
-{
-
 }
 
 void TableController::checkTable()

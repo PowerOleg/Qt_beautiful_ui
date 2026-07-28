@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include "./command/icommand.h"
 
 class QGridLayout;
 class QTableView;
@@ -26,6 +27,9 @@ public:
     ItemModel addProfile(QString name, QString nameOperator);
     bool readFile(const QString& filename);
     void undo();
+    void redo();
+    bool canUndo() const;
+    bool canRedo() const;
 private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;
@@ -33,6 +37,9 @@ private:
     quint64 idGlobal = 0;//параметр для реализации сквозного уникального инкрементирующего идентификатора для всей таблицы
 
     bool isWrongDate(const QString& text) const;
+
+    QVector<ICommand*> m_undoStack;
+    QVector<ICommand*> m_redoStack;
 public slots:
     void removeSelectedProfile();
     void checkTable();

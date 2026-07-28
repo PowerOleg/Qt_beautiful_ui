@@ -46,9 +46,10 @@ public:
     //методы для редактирования модели
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     void addItemModel(const ItemModel &itemModel);
-    void removeItemModel(const int row);
+    ItemModel removeItemModel(const int rowNumber);
     void setCheckState(int row, Qt::CheckState state);
     void setDateError(int row, bool isError);
+    void insertItemModelAt(int rowNumber, const ItemModel& item);
 private:
     QVector<ItemModel> items;//Хранилище данных
 };

@@ -164,14 +164,26 @@ void ESimModel::addItemModel(const ItemModel &itemModel)
     endInsertRows();
 }
 
-void ESimModel::removeItemModel(const int rowNumber)
+ItemModel ESimModel::removeItemModel(const int rowNumber)
 {
     if (rowNumber < 0 || rowNumber >= rowCount())
-        return;
-
+        return ItemModel{};
+    ItemModel removed = items.at(rowNumber);
     beginRemoveRows(QModelIndex(), rowNumber, rowNumber);
     items.removeAt(rowNumber);
     endRemoveRows();
+
+    return removed;
+}
+
+void ESimModel::insertItemModelAt(int rowNumber, const ItemModel& item)
+{
+    if (rowNumber < 0 || rowNumber > rowCount())
+        return;
+
+    beginInsertRows(QModelIndex(), rowNumber, rowNumber);
+    items.insert(rowNumber, item);
+    endInsertRows();
 }
 
 void ESimModel::sort(int column, Qt::SortOrder order)

@@ -29,6 +29,10 @@ set(PROJECT_SOURCES
         factory/bluefactory.h
         factory/bluefactory.cpp
         command/icommand.h
+        command/addprofilecommand.h
+        command/addprofilecommand.cpp
+        command/removeprofilecommand.h
+        command/removeprofilecommand.cpp
         qrc.qrc
 )
 

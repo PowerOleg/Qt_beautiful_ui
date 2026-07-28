@@ -144,10 +144,15 @@ void MainWindow::createWidgets()
     undoButton->setText("Отменить действие");
     undoButton->setFixedHeight(40);
 
+    redoButton = factory->createPushButton(buttonsFrame);
+    redoButton->setText("Повторить действие");
+    redoButton->setFixedHeight(40);
+
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
     buttonsLayout->addWidget(checkButton);
     buttonsLayout->addWidget(undoButton);
+    buttonsLayout->addWidget(redoButton);
     buttonsLayout->addStretch();
 
     QSpacerItem* spacerEnd = factory->createSpacer(20, 20,
@@ -167,6 +172,7 @@ void MainWindow::initMainWindowActions()
     connect(deleteButton, &QPushButton::clicked, tableController, &TableController::removeSelectedProfile);
     connect(checkButton, &QPushButton::clicked, tableController, &TableController::checkTable);
     connect(undoButton, &QPushButton::clicked, tableController, &TableController::undo);
+    connect(redoButton, &QPushButton::clicked, tableController, &TableController::redo);
 }
 /**
  * @brief Обработка зажатия левой кнопки мыши
