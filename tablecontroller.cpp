@@ -44,8 +44,8 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
 
 TableController::~TableController()
 {
-    qDeleteAll(m_undoStack);
-    qDeleteAll(m_redoStack);
+    qDeleteAll(undoStack);
+    qDeleteAll(redoStack);
 
     delete currentProfilesTableView;
     delete checkboxDelegate;
@@ -59,8 +59,8 @@ ItemModel TableController::addProfile(QString name, QString nameOperator)
     AddProfileCommand* cmd = new AddProfileCommand(tableModel, itemModel);
     cmd->execute();
 
-    m_undoStack.append(cmd);
-    m_redoStack.clear();
+    undoStack.append(cmd);
+    redoStack.clear();
     currentProfilesTableView->selectionModel()->clearSelection();
 
     return itemModel;
@@ -79,8 +79,8 @@ void TableController::removeSelectedProfile()
     auto* cmd = new RemoveProfileCommand(tableModel, row);
     cmd->execute();
 
-    m_undoStack.append(cmd);
-    m_redoStack.clear();
+    undoStack.append(cmd);
+    redoStack.clear();
 //    tableModel->removeItemModel(row);
     currentProfilesTableView->selectionModel()->clearSelection();
 }
@@ -91,11 +91,11 @@ void TableController::undo()
     if (!canUndo())
         return;
 
-    ICommand* cmd = m_undoStack.last();
+    ICommand* cmd = undoStack.last();
     cmd->undo();
 
-    m_undoStack.pop_back();
-    m_redoStack.append(cmd);
+    undoStack.pop_back();
+    redoStack.append(cmd);
 
 //    checkTable(); // Пересчитываем подсветку ошибок
     currentProfilesTableView->selectionModel()->clearSelection();
@@ -106,11 +106,11 @@ void TableController::redo()
     if (!canRedo())
         return;
 
-    ICommand* cmd = m_redoStack.last();
+    ICommand* cmd = redoStack.last();
     cmd->execute();
 
-    m_redoStack.pop_back();
-    m_undoStack.append(cmd);
+    redoStack.pop_back();
+    undoStack.append(cmd);
 
 //    checkTable();
     currentProfilesTableView->selectionModel()->clearSelection();
@@ -118,12 +118,12 @@ void TableController::redo()
 
 bool TableController::canUndo() const
 {
-    return !m_undoStack.isEmpty();
+    return !undoStack.isEmpty();
 }
 
 bool TableController::canRedo() const
 {
-    return !m_redoStack.isEmpty();
+    return !redoStack.isEmpty();
 }
 
 /**

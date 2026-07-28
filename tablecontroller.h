@@ -38,8 +38,8 @@ private:
 
     bool isWrongDate(const QString& text) const;
 
-    QVector<ICommand*> m_undoStack;
-    QVector<ICommand*> m_redoStack;
+    QVector<ICommand*> undoStack;
+    QVector<ICommand*> redoStack;
 public slots:
     void removeSelectedProfile();
     void checkTable();
