@@ -109,9 +109,12 @@ void MainWindow::createWidgets()
     this->tableController = new TableController(this, currentProfilesTableView);
     bool isReadFile = tableController->readFile(":/profiles.txt");
 
-    if (isReadFile) {
+    if (isReadFile)
+    {
         tableStacked->setCurrentIndex(0);
-    } else {
+    }
+    else
+    {
         tableStacked->setCurrentIndex(1);
         tableStacked->setFixedHeight(40);
         noProfilesLabel->setAlignment(Qt::AlignCenter);
@@ -137,9 +140,14 @@ void MainWindow::createWidgets()
     checkButton->setText("Проверить актуальность");
     checkButton->setFixedHeight(40);
 
+    undoButton = factory->createPushButton(buttonsFrame);
+    undoButton->setText("Отменить действие");
+    undoButton->setFixedHeight(40);
+
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(deleteButton);
     buttonsLayout->addWidget(checkButton);
+    buttonsLayout->addWidget(undoButton);
     buttonsLayout->addStretch();
 
     QSpacerItem* spacerEnd = factory->createSpacer(20, 20,
@@ -155,9 +163,10 @@ void MainWindow::initMainWindowActions()
 {
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
-    connect(this->addButton, &QPushButton::clicked, this, &MainWindow::onAddButtonClicked);
-    connect(this->deleteButton, &QPushButton::clicked, tableController, &TableController::removeSelectedProfile);
-    connect(this->checkButton, &QPushButton::clicked, tableController, &TableController::checkTable);
+    connect(addButton, &QPushButton::clicked, this, &MainWindow::onAddButtonClicked);
+    connect(deleteButton, &QPushButton::clicked, tableController, &TableController::removeSelectedProfile);
+    connect(checkButton, &QPushButton::clicked, tableController, &TableController::checkTable);
+    connect(undoButton, &QPushButton::clicked, tableController, &TableController::undo);
 }
 /**
  * @brief Обработка зажатия левой кнопки мыши

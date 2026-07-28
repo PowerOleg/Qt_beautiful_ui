@@ -25,6 +25,7 @@ public:
 
     ItemModel addProfile(QString name, QString nameOperator);
     bool readFile(const QString& filename);
+    void undo();
 private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;

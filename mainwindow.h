@@ -34,6 +34,7 @@ private:
     QPushButton* addButton = nullptr;
     QPushButton* deleteButton = nullptr;
     QPushButton* checkButton = nullptr;
+    QPushButton* undoButton = nullptr;
     QDialog* addDialog = nullptr;//диалог для добавления профиля eSIM
     QLineEdit* nameText = nullptr;
     QLineEdit* nameOperatorText = nullptr;

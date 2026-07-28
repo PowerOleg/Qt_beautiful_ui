@@ -124,6 +124,11 @@ bool TableController::readFile(const QString& filename)
     return true;
 }
 
+void TableController::undo()
+{
+
+}
+
 void TableController::checkTable()
 {
     int rowMax = tableModel->rowCount();

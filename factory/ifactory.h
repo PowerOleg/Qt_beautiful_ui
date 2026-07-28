@@ -17,7 +17,8 @@ class QTableView;
 class QStackedWidget;
 class QSpacerItem;
 
-struct ThemePalette {
+struct ThemePalette
+{
     QString bgMain;
     QString bgButton;
     QString textColor;
