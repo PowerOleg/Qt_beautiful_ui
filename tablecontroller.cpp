@@ -29,7 +29,7 @@ TableController::TableController(QObject* parent, QTableView* tableView) : QObje
 
     //функционал чтобы чекбокс нажимался
     this->checkboxDelegate = new CheckBoxItemDelegate();
-    currentProfilesTableView->setItemDelegateForColumn(tableModel->checkboxColumnNumber, checkboxDelegate);
+    currentProfilesTableView->setItemDelegateForColumn(CHECKBOX_COLUMN_NUMBER, checkboxDelegate);
 
     //для таблицы currentProfilesTableView ширину ячеек делаем автоизменяемыми по контенту
     currentProfilesTableView->resizeColumnsToContents();
@@ -130,6 +130,29 @@ void TableController::CheckTable()
     if (rowMax == 0)
         return;
 
-    emit tableModel->dataChanged(tableModel->index(0, 0), tableModel->index(rowMax - 1, tableModel->dateColumnNumber));
+    for (int row = 0; row < rowMax; ++row)
+    {
+        const QModelIndex index = tableModel->index(row, DATE_COLUMN_NUMBER);
+        QString cellText = tableModel->data(index, Qt::DisplayRole).toString();
+        bool error = isWrongDate(cellText);
+        tableModel->setDateError(row, error);
+    }
+
+    const QModelIndex topLeft = tableModel->index(0, DATE_COLUMN_NUMBER);
+    const QModelIndex bottomRight = tableModel->index(rowMax - 1, DATE_COLUMN_NUMBER);
+    emit tableModel->dataChanged(topLeft, bottomRight, {Qt::ForegroundRole, Qt::FontRole});
+
     currentProfilesTableView->selectionModel()->clearSelection();
+}
+
+bool TableController::isWrongDate(const QString& text) const
+{
+    if (text.isEmpty())
+        return false;
+
+    QDate date = QDate::fromString(text, "yyyy-MM-dd");
+    if (!date.isValid())
+        return true;
+
+    return date.year() <= 2025;
 }

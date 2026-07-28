@@ -29,8 +29,9 @@ private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;
     CheckBoxItemDelegate* checkboxDelegate = nullptr;
-
     quint64 idGlobal = 0;//параметр для реализации сквозного уникального инкрементирующего идентификатора для всей таблицы
+
+    bool isWrongDate(const QString& text) const;
 public slots:
     void RemoveSelectedProfile();
     void CheckTable();

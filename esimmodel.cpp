@@ -1,6 +1,8 @@
 ﻿#include "esimmodel.h"
 #include "QDate"
 #include <algorithm>
+#include <QColor>
+#include <QFont>
 
 ESimModel::ESimModel(QObject *parent) : QAbstractTableModel(parent)
 {}
@@ -59,26 +61,46 @@ QVariant ESimModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-    const ItemModel &item = items[index.row()];
-
-    switch (role)
-    {
-        case Qt::DisplayRole:
-            if (index.column() == 0)
-                return item.id;
-            if (index.column() == 1)
-                return item.name;
-            if (index.column() == 2)
-                return item.operatorName;
-            if (index.column() == dateColumnNumber)
-                return item.date;
-            break;
-        case Qt::CheckStateRole:
-            if (index.column() == checkboxColumnNumber)
-                return static_cast<int>(item.checkState);
-            break;
-    }
+    if (index.row() >= items.size())
         return QVariant();
+
+    const ItemModel& item = items[index.row()];
+
+    if (role == Qt::DisplayRole)
+    {
+        switch (index.column())
+        {
+        case 0: return item.id;
+        case 1: return item.name;
+        case 2: return item.operatorName;
+        case CHECKBOX_COLUMN_NUMBER: return item.checkState;
+        case DATE_COLUMN_NUMBER: return item.date;
+        default: return QVariant();
+        }
+    }
+
+    if (role == Qt::CheckStateRole && index.column() == CHECKBOX_COLUMN_NUMBER)
+        return static_cast<int>(item.checkState);
+
+    if (role == Qt::ForegroundRole && index.column() == DATE_COLUMN_NUMBER)
+    {
+        if (item.isDateInvalid)
+        {
+            return QColor(Qt::red);
+        }
+    }
+
+    if (role == Qt::FontRole && index.column() == DATE_COLUMN_NUMBER)
+    {
+        if (item.isDateInvalid)
+        {
+            QFont f;
+            f.setBold(true);
+            return f;
+        }
+    }
+
+    return QVariant();
 }
 
 bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -88,7 +110,7 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
     ItemModel &item = items[index.row()];
 
-    if (role == Qt::CheckStateRole && index.column() == checkboxColumnNumber)
+    if (role == Qt::CheckStateRole && index.column() == CHECKBOX_COLUMN_NUMBER)
     {
         item.checkState = static_cast<Qt::CheckState>(value.toInt());
         emit dataChanged(index, index, {role});
@@ -98,7 +120,7 @@ bool ESimModel::setData(const QModelIndex &index, const QVariant &value, int rol
             date_value = "";
         }
 
-        QModelIndex date_idx = index.model()->index(index.row(), dateColumnNumber);
+        QModelIndex date_idx = index.model()->index(index.row(), DATE_COLUMN_NUMBER);
         setData(date_idx, date_value, Qt::EditRole);
         return true;
     }
@@ -118,7 +140,7 @@ Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractTableModel::flags(index);
 
-    if (index.column() == checkboxColumnNumber)//Чекбокс
+    if (index.column() == CHECKBOX_COLUMN_NUMBER)//Чекбокс
         return defaultFlags | Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
 
 //    if (index.column() == DATE_COLUMN_NUM)//Дата
@@ -129,7 +151,7 @@ Qt::ItemFlags ESimModel::flags(const QModelIndex &index) const
 
 void ESimModel::setCheckState(int row, Qt::CheckState state)
 {
-    QModelIndex index = createIndex(row, checkboxColumnNumber);
+    QModelIndex index = createIndex(row, CHECKBOX_COLUMN_NUMBER);
     setData(index, static_cast<int>(state), Qt::CheckStateRole);
 }
 
@@ -137,9 +159,8 @@ void ESimModel::setCheckState(int row, Qt::CheckState state)
 void ESimModel::addItemModel(const ItemModel &itemModel)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    std::cout << "\n2" << &itemModel;//<< itemModel << " "
+//    std::cout << "\n2" << &itemModel;//<< itemModel << " "
     items.append(itemModel);
-//    std::cout << "\n3" << itemModel << " " << &itemModel;
     endInsertRows();
 }
 
@@ -194,4 +215,12 @@ void ESimModel::sort(int column, Qt::SortOrder order)
         return false;
     });
     endResetModel();//Конец изменения модели
+}
+
+void ESimModel::setDateError(int row, bool isError)
+{
+    if (row >= 0 && row < items.size())
+    {
+        items[row].isDateInvalid = isError;
+    }
 }

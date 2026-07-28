@@ -1,8 +1,6 @@
 ﻿#ifndef IVISITOR_H
 #define IVISITOR_H
 
-#include <QObject>
-
 class QModelIndex;
 class QString;
 

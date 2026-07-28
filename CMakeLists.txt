@@ -28,9 +28,7 @@ set(PROJECT_SOURCES
         factory/greenfactory.cpp
         factory/bluefactory.h
         factory/bluefactory.cpp
-        visitor/ivisitor.h
-        visitor/checktablevisitor.h
-        visitor/checktablevisitor.cpp
+        command/icommand.h
         qrc.qrc
 )
 
