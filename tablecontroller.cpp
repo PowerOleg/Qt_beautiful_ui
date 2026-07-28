@@ -46,7 +46,7 @@ TableController::~TableController()
     delete checkboxDelegate;
 }
 
-ItemModel TableController::AddProfile(QString name, QString nameOperator)
+ItemModel TableController::addProfile(QString name, QString nameOperator)
 {
     ItemModel itemModel{idGlobal++, name, nameOperator, Qt::Unchecked, ""};
     tableModel->addItemModel(itemModel);
@@ -54,7 +54,7 @@ ItemModel TableController::AddProfile(QString name, QString nameOperator)
     return itemModel;
 }
 
-void TableController::RemoveSelectedProfile()
+void TableController::removeSelectedProfile()
 {
     QItemSelectionModel* selectionModel = currentProfilesTableView->selectionModel();
     QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
@@ -70,7 +70,7 @@ void TableController::RemoveSelectedProfile()
  * @param filename
  *
  */
-bool TableController::ReadFile(const QString& filename)
+bool TableController::readFile(const QString& filename)
 {
     if (filename == "")
     {
@@ -124,7 +124,7 @@ bool TableController::ReadFile(const QString& filename)
     return true;
 }
 
-void TableController::CheckTable()
+void TableController::checkTable()
 {
     int rowMax = tableModel->rowCount();
     if (rowMax == 0)

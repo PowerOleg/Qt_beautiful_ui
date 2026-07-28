@@ -70,7 +70,7 @@ void MainWindow::initAddButtonDialog()
     dialogLayout->addWidget(dialogButtonsFrame);
     dialogLayout->addStretch();
 
-    connect(okButton, &QPushButton::clicked, this, &MainWindow::OnOkButtonDialogClicked);
+    connect(okButton, &QPushButton::clicked, this, &MainWindow::onOkButtonDialogClicked);
     connect(cancelButton, &QPushButton::clicked, addDialog, &QDialog::reject);
 }
 
@@ -107,7 +107,7 @@ void MainWindow::createWidgets()
     tableViewLayout->addWidget(tableStacked, 1, 0, 4, 3);
 
     this->tableController = new TableController(this, currentProfilesTableView);
-    bool isReadFile = tableController->ReadFile(":/profiles.txt");
+    bool isReadFile = tableController->readFile(":/profiles.txt");
 
     if (isReadFile) {
         tableStacked->setCurrentIndex(0);
@@ -155,9 +155,9 @@ void MainWindow::initMainWindowActions()
 {
     connect(ui->minimizeWindowButton, &QPushButton::clicked, this, &QMainWindow::showMinimized);
     connect(ui->closeWindowButton, &QPushButton::clicked, this, &QMainWindow::close);
-    connect(this->addButton, &QPushButton::clicked, this, &MainWindow::OnAddButtonClicked);
-    connect(this->deleteButton, &QPushButton::clicked, tableController, &TableController::RemoveSelectedProfile);
-    connect(this->checkButton, &QPushButton::clicked, tableController, &TableController::CheckTable);
+    connect(this->addButton, &QPushButton::clicked, this, &MainWindow::onAddButtonClicked);
+    connect(this->deleteButton, &QPushButton::clicked, tableController, &TableController::removeSelectedProfile);
+    connect(this->checkButton, &QPushButton::clicked, tableController, &TableController::checkTable);
 }
 /**
  * @brief Обработка зажатия левой кнопки мыши
@@ -199,7 +199,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 /**
  * @brief Обработчик нажатия на кнопку "Добавить профиль"
  */
-void MainWindow::OnAddButtonClicked()
+void MainWindow::onAddButtonClicked()
 {
         addDialog->show();
         addDialog->raise();
@@ -209,7 +209,7 @@ void MainWindow::OnAddButtonClicked()
 /**
  * @brief Обработчик нажатия на кнопку "Добавить" в диалоговом окне добавления профиля eSIM
  */
-void MainWindow::OnOkButtonDialogClicked()
+void MainWindow::onOkButtonDialogClicked()
 {
     int currentIndex = tableStacked->currentIndex();
     if (currentIndex == 1)
@@ -222,11 +222,12 @@ void MainWindow::OnOkButtonDialogClicked()
 
     QString name = nameText->text();
     QString nameOperator = nameOperatorText->text();
-    ItemModel localAddProfile = tableController->AddProfile(name, nameOperator);
+    ItemModel localAddProfile = tableController->addProfile(name, nameOperator);
     nameText->clear();
     nameOperatorText->clear();
 
-    if (addDialog) {
+    if (addDialog)
+    {
         addDialog->close();
     }
 }

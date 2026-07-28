@@ -23,8 +23,8 @@ public:
     explicit TableController(QObject* parent = nullptr, QTableView* tableView = nullptr);
     ~TableController();
 
-    ItemModel AddProfile(QString name, QString nameOperator);
-    bool ReadFile(const QString& filename);
+    ItemModel addProfile(QString name, QString nameOperator);
+    bool readFile(const QString& filename);
 private:
     QTableView* currentProfilesTableView = nullptr;
     ESimModel* tableModel = nullptr;
@@ -33,8 +33,8 @@ private:
 
     bool isWrongDate(const QString& text) const;
 public slots:
-    void RemoveSelectedProfile();
-    void CheckTable();
+    void removeSelectedProfile();
+    void checkTable();
 };
 
 #endif // MAINWINDOWCONTROLLER_H

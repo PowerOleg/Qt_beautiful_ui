@@ -48,8 +48,8 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 
 private slots:
-    void OnAddButtonClicked();
-    void OnOkButtonDialogClicked();
+    void onAddButtonClicked();
+    void onOkButtonDialogClicked();
 private:
      void createWidgets();
      void initMainWindowActions();
