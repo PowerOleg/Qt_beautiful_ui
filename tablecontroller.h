@@ -16,6 +16,7 @@ class CheckBoxItemDelegate;
 
 const int TABLE_WIDTH = 600;//глобальный параметр для задания ширины таблицы в диалоговом окне
 const int TABLE_HEIGHT = 600;//глобальный параметр для задания высоты таблицы в диалоговом окне
+constexpr int MAX_UNDO_STEPS = 50;
 
 class TableController : public QObject
 {

@@ -54,12 +54,18 @@ TableController::~TableController()
 ItemModel TableController::addProfile(QString name, QString nameOperator)
 {
     ItemModel itemModel{idGlobal++, name, nameOperator, Qt::Unchecked, ""};
-//    tableModel->addItemModel(itemModel);
-
     AddProfileCommand* cmd = new AddProfileCommand(tableModel, itemModel);
     cmd->execute();
 
     undoStack.append(cmd);
+    // Удаляем самую старую команду если команд в памяти больше 50 чтобы не захламлять память
+    if (undoStack.size() > MAX_UNDO_STEPS)
+    {
+        ICommand* old = undoStack.first();
+        undoStack.removeFirst();
+        delete old;
+    }
+    qDeleteAll(redoStack);
     redoStack.clear();
     currentProfilesTableView->selectionModel()->clearSelection();
 
@@ -80,8 +86,14 @@ void TableController::removeSelectedProfile()
     cmd->execute();
 
     undoStack.append(cmd);
+    // Удаляем самую старую команду если команд в памяти больше 50 чтобы не захламлять память
+    if (undoStack.size() > MAX_UNDO_STEPS) {
+        ICommand* old = undoStack.first();
+        undoStack.removeFirst();
+        delete old;
+    }
+    qDeleteAll(redoStack);
     redoStack.clear();
-//    tableModel->removeItemModel(row);
     currentProfilesTableView->selectionModel()->clearSelection();
 }
 
@@ -97,7 +109,6 @@ void TableController::undo()
     undoStack.pop_back();
     redoStack.append(cmd);
 
-//    checkTable(); // Пересчитываем подсветку ошибок
     currentProfilesTableView->selectionModel()->clearSelection();
 }
 
@@ -112,7 +123,6 @@ void TableController::redo()
     redoStack.pop_back();
     undoStack.append(cmd);
 
-//    checkTable();
     currentProfilesTableView->selectionModel()->clearSelection();
 }
 
